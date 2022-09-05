@@ -120,6 +120,8 @@ class sl3w_watermark extends CModule
     private function SetOptions()
     {
         Settings::set('switch_on', 'Y');
+        Settings::set('event_add_switch_on', 'Y');
+        Settings::set('event_update_switch_on', 'Y');
     }
 
     private function ClearOptions()

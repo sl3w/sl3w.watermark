@@ -6,6 +6,11 @@ $MESS['SL3W_WATERMARK_BLOCK_COMMON'] = 'Общие:';
 
 $MESS['SL3W_WATERMARK_OPTION_SWITCH_ON'] = 'Модуль включен:';
 
+$MESS['SL3W_WATERMARK_BLOCK_EVENTS'] = 'События:';
+
+$MESS['SL3W_WATERMARK_OPTION_EVENT_ADD_SWITCH_ON'] = 'Добавлять водяной знак при добавлении элемента:';
+$MESS['SL3W_WATERMARK_OPTION_EVENT_UPDATE_SWITCH_ON'] = 'Добавлять водяной знак при изменении элемента:';
+
 $MESS['SL3W_WATERMARK_BLOCK_WM'] = 'Настройки водяного знака:';
 
 $MESS['SL3W_WATERMARK_OPTION_WM_POSITION'] = 'Положение водяного знака:';

@@ -6,11 +6,19 @@ class Events
 {
     public function OnAfterIBlockElementAdd($arFields)
     {
+        if (\Sl3w\Watermark\Settings::get('event_add_switch_on') != 'Y') {
+            return;
+        }
+
         self::OnAfterIBlockElementAddUpdate($arFields);
     }
 
     public function OnAfterIBlockElementUpdate($arFields)
     {
+        if (\Sl3w\Watermark\Settings::get('event_update_switch_on') != 'Y') {
+            return;
+        }
+
         self::OnAfterIBlockElementAddUpdate($arFields);
     }
 

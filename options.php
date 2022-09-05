@@ -51,6 +51,19 @@ $options = [
         'Y',
         ['checkbox']
     ],
+    Loc::getMessage('SL3W_WATERMARK_BLOCK_EVENTS'),
+    [
+        'event_add_switch_on',
+        Loc::getMessage('SL3W_WATERMARK_OPTION_EVENT_ADD_SWITCH_ON'),
+        'Y',
+        ['checkbox']
+    ],
+    [
+        'event_update_switch_on',
+        Loc::getMessage('SL3W_WATERMARK_OPTION_EVENT_UPDATE_SWITCH_ON'),
+        'Y',
+        ['checkbox']
+    ],
     Loc::getMessage('SL3W_WATERMARK_BLOCK_WM'),
     [
         'wm_position',
@@ -103,6 +116,21 @@ $optionsByBlock = [
         [
             'switch_on',
             Loc::getMessage('SL3W_WATERMARK_OPTION_SWITCH_ON'),
+            'Y',
+            ['checkbox']
+        ]
+    ],
+    'events_block' => Loc::getMessage('SL3W_WATERMARK_BLOCK_EVENTS'),
+    'events_list' => [
+        [
+            'event_add_switch_on',
+            Loc::getMessage('SL3W_WATERMARK_OPTION_EVENT_ADD_SWITCH_ON'),
+            'Y',
+            ['checkbox']
+        ],
+        [
+            'event_update_switch_on',
+            Loc::getMessage('SL3W_WATERMARK_OPTION_EVENT_UPDATE_SWITCH_ON'),
             'Y',
             ['checkbox']
         ]
@@ -192,6 +220,8 @@ $tabControl->Begin();
         if ($optionsByBlock) {
             __AdmSettingsDrawRow($module_id, $optionsByBlock['common_block']);
             __AdmSettingsDrawList($module_id, $optionsByBlock['common_list']);
+            __AdmSettingsDrawRow($module_id, $optionsByBlock['events_block']);
+            __AdmSettingsDrawList($module_id, $optionsByBlock['events_list']);
             __AdmSettingsDrawRow($module_id, $optionsByBlock['wm_block']);
             __AdmSettingsDrawList($module_id, $optionsByBlock['wm_list']);
 
@@ -200,7 +230,8 @@ $tabControl->Begin();
                 <tr>
                     <td><?= $wm_list_special_option[1] ?></td>
                     <td>
-                        <input type="<?= $wm_list_special_option[3][0] ?: 'text' ?>" name="<?= $wm_list_special_option[0] ?>"
+                        <input type="<?= $wm_list_special_option[3][0] ?: 'text' ?>"
+                               name="<?= $wm_list_special_option[0] ?>"
                                size="<?= $wm_list_special_option[3][1] ?: 10 ?>"
                                value="<?= Option::get($module_id, $wm_list_special_option[0], '') ?>"/>
 
@@ -272,7 +303,7 @@ if ($request->isPost() && check_bitrix_sessid()) {
 
                 $optionValue = $request->getPost($arOption[0]);
 
-                if ($arOption[0] == 'switch_on' && $optionValue == '') {
+                if ($arOption[3][0] == 'checkbox' && $optionValue == '') {
                     $optionValue = 'N';
                 }
 
