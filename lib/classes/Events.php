@@ -10,7 +10,7 @@ class Events
             return;
         }
 
-        self::OnAfterIBlockElementAddUpdate($arFields);
+        self::OnAfterIBlockElementAddUpdate($arFields, 'add');
     }
 
     public function OnAfterIBlockElementUpdate($arFields)
@@ -19,10 +19,10 @@ class Events
             return;
         }
 
-        self::OnAfterIBlockElementAddUpdate($arFields);
+        self::OnAfterIBlockElementAddUpdate($arFields, 'update');
     }
 
-    public static function OnAfterIBlockElementAddUpdate($arFields)
+    public static function OnAfterIBlockElementAddUpdate($arFields, $operation)
     {
         if (\Sl3w\Watermark\Settings::get('switch_on') != 'Y') {
             return;
@@ -48,8 +48,10 @@ class Events
 
         $elementInfo = \Sl3w\Watermark\Iblock::getElementFieldsAndPropsById($idElement);
 
-        if (key_exists(SL3W_WATERMARK_DONT_ADD_PROP_NAME, $elementInfo['PROPS']) &&
-            ($elementInfo['PROPS'][SL3W_WATERMARK_DONT_ADD_PROP_NAME]['VALUE'] == 'Ð´Ð°' ||
+        $isPropDontAddExist = key_exists(SL3W_WATERMARK_DONT_ADD_PROP_NAME, $elementInfo['PROPS']);
+
+        if ($isPropDontAddExist &&
+            ($elementInfo['PROPS'][SL3W_WATERMARK_DONT_ADD_PROP_NAME]['VALUE'] == 'äà' ||
                 $elementInfo['PROPS'][SL3W_WATERMARK_DONT_ADD_PROP_NAME]['VALUE_XML_ID'] == 'yes')) {
 
             return;
@@ -67,6 +69,16 @@ class Events
                 session_add_element_id($idElement);
 
                 \Sl3w\Watermark\Watermark::addWaterMarkByFieldName($field, $elementInfo);
+            }
+        }
+
+        if ($isPropDontAddExist) {
+            if (\Sl3w\Watermark\Settings::get('set_dont_add_after_' . $operation) == 'Y') {
+                $propYesOptionId = \CIBlockProperty::GetPropertyEnum(SL3W_WATERMARK_DONT_ADD_PROP_NAME, [], ['IBLOCK_ID' => $iblockId, 'XML_ID' => 'yes'])->Fetch()['ID'];
+
+                if ($propYesOptionId) {
+                    \CIBlockElement::SetPropertyValueCode($idElement, SL3W_WATERMARK_DONT_ADD_PROP_NAME, $propYesOptionId);
+                }
             }
         }
     }

@@ -91,6 +91,20 @@ $options = [
         '',
         ['text', 30]
     ],
+    Loc::getMessage('SL3W_WATERMARK_SET_DONT_ADD_IBLOCK'),
+    [
+        'set_dont_add_after_add',
+        Loc::getMessage('SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_ADD'),
+        '',
+        ['checkbox']
+    ],
+    [
+        'set_dont_add_after_update',
+        Loc::getMessage('SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_UPDATE'),
+        '',
+        ['checkbox']
+    ],
+    ['note' => Loc::getMessage('SL3W_WATERMARK_SET_DONT_ADD_NOTE')],
     Loc::getMessage('SL3W_WATERMARK_BLOCK_IBLOCK'),
     [
         'iblock_ids',
@@ -101,14 +115,19 @@ $options = [
     ['note' => Loc::getMessage('SL3W_WATERMARK_SAVE_AFTER_CHANGE_IBLOCK')],
 ];
 
-$aTabs = array(
+$aTabs = [
     [
         'DIV' => 'edit',
         'TAB' => Loc::getMessage('SL3W_WATERMARK_OPTIONS_TAB_NAME'),
         'TITLE' => Loc::getMessage('SL3W_WATERMARK_OPTIONS_TAB_NAME'),
         'OPTIONS' => $options
+    ],
+    [
+        'DIV' => 'support',
+        'TAB' => Loc::getMessage('SL3W_WATERMARK_SUPPORT_TAB_NAME'),
+        'TITLE' => Loc::getMessage('SL3W_WATERMARK_SUPPORT_TAB_TITLE'),
     ]
-);
+];
 
 $optionsByBlock = [
     'common_block' => Loc::getMessage('SL3W_WATERMARK_BLOCK_COMMON'),
@@ -164,6 +183,22 @@ $optionsByBlock = [
             ['text', 50]
         ]
     ],
+    'dont_add_block' => Loc::getMessage('SL3W_WATERMARK_SET_DONT_ADD_IBLOCK'),
+    'dont_add_list' => [
+        [
+            'set_dont_add_after_add',
+            Loc::getMessage('SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_ADD'),
+            '',
+            ['checkbox']
+        ],
+        [
+            'set_dont_add_after_update',
+            Loc::getMessage('SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_UPDATE'),
+            '',
+            ['checkbox']
+        ],
+    ],
+    'dont_add_note' => ['note' => Loc::getMessage('SL3W_WATERMARK_SET_DONT_ADD_NOTE')],
     'iblock_block' => Loc::getMessage('SL3W_WATERMARK_BLOCK_IBLOCK'),
     'iblock_list' => [
         [
@@ -267,6 +302,10 @@ $tabControl->Begin();
                 <?php
             }
 
+            __AdmSettingsDrawRow($module_id, $optionsByBlock['dont_add_block']);
+            __AdmSettingsDrawList($module_id, $optionsByBlock['dont_add_list']);
+            __AdmSettingsDrawRow($module_id, $optionsByBlock['dont_add_note']);
+
             __AdmSettingsDrawRow($module_id, $optionsByBlock['iblock_block']);
             __AdmSettingsDrawList($module_id, $optionsByBlock['iblock_list']);
             if (empty($optionsByBlock['iblocks_list'])) {
@@ -275,6 +314,10 @@ $tabControl->Begin();
             __AdmSettingsDrawList($module_id, $optionsByBlock['iblocks_list']);
         }
 
+        $tabControl->BeginNextTab();
+        ?>
+        <iframe src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=50&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&" width="423" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+        <?
         $tabControl->Buttons();
         ?>
 
