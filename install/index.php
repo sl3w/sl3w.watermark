@@ -63,6 +63,7 @@ class sl3w_watermark extends CModule
         self::IncludeServiceFiles();
 
         $this->UnInstallEvents();
+        $this->UnInstallFiles();
         $this->ClearOptions();
         $this->ClearSession();
 
@@ -76,7 +77,6 @@ class sl3w_watermark extends CModule
 
     public function InstallEvents()
     {
-
         EventManager::getInstance()->registerEventHandler(
             'iblock',
             'OnAfterIBlockElementAdd',
@@ -117,9 +117,19 @@ class sl3w_watermark extends CModule
         return true;
     }
 
+    public function UnInstallFiles()
+    {
+        DeleteDirFilesEx('/bitrix/js/' . $this->MODULE_ID);
+
+        DeleteDirFilesEx('/ajax/' . $this->MODULE_ID);
+
+        return false;
+    }
+
     private function SetOptions()
     {
         Settings::set('switch_on', 'Y');
+        Settings::set('wm_alpha', 50);
         Settings::set('event_add_switch_on', 'Y');
         Settings::set('event_update_switch_on', 'Y');
     }

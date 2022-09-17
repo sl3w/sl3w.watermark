@@ -51,6 +51,12 @@ $options = [
         'Y',
         ['checkbox']
     ],
+    [
+        'add_watermark_btn_switch_on',
+        Loc::getMessage('SL3W_WATERMARK_OPTION_ADD_WATERMARK_BTN'),
+        'N',
+        ['checkbox']
+    ],
     Loc::getMessage('SL3W_WATERMARK_BLOCK_EVENTS'),
     [
         'event_add_switch_on',
@@ -136,6 +142,12 @@ $optionsByBlock = [
             'switch_on',
             Loc::getMessage('SL3W_WATERMARK_OPTION_SWITCH_ON'),
             'Y',
+            ['checkbox']
+        ],
+        [
+            'add_watermark_btn_switch_on',
+            Loc::getMessage('SL3W_WATERMARK_OPTION_ADD_WATERMARK_BTN'),
+            'N',
             ['checkbox']
         ]
     ],
@@ -237,6 +249,10 @@ foreach ($iblockIds as $iblockId) {
     ];
 }
 
+$optionsByBlock2 = [
+    'support_note' => ['note' => Loc::getMessage('SL3W_WATERMARK_SUPPORT_NOTE')],
+];
+
 $tabControl = new CAdminTabControl(
     'tabControl',
     $aTabs
@@ -316,8 +332,11 @@ $tabControl->Begin();
 
         $tabControl->BeginNextTab();
         ?>
-        <iframe src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=50&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&" width="423" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+        <iframe src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=50&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&"
+                width="423" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
         <?
+        __AdmSettingsDrawRow($module_id, $optionsByBlock2['support_note']);
+
         $tabControl->Buttons();
         ?>
 
@@ -342,17 +361,19 @@ if ($request->isPost() && check_bitrix_sessid()) {
                 continue;
             }
 
+            $optionCode = $arOption[0];
+
             if ($request['apply']) {
 
-                $optionValue = $request->getPost($arOption[0]);
+                $optionValue = $request->getPost($optionCode);
 
                 if ($arOption[3][0] == 'checkbox' && $optionValue == '') {
                     $optionValue = 'N';
                 }
 
-                Option::set($module_id, $arOption[0], is_array($optionValue) ? implode(',', $optionValue) : $optionValue);
+                Option::set($module_id, $optionCode, is_array($optionValue) ? implode(',', $optionValue) : $optionValue);
 
-                if ($arOption[0] == 'iblock_ids') {
+                if ($optionCode == 'iblock_ids') {
                     foreach ($optionValue as $value) {
                         $optionName = 'iblock' . $value . '_fields';
                         $optionValueFields = $request->getPost($optionName);
@@ -361,9 +382,17 @@ if ($request->isPost() && check_bitrix_sessid()) {
                     }
                 }
 
+                if ($optionCode == 'add_watermark_btn_switch_on') {
+                    register_add_watermark_btn_events($optionValue == 'Y' && $request->getPost('switch_on'));
+                }
+
             } elseif ($request['default']) {
 
-                Option::set($module_id, $arOption[0], $arOption[2]);
+                Option::set($module_id, $optionCode, $arOption[2]);
+
+                if ($optionCode == 'add_watermark_btn_switch_on') {
+                    register_add_watermark_btn_events(false);
+                }
             }
         }
     }

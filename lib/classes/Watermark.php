@@ -4,6 +4,7 @@ namespace Sl3w\Watermark;
 
 use CFile;
 use CIBlockElement;
+use Sl3w\Watermark\Settings as Settings;
 
 class Watermark
 {
@@ -51,12 +52,12 @@ class Watermark
         $arWaterMark = [
             [
                 'name' => 'watermark',
-                'position' => \Sl3w\Watermark\Settings::get('wm_position'),
+                'position' => Settings::get('wm_position'),
                 'type' => 'image',
                 'size' => 'real',
-                'file' => $_SERVER['DOCUMENT_ROOT'] . \Sl3w\Watermark\Settings::get('wm_image_path'),
-                'fill' => \Sl3w\Watermark\Settings::get('wm_is_repeat') == 'Y' ? 'repeat' : 'exact',
-                'alpha_level' => (int)\Sl3w\Watermark\Settings::get('wm_alpha') ?: 50
+                'file' => $_SERVER['DOCUMENT_ROOT'] . Settings::get('wm_image_path'),
+                'fill' => Settings::get('wm_is_repeat') == 'Y' ? 'repeat' : 'exact',
+                'alpha_level' => (int)Settings::get('wm_alpha') ?: 50
             ]
         ];
 

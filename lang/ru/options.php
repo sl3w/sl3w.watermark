@@ -5,6 +5,7 @@ $MESS['SL3W_WATERMARK_OPTIONS_TAB_NAME'] = 'Настройки';
 $MESS['SL3W_WATERMARK_BLOCK_COMMON'] = 'Общие:';
 
 $MESS['SL3W_WATERMARK_OPTION_SWITCH_ON'] = 'Модуль включен:';
+$MESS['SL3W_WATERMARK_OPTION_ADD_WATERMARK_BTN'] = 'Добавить кнопку обработки на панели при редактировании элемента:';
 
 $MESS['SL3W_WATERMARK_BLOCK_EVENTS'] = 'События:';
 
@@ -49,10 +50,11 @@ $MESS['SL3W_WATERMARK_FIELDS_AND_PROPS'] = 'Поля и свойства инфоблока';
 $MESS['SL3W_WATERMARK_SET_DONT_ADD_IBLOCK'] = 'Устанавливать галочку в свойстве DONT_ADD_WATERMARK_ON_SAVE:';
 $MESS['SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_ADD'] = 'После добавления элемента:';
 $MESS['SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_UPDATE'] = 'После изменения элемента:';
-$MESS['SL3W_WATERMARK_SET_DONT_ADD_NOTE'] = 'При установленной настройке при соответствующем событии у обработанного элемента будет автоматически установлена галочка в свойстве с символьным кодом <b>DONT_ADD_WATERMARK_ON_SAVE</b>, если оно существует в текущем инфоблоке и создано в соответствии с логикой работы модуля (см. <a href="http://marketplace.1c-bitrix.ru/solutions/sl3w.watermark/" target="_blank">описание модуля в Маркетплейсе</a>). Свойство ограничивает повторное наложении водяного знака в этом же элементе.';
+$MESS['SL3W_WATERMARK_SET_DONT_ADD_NOTE'] = 'При установленной настройке при соответствующем событии у обработанного элемента будет автоматически установлена галочка в свойстве с символьным кодом <b>DONT_ADD_WATERMARK_ON_SAVE</b>, если оно существует в текущем инфоблоке и создано в соответствии с логикой работы модуля (см. <a href="http://marketplace.1c-bitrix.ru/solutions/sl3w.watermark/#tab-install-link" target="_blank">описание модуля в Маркетплейсе</a>). Свойство ограничивает повторное наложении водяного знака в этом же элементе.';
 
 $MESS['SL3W_WATERMARK_BUTTON_APPLY'] = 'Применить';
 $MESS['SL3W_WATERMARK_BUTTON_DEFAULT'] = 'По умолчанию';
 
 $MESS['SL3W_WATERMARK_SUPPORT_TAB_NAME'] = 'Поддержать разработку';
-$MESS['SL3W_WATERMARK_SUPPORT_TAB_TITLE'] = 'Вы можете добровольно поддержать разработку этого и других модулей, переведя любую сумму';
+$MESS['SL3W_WATERMARK_SUPPORT_TAB_TITLE'] = 'Вы можете добровольно поддержать разработку этого и других модулей, переведя любую сумму с помощью формы ниже:';
+$MESS['SL3W_WATERMARK_SUPPORT_NOTE'] = 'Также буду благодарен за Ваши оценки и отзывы, которые вы можете оставить на <a href="http://marketplace.1c-bitrix.ru/solutions/sl3w.watermark/#tab-rating-link" target="_blank">странице модуля в Маркетплейсе</a>.';
