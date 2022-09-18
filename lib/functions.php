@@ -135,7 +135,7 @@ if (!function_exists('register_add_watermark_btn_events')) {
                 'main',
                 'OnAdminContextMenuShow',
                 Settings::getModuleId(),
-                'Sl3w\Watermark\Events',
+                'Sl3w\Watermark\AdminEvents',
                 'IBlocksAddWatermarkButtonHandler'
             );
 
@@ -143,29 +143,24 @@ if (!function_exists('register_add_watermark_btn_events')) {
                 'main',
                 'OnBeforeEndBufferContent',
                 Settings::getModuleId(),
-                'Sl3w\Watermark\Events',
+                'Sl3w\Watermark\AdminEvents',
                 'AppendScriptsToPage'
             );
 
-            CopyDirFiles(
-                __DIR__ . '/../install/files/assets/js',
-                $_SERVER['DOCUMENT_ROOT'] . '/bitrix/js/' . Settings::getModuleId() . '/',
-                true,
-                true
-            );
-
-            CopyDirFiles(
-                __DIR__ . '/../install/files/ajax',
-                $_SERVER['DOCUMENT_ROOT'] . '/ajax/' . Settings::getModuleId() . '/',
-                true,
-                true
-            );
+            if (!\Bitrix\Main\IO\File::isFileExists($_SERVER['DOCUMENT_ROOT'] . '/ajax/' . Settings::getModuleId() . '/add_watermark.php')) {
+                CopyDirFiles(
+                    __DIR__ . '/../install/files/ajax',
+                    $_SERVER['DOCUMENT_ROOT'] . '/ajax/' . Settings::getModuleId() . '/',
+                    true,
+                    true
+                );
+            }
         } else {
             sl3w_event_manager()->unRegisterEventHandler(
                 'main',
                 'OnAdminContextMenuShow',
                 Settings::getModuleId(),
-                'Sl3w\Watermark\Events',
+                'Sl3w\Watermark\AdminEvents',
                 'IBlocksAddWatermarkButtonHandler'
             );
 
@@ -173,8 +168,47 @@ if (!function_exists('register_add_watermark_btn_events')) {
                 'main',
                 'OnBeforeEndBufferContent',
                 Settings::getModuleId(),
-                'Sl3w\Watermark\Events',
+                'Sl3w\Watermark\AdminEvents',
                 'AppendScriptsToPage'
+            );
+        }
+    }
+}
+
+if (!function_exists('register_add_watermark_mass_events')) {
+    function register_add_watermark_mass_events($reg = true)
+    {
+        if ($reg) {
+            sl3w_event_manager()->registerEventHandler(
+                'main',
+                'OnAdminListDisplay',
+                Settings::getModuleId(),
+                'Sl3w\Watermark\AdminEvents',
+                'IBlocksListAddWatermarkOptionHandler'
+            );
+
+            sl3w_event_manager()->registerEventHandler(
+                'main',
+                'OnAfterEpilog',
+                Settings::getModuleId(),
+                'Sl3w\Watermark\AdminEvents',
+                'OnAfterEpilogProcessWatermarks'
+            );
+        } else {
+            sl3w_event_manager()->unRegisterEventHandler(
+                'main',
+                'OnAdminListDisplay',
+                Settings::getModuleId(),
+                'Sl3w\Watermark\AdminEvents',
+                'IBlocksListAddWatermarkOptionHandler'
+            );
+
+            sl3w_event_manager()->unRegisterEventHandler(
+                'main',
+                'OnAfterEpilog',
+                Settings::getModuleId(),
+                'Sl3w\Watermark\AdminEvents',
+                'OnAfterEpilogProcessWatermarks'
             );
         }
     }

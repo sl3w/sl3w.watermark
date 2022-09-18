@@ -98,26 +98,4 @@ class Events
             }
         }
     }
-
-    public function IBlocksAddWatermarkButtonHandler(&$items)
-    {
-        if ($_SERVER['REQUEST_METHOD'] == 'GET' &&
-            sl3w_application()->GetCurPage() == '/bitrix/admin/iblock_element_edit.php' &&
-            in_array(sl3w_request()->get('IBLOCK_ID'), Settings::getProcessingIBlocks()) &&
-            sl3w_request()->get('ID') > 0) {
-            $items[] = [
-                'TEXT' => Loc::getMessage('SL3W_WATERMARK_ADMIN_BUTTON_TEXT'),
-                'LINK' => 'javascript:addWatermarkByItemId(' . sl3w_request()->get('ID') . ',' . sl3w_request()->get('IBLOCK_ID') . ')',
-                'TITLE' => Loc::getMessage('SL3W_WATERMARK_ADMIN_BUTTON_TEXT'),
-                'ICON' => 'sl3w-add-watermark-btn'
-            ];
-        }
-    }
-
-    public function AppendScriptsToPage()
-    {
-        if (defined('ADMIN_SECTION')) {
-            sl3w_asset()->addJs('/bitrix/js/' . Settings::getModuleId() . '/script.min.js');
-        }
-    }
 }

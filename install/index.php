@@ -48,6 +48,7 @@ class sl3w_watermark extends CModule
         RegisterModule($this->MODULE_ID);
 
         $this->InstallEvents();
+        $this->InstallFiles();
         $this->SetOptions();
 
         $APPLICATION->IncludeAdminFile(
@@ -114,7 +115,23 @@ class sl3w_watermark extends CModule
             'OnAfterIBlockElementUpdate'
         );
 
+        register_add_watermark_btn_events(false);
+
+        register_add_watermark_mass_events(false);
+
         return true;
+    }
+
+    public function InstallFiles()
+    {
+        CopyDirFiles(
+            __DIR__ . '/files/ajax',
+            $_SERVER['DOCUMENT_ROOT'] . '/ajax/' . $this->MODULE_ID . '/',
+            true,
+            true
+        );
+
+        return false;
     }
 
     public function UnInstallFiles()
@@ -129,6 +146,7 @@ class sl3w_watermark extends CModule
     private function SetOptions()
     {
         Settings::set('switch_on', 'Y');
+        Settings::set('add_watermark_btn_mass_switch_on', 'Y');
         Settings::set('wm_alpha', 50);
         Settings::set('event_add_switch_on', 'Y');
         Settings::set('event_update_switch_on', 'Y');

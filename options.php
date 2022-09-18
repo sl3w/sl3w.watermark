@@ -52,6 +52,12 @@ $options = [
         ['checkbox']
     ],
     [
+        'add_watermark_btn_mass_switch_on',
+        Loc::getMessage('SL3W_WATERMARK_OPTION_ADD_WATERMARK_BTN_MASS'),
+        'Y',
+        ['checkbox']
+    ],
+    [
         'add_watermark_btn_switch_on',
         Loc::getMessage('SL3W_WATERMARK_OPTION_ADD_WATERMARK_BTN'),
         'N',
@@ -141,6 +147,12 @@ $optionsByBlock = [
         [
             'switch_on',
             Loc::getMessage('SL3W_WATERMARK_OPTION_SWITCH_ON'),
+            'Y',
+            ['checkbox']
+        ],
+        [
+            'add_watermark_btn_mass_switch_on',
+            Loc::getMessage('SL3W_WATERMARK_OPTION_ADD_WATERMARK_BTN_MASS'),
             'Y',
             ['checkbox']
         ],
@@ -386,6 +398,10 @@ if ($request->isPost() && check_bitrix_sessid()) {
                     register_add_watermark_btn_events($optionValue == 'Y' && $request->getPost('switch_on'));
                 }
 
+                if ($optionCode == 'add_watermark_btn_mass_switch_on') {
+                    register_add_watermark_mass_events($optionValue == 'Y' && $request->getPost('switch_on'));
+                }
+
             } elseif ($request['default']) {
 
                 Option::set($module_id, $optionCode, $arOption[2]);
@@ -393,9 +409,13 @@ if ($request->isPost() && check_bitrix_sessid()) {
                 if ($optionCode == 'add_watermark_btn_switch_on') {
                     register_add_watermark_btn_events(false);
                 }
+
+                if ($optionCode == 'add_watermark_btn_mass_switch_on') {
+                    register_add_watermark_mass_events(false);
+                }
             }
         }
     }
 
-    LocalRedirect($APPLICATION->GetCurPage() . '?mid=' . $module_id . '&lang=' . LANG);
+    LocalRedirect($APPLICATION->GetCurPage() . '?mid=' . $module_id . '&lang=' . LANG . '&mid_menu=1');
 }
