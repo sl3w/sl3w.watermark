@@ -5,18 +5,20 @@ namespace Sl3w\Watermark;
 use CFile;
 use CIBlockElement;
 use Sl3w\Watermark\Settings as Settings;
+use Sl3w\Watermark\WatermarkedImages as WatermarkedImages;
+use Sl3w\Watermark\Iblock as Iblock;
 
 class Watermark
 {
     public static function addWaterMarkByPropName($propName, $allElementInfo)
     {
-        $imgIDs = $allElementInfo['PROPS'][$propName]['VALUE'];
-
-        if (!is_array($imgIDs)) {
-            $imgIDs = [$imgIDs];
-        }
+        $imgIDs = array_wrap($allElementInfo['PROPS'][$propName]['VALUE']);
 
         foreach ($imgIDs as $imgID) {
+            if (WatermarkedImages::isImageWaterMarked($imgID)) {
+                continue;
+            }
+
             $imageWithMark = self::getWaterMarkArray($imgID);
 
             $newFile = CFile::MakeFileArray($imageWithMark['src']);
@@ -26,12 +28,23 @@ class Watermark
             CIBlockElement::SetPropertyValueCode($allElementInfo['FIELDS']['ID'], $propName, $newFileArray);
 
             CFile::Delete($imgID);
+
+            WatermarkedImages::addWatermarkedImage($newID);
         }
     }
 
     public static function addWaterMarkByFieldName($fieldName, $allElementInfo)
     {
+        $elementId = $allElementInfo['FIELDS']['ID'];
         $imgID = $allElementInfo['FIELDS'][$fieldName];
+
+        if (!$imgID || WatermarkedImages::isImageWaterMarked($imgID)) {
+            if (key_exists($elementId, session_watermark_elements())) {
+                session_delete_element_id($elementId);
+            }
+
+            return;
+        }
 
         $imageWithMark = self::getWaterMarkArray($imgID);
 
@@ -39,11 +52,13 @@ class Watermark
 
         $el = new CIBlockElement;
 
-        $el->Update($allElementInfo['FIELDS']['ID'], [
+        $el->Update($elementId, [
             $fieldName => $newFile
         ]);
 
         CFile::Delete($imgID);
+
+        WatermarkedImages::addWatermarkedImage(Iblock::getElementFieldValue($elementId, $fieldName));
     }
 
 

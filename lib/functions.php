@@ -67,10 +67,17 @@ if (!function_exists('session_set')) {
     }
 }
 
+if (!function_exists('session_watermark_elements')) {
+    function session_watermark_elements()
+    {
+        return session_get('watermark_elements');
+    }
+}
+
 if (!function_exists('session_add_element_id')) {
     function session_add_element_id($elementId)
     {
-        $elementIds = session_get('watermark_elements');
+        $elementIds = session_watermark_elements();
 
         if (!$elementIds) {
             $elementIds = [];

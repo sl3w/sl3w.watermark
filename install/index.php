@@ -3,6 +3,8 @@
 use Sl3w\Watermark\Settings;
 
 use Bitrix\Main\EventManager;
+use Bitrix\Main\Application;
+use Bitrix\Main\Entity\Base;
 use Bitrix\Main\Localization\Loc;
 
 Loc::loadMessages(__FILE__);
@@ -49,6 +51,7 @@ class sl3w_watermark extends CModule
 
         $this->InstallEvents();
         $this->InstallFiles();
+        $this->InstallDB();
         $this->SetOptions();
 
         $APPLICATION->IncludeAdminFile(
@@ -65,6 +68,7 @@ class sl3w_watermark extends CModule
 
         $this->UnInstallEvents();
         $this->UnInstallFiles();
+        $this->UnInstallDB();
         $this->ClearOptions();
         $this->ClearSession();
 
@@ -131,6 +135,13 @@ class sl3w_watermark extends CModule
             true
         );
 
+        CopyDirFiles(
+            __DIR__ . '/files/assets/js',
+            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/js/' . $this->MODULE_ID . '/',
+            true,
+            true
+        );
+
         return false;
     }
 
@@ -141,6 +152,24 @@ class sl3w_watermark extends CModule
         DeleteDirFilesEx('/ajax/' . $this->MODULE_ID);
 
         return false;
+    }
+
+    public function InstallDB()
+    {
+        if (!Application::getConnection()->isTableExists(Base::getInstance('\Sl3w\Watermark\Orm\WatermarkedImagesTable')->getDBTableName())) {
+            Base::getInstance('\Sl3w\Watermark\Orm\WatermarkedImagesTable')->createDBTable();
+        }
+
+        return true;
+    }
+
+    public function UnInstallDB()
+    {
+        if (Application::getConnection()->isTableExists(Base::getInstance('\Sl3w\Watermark\Orm\WatermarkedImagesTable')->getDBTableName())) {
+            Application::getConnection()->dropTable(Base::getInstance('\Sl3w\Watermark\Orm\WatermarkedImagesTable')->getDBTableName());
+        }
+
+        return true;
     }
 
     private function SetOptions()

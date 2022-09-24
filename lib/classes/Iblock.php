@@ -34,4 +34,18 @@ class Iblock
 
         return $resElement;
     }
+
+    public static function getElementFieldValue($elementID, $fieldName)
+    {
+        include_modules('iblock');
+
+        $arFilter = ['ID' => $elementID];
+        $resEl = CIBlockElement::GetList([], $arFilter, false, false, [$fieldName])->GetNext();
+
+        if ($resEl) {
+            return $resEl[$fieldName];
+        }
+
+        return false;
+    }
 }

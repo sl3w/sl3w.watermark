@@ -44,7 +44,7 @@ class Events
 
         $elementId = $arFields['ID'];
 
-        if (key_exists($elementId, session_get('watermark_elements'))) {
+        if (key_exists($elementId, session_watermark_elements())) {
             session_delete_element_id($elementId);
 
             return;
@@ -82,9 +82,11 @@ class Events
 
                 Watermark::addWaterMarkByPropName($propName, $elementInfo);
             } else {
-                session_add_element_id($elementId);
+                if ($elementInfo['FIELDS'][$field]) {
+                    session_add_element_id($elementId);
 
-                Watermark::addWaterMarkByFieldName($field, $elementInfo);
+                    Watermark::addWaterMarkByFieldName($field, $elementInfo);
+                }
             }
         }
 
