@@ -52,6 +52,20 @@ class AdminEvents
                 ]);
             }
         }
+
+        if ($_SERVER['REQUEST_METHOD'] == 'GET' &&
+            sl3w_application()->GetCurPage() == '/bitrix/admin/iblock_element_admin.php' &&
+            in_array($iblockId, Settings::getProcessingIBlocks())) {
+
+            $iblockType = sl3w_request()->get('type');
+
+            if ($list->table_id == 'tbl_iblock_element_' . md5($iblockType . '.' . $iblockId)) {
+
+                $list->arActions = array_merge($list->arActions, [
+                    self::$adminListItemName => Loc::getMessage('SL3W_WATERMARK_ADMIN_BUTTON_TEXT')
+                ]);
+            }
+        }
     }
 
     public function OnAfterEpilogProcessWatermarks()
@@ -71,12 +85,21 @@ class AdminEvents
 
             if (is_array($arID) && !empty($arID)) {
                 foreach ($arID as $strID) {
-                    preg_match('/(E|S)(.+)/', $strID, $matches);
+                    $str = $strID;
+                    preg_match('/(E|S)(.+)/', $str, $matches);
                     list($strID, $type, $id) = $matches;
 
                     switch ($type) {
                         case 'E':
                             Events::AddWatermarkByButtonAjax($id, $iblockId);
+                            break;
+
+                        case '':
+                        case ' ':
+                            if (intval($str)) {
+                                Events::AddWatermarkByButtonAjax($str, $iblockId);
+                            }
+
                             break;
 
                         /*case 'S':
