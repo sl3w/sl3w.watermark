@@ -12,7 +12,7 @@ class AdminEvents
 {
     private static $adminListItemName = 'add_watermarks';
 
-    public function IBlocksAddWatermarkButtonHandler(&$items)
+    public static function IBlocksAddWatermarkButtonHandler(&$items)
     {
         if ($_SERVER['REQUEST_METHOD'] == 'GET' &&
             sl3w_application()->GetCurPage() == '/bitrix/admin/iblock_element_edit.php' &&
@@ -28,14 +28,14 @@ class AdminEvents
         }
     }
 
-    public function AppendScriptsToPage()
+    public static function AppendScriptsToPage()
     {
         if (defined('ADMIN_SECTION')) {
             sl3w_asset()->addJs('/bitrix/js/' . Settings::getModuleId() . '/script.min.js');
         }
     }
 
-    public function IBlocksListAddWatermarkOptionHandler(&$list)
+    public static function IBlocksListAddWatermarkOptionHandler(&$list)
     {
         $iblockId = sl3w_request()->get('IBLOCK_ID');
 
@@ -68,7 +68,7 @@ class AdminEvents
         }
     }
 
-    public function OnAfterEpilogProcessWatermarks()
+    public static function OnAfterEpilogProcessWatermarks()
     {
         $request = sl3w_request();
 

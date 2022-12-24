@@ -39,4 +39,11 @@ class Settings
 
         return $iBlockIds ? explode(',', $iBlockIds) : [];
     }
+
+    public static function getExcludedElements()
+    {
+        $elementsIds = self::get('exclude_elements_ids');
+
+        return $elementsIds ? array_map('trim', explode(',', $elementsIds)) : [];
+    }
 }

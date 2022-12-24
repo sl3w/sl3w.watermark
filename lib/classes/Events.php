@@ -11,7 +11,7 @@ Loc::loadMessages(__FILE__);
 
 class Events
 {
-    public function OnAfterIBlockElementAdd($arFields)
+    public static function OnAfterIBlockElementAdd($arFields)
     {
         if (!Settings::yes('event_add_switch_on')) {
             return;
@@ -20,7 +20,7 @@ class Events
         self::OnAfterIBlockElementAddUpdate($arFields, 'add');
     }
 
-    public function OnAfterIBlockElementUpdate($arFields)
+    public static function OnAfterIBlockElementUpdate($arFields)
     {
         if (!Settings::yes('event_update_switch_on')) {
             return;
@@ -47,6 +47,10 @@ class Events
         if (key_exists($elementId, session_watermark_elements())) {
             session_delete_element_id($elementId);
 
+            return;
+        }
+
+        if (in_array($elementId, Settings::getExcludedElements())) {
             return;
         }
 

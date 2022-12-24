@@ -125,6 +125,13 @@ $options = [
         ['multiselectbox', $selectIBlocks]
     ],
     ['note' => Loc::getMessage('SL3W_WATERMARK_SAVE_AFTER_CHANGE_IBLOCK')],
+    Loc::getMessage('SL3W_WATERMARK_BLOCK_EXCLUDE'),
+    [
+        'exclude_elements_ids',
+        Loc::getMessage('SL3W_WATERMARK_OPTION_EXCLUDE_ELEMENTS'),
+        '',
+        ['textarea']
+    ],
 ];
 
 $aTabs = [
@@ -233,7 +240,16 @@ $optionsByBlock = [
         ]
     ],
     'iblock_note' => ['note' => Loc::getMessage('SL3W_WATERMARK_SAVE_AFTER_CHANGE_IBLOCK')],
-    'iblocks_list' => []
+    'iblocks_list' => [],
+    'exclude_list' => [
+        Loc::getMessage('SL3W_WATERMARK_BLOCK_EXCLUDE'),
+        [
+            'exclude_elements_ids',
+            Loc::getMessage('SL3W_WATERMARK_OPTION_EXCLUDE_ELEMENTS'),
+            '',
+            ['textarea']
+        ],
+    ],
 ];
 
 $iblockIds = explode(',', Option::get($module_id, 'iblock_ids', ''));
@@ -336,10 +352,14 @@ $tabControl->Begin();
 
             __AdmSettingsDrawRow($module_id, $optionsByBlock['iblock_block']);
             __AdmSettingsDrawList($module_id, $optionsByBlock['iblock_list']);
+
             if (empty($optionsByBlock['iblocks_list'])) {
                 __AdmSettingsDrawRow($module_id, $optionsByBlock['iblock_note']);
             }
+
             __AdmSettingsDrawList($module_id, $optionsByBlock['iblocks_list']);
+
+            __AdmSettingsDrawList($module_id, $optionsByBlock['exclude_list']);
         }
 
         $tabControl->BeginNextTab();
