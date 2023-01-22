@@ -3,15 +3,16 @@
 namespace Sl3w\Watermark;
 
 use CIBlockElement;
+use Sl3w\Watermark\Helpers as Helpers;
 
 class Iblock
 {
     public static function getElementFieldsAndPropsById($elementID, $skipEmptyValue = false, $propsNeedFields = ['ID', 'NAME', 'VALUE', 'VALUE_XML_ID'])
     {
-        include_modules('iblock');
+        Helpers::includeModules('iblock');
 
         $arFilter = ['ID' => $elementID];
-        $res = CIBlockElement::GetList([], $arFilter, false, [], []);
+        $res = CIBlockElement::GetList([], $arFilter, false, false, []);
 
         $resElement = false;
 
@@ -37,15 +38,11 @@ class Iblock
 
     public static function getElementFieldValue($elementID, $fieldName)
     {
-        include_modules('iblock');
+        Helpers::includeModules('iblock');
 
         $arFilter = ['ID' => $elementID];
         $resEl = CIBlockElement::GetList([], $arFilter, false, false, [$fieldName])->GetNext();
 
-        if ($resEl) {
-            return $resEl[$fieldName];
-        }
-
-        return false;
+        return $resEl ? $resEl[$fieldName] : false;
     }
 }

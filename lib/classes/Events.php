@@ -5,6 +5,7 @@ namespace Sl3w\Watermark;
 use Sl3w\Watermark\Iblock as Iblock;
 use Sl3w\Watermark\Settings as Settings;
 use Sl3w\Watermark\Watermark as Watermark;
+use Sl3w\Watermark\Helpers as Helpers;
 use Bitrix\Main\Localization\Loc;
 
 Loc::loadMessages(__FILE__);
@@ -44,8 +45,8 @@ class Events
 
         $elementId = $arFields['ID'];
 
-        if (key_exists($elementId, session_watermark_elements())) {
-            session_delete_element_id($elementId);
+        if (key_exists($elementId, Helpers::getSessionWatermarkElements())) {
+            Helpers::sessionDeleteElementId($elementId);
 
             return;
         }
@@ -69,8 +70,8 @@ class Events
         $isPropDontAddExist = key_exists(SL3W_WATERMARK_DONT_ADD_PROP_NAME, $elementInfo['PROPS']);
 
         if ($isPropDontAddExist &&
-            (to_lower($elementInfo['PROPS'][SL3W_WATERMARK_DONT_ADD_PROP_NAME]['VALUE']) == Loc::getMessage('SL3W_WATERMARK_TEXT_YES') ||
-                to_lower($elementInfo['PROPS'][SL3W_WATERMARK_DONT_ADD_PROP_NAME]['VALUE_XML_ID']) == 'yes')) {
+            (Helpers::toLower($elementInfo['PROPS'][SL3W_WATERMARK_DONT_ADD_PROP_NAME]['VALUE']) == Loc::getMessage('SL3W_WATERMARK_TEXT_YES') ||
+                Helpers::yes(Helpers::toLower($elementInfo['PROPS'][SL3W_WATERMARK_DONT_ADD_PROP_NAME]['VALUE_XML_ID'])))) {
 
             return;
         }
@@ -79,7 +80,7 @@ class Events
 
             $propPrefix = 'PROPERTY_';
 
-            $isProp = str_contains($field, $propPrefix);
+            $isProp = Helpers::strContains($field, $propPrefix);
 
             if ($isProp) {
                 $propName = substr($field, strlen($propPrefix));
@@ -87,7 +88,7 @@ class Events
                 Watermark::addWaterMarkByPropName($propName, $elementInfo);
             } else {
                 if ($elementInfo['FIELDS'][$field]) {
-                    session_add_element_id($elementId);
+                    Helpers::sessionAddElementId($elementId);
 
                     Watermark::addWaterMarkByFieldName($field, $elementInfo);
                 }

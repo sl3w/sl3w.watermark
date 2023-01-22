@@ -2,6 +2,7 @@
 
 namespace Sl3w\Watermark;
 
+use CFile;
 use Sl3w\Watermark\Orm\WatermarkedImagesTable;
 
 class WatermarkedImages
@@ -46,6 +47,24 @@ class WatermarkedImages
 
     private static function setWatermarkedImagesStorage()
     {
-        self::$watermarkedImagesStorage = WatermarkedImagesTable::getList()->fetchAll();
+        self::$watermarkedImagesStorage = WatermarkedImagesTable::getList([
+            'order' => ['ID' => 'DESC']
+        ])->fetchAll();
+    }
+
+    public static function getLastWatermarkedImages($count = 10)
+    {
+        $lastWatermarkedImages = array_slice(self::getWatermarkedImagesIds(), 0, $count);
+
+        $lastWatermarkedImagesRes = [];
+
+        foreach ($lastWatermarkedImages as $lastWatermarkedImage) {
+            $lastWatermarkedImagesRes[] = [
+                'ID' => $lastWatermarkedImage,
+                'SRC' => CFile::GetFileArray($lastWatermarkedImage)['SRC']
+            ];
+        }
+
+        return $lastWatermarkedImagesRes;
     }
 }

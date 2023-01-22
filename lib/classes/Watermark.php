@@ -7,12 +7,27 @@ use CIBlockElement;
 use Sl3w\Watermark\Settings as Settings;
 use Sl3w\Watermark\WatermarkedImages as WatermarkedImages;
 use Sl3w\Watermark\Iblock as Iblock;
+use Sl3w\Watermark\Helpers as Helpers;
+use Sl3w\Watermark\Events as Events;
 
 class Watermark
 {
+    public static function addAllWatermarks()
+    {
+        Helpers::includeModules('iblock');
+
+        $res = CIBlockElement::GetList([], ['IBLOCK_ID' => Settings::getProcessingIBlocks()], false, false, ['ID', 'IBLOCK_ID']);
+
+        while ($el = $res->GetNext()) {
+            Events::AddWatermarkByButtonAjax($el['ID'], $el['IBLOCK_ID']);
+        }
+    }
+
     public static function addWaterMarkByPropName($propName, $allElementInfo)
     {
-        $imgIDs = array_wrap($allElementInfo['PROPS'][$propName]['VALUE']);
+        Helpers::includeModules('iblock');
+
+        $imgIDs = Helpers::arrayWrap($allElementInfo['PROPS'][$propName]['VALUE']);
 
         foreach ($imgIDs as $imgID) {
             if (WatermarkedImages::isImageWaterMarked($imgID)) {
@@ -35,12 +50,14 @@ class Watermark
 
     public static function addWaterMarkByFieldName($fieldName, $allElementInfo)
     {
+        Helpers::includeModules('iblock');
+
         $elementId = $allElementInfo['FIELDS']['ID'];
         $imgID = $allElementInfo['FIELDS'][$fieldName];
 
         if (!$imgID || WatermarkedImages::isImageWaterMarked($imgID)) {
-            if (key_exists($elementId, session_watermark_elements())) {
-                session_delete_element_id($elementId);
+            if (key_exists($elementId, Helpers::getSessionWatermarkElements())) {
+                Helpers::sessionDeleteElementId($elementId);
             }
 
             return;
@@ -71,7 +88,7 @@ class Watermark
                 'type' => 'image',
                 'size' => 'real',
                 'file' => $_SERVER['DOCUMENT_ROOT'] . Settings::get('wm_image_path'),
-                'fill' => Settings::get('wm_is_repeat') == 'Y' ? 'repeat' : 'exact',
+                'fill' => Settings::yes('wm_is_repeat') ? 'repeat' : 'exact',
                 'alpha_level' => (int)Settings::get('wm_alpha') ?: 50
             ]
         ];
@@ -80,6 +97,6 @@ class Watermark
 
         list($width, $height, $type, $attr) = getimagesize($img);
 
-        return CFile::ResizeImageGet($img, array('width' => $width, 'height' => $height), BX_RESIZE_PROPORTIONAL, true, $arWaterMark);
+        return CFile::ResizeImageGet($img, ['width' => $width, 'height' => $height], BX_RESIZE_PROPORTIONAL, true, $arWaterMark);
     }
 }
