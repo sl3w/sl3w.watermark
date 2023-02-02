@@ -105,4 +105,16 @@ class Events
             }
         }
     }
+
+    //поддержка старой версии модуля
+    public static function IBlocksAddWatermarkButtonHandler(&$items)
+    {
+        AdminEvents::IBlocksAddWatermarkButtonHandler($items);
+    }
+
+    public static function AppendScriptsToPage()
+    {
+        AdminEvents::AppendScriptsToPage();
+    }
+    //\поддержка старой версии модуля
 }

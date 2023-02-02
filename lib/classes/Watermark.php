@@ -95,8 +95,8 @@ class Watermark
 
         $img = CFile::GetFileArray($imgID);
 
-        list($width, $height, $type, $attr) = getimagesize($img);
+        list($width, $height, $type, $attr) = getimagesize($img['SRC']);
 
-        return CFile::ResizeImageGet($img, ['width' => $width, 'height' => $height], BX_RESIZE_PROPORTIONAL, true, $arWaterMark);
+        return CFile::ResizeImageGet($img, ['width' => $width, 'height' => $height], BX_RESIZE_IMAGE_PROPORTIONAL, true, $arWaterMark);
     }
 }

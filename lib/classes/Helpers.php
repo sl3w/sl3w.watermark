@@ -62,7 +62,7 @@ class Helpers
 
     public static function getSessionWatermarkElements()
     {
-        return self::sessionGet(self::$sessionWatermarkElements);
+        return self::sessionGet(self::$sessionWatermarkElements) ?: [];
     }
 
     public static function sessionAddElementId($elementId)
