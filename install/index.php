@@ -1,11 +1,10 @@
 <?php
 
-use Sl3w\Watermark\Settings;
-
 use Bitrix\Main\EventManager;
 use Bitrix\Main\Application;
 use Bitrix\Main\Entity\Base;
 use Bitrix\Main\Localization\Loc;
+use Sl3w\Watermark\Settings;
 
 Loc::loadMessages(__FILE__);
 
@@ -45,7 +44,7 @@ class sl3w_watermark extends CModule
     {
         global $APPLICATION;
 
-        self::IncludeServiceFiles();
+        $this->IncludeServiceFiles();
 
         RegisterModule($this->MODULE_ID);
 
@@ -64,7 +63,7 @@ class sl3w_watermark extends CModule
     {
         global $APPLICATION;
 
-        self::IncludeServiceFiles();
+        $this->IncludeServiceFiles();
 
         $this->UnInstallEvents();
         $this->UnInstallFiles();
@@ -202,7 +201,7 @@ class sl3w_watermark extends CModule
         }
     }
 
-    private static function IncludeServiceFiles()
+    private function IncludeServiceFiles()
     {
         include_once('service.php');
     }

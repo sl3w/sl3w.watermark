@@ -37,6 +37,11 @@ class Helpers
         return is_array($value) ? $value : [$value];
     }
 
+    public static function arrayTrimExplode($array, $separator = ',')
+    {
+        return array_map('trim', explode($separator, $array));
+    }
+
     public static function includeModules($modulesName)
     {
         $modulesName = self::arrayWrap($modulesName);

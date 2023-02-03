@@ -1,6 +1,6 @@
 <?php
 
-CModule::AddAutoloadClasses(
+\Bitrix\Main\Loader::registerAutoLoadClasses(
     'sl3w.watermark',
     [
         'Sl3w\Watermark\Helpers' => 'lib/classes/Helpers.php',

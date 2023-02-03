@@ -17,7 +17,7 @@ if ($errorException = $APPLICATION->GetException()) {
 }
 ?>
 
-<form action='<?= $APPLICATION->GetCurPage(); ?>'>
+<form action='<?= $APPLICATION->GetCurPage() ?>'>
     <input type='hidden' name='lang' value='<?= LANG ?>'>
-    <input type='submit' name='' value='<?= Loc::getMessage('SL3W_WATERMARK_UNSTEP_BACK'); ?>'>
+    <input type='submit' name='' value='<?= Loc::getMessage('SL3W_WATERMARK_UNSTEP_BACK') ?>'>
 <form>

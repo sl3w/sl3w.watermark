@@ -2,8 +2,8 @@
 
 namespace Sl3w\Watermark;
 
+use CIBlock;
 use CIBlockElement;
-use Sl3w\Watermark\Helpers as Helpers;
 
 class Iblock
 {
@@ -11,8 +11,7 @@ class Iblock
     {
         Helpers::includeModules('iblock');
 
-        $arFilter = ['ID' => $elementID];
-        $res = CIBlockElement::GetList([], $arFilter, false, false, []);
+        $res = CIBlockElement::GetList([], ['ID' => $elementID]);
 
         $resElement = false;
 
@@ -40,9 +39,18 @@ class Iblock
     {
         Helpers::includeModules('iblock');
 
-        $arFilter = ['ID' => $elementID];
-        $resEl = CIBlockElement::GetList([], $arFilter, false, false, [$fieldName])->GetNext();
+        $resEl = CIBlockElement::GetList([], ['ID' => $elementID], false, false, [$fieldName])->GetNext();
 
         return $resEl ? $resEl[$fieldName] : false;
+    }
+
+    public static function getIBlockById($iBlockId): array
+    {
+        return CIBlock::GetByID($iBlockId)->GetNext();
+    }
+
+    public static function getIBlockNameById($iBlockId)
+    {
+        return self::getIBlockById($iBlockId)['NAME'] ?? false;
     }
 }

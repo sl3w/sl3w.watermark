@@ -2,10 +2,8 @@
 
 namespace Sl3w\Watermark;
 
-use Sl3w\Watermark\Iblock as Iblock;
-use Sl3w\Watermark\Settings as Settings;
-use Sl3w\Watermark\Watermark as Watermark;
-use Sl3w\Watermark\Helpers as Helpers;
+use CIBlockElement;
+use CIBlockProperty;
 use Bitrix\Main\Localization\Loc;
 
 Loc::loadMessages(__FILE__);
@@ -63,7 +61,7 @@ class Events
             return;
         }
 
-        $iblockFieldsAndProps = explode(',', Settings::get('iblock' . $iblockId . '_fields', []));
+        $iblockFieldsAndProps = Settings::getProcessingFieldsByIBlock($iblockId);
 
         $elementInfo = Iblock::getElementFieldsAndPropsById($elementId);
 
@@ -97,10 +95,10 @@ class Events
 
         if ($isPropDontAddExist) {
             if (Settings::yes('set_dont_add_after_' . $operation)) {
-                $propYesOptionId = \CIBlockProperty::GetPropertyEnum(SL3W_WATERMARK_DONT_ADD_PROP_NAME, [], ['IBLOCK_ID' => $iblockId, 'XML_ID' => 'yes'])->Fetch()['ID'];
+                $propYesOptionId = CIBlockProperty::GetPropertyEnum(SL3W_WATERMARK_DONT_ADD_PROP_NAME, [], ['IBLOCK_ID' => $iblockId, 'XML_ID' => 'yes'])->Fetch()['ID'];
 
                 if ($propYesOptionId) {
-                    \CIBlockElement::SetPropertyValueCode($elementId, SL3W_WATERMARK_DONT_ADD_PROP_NAME, $propYesOptionId);
+                    CIBlockElement::SetPropertyValueCode($elementId, SL3W_WATERMARK_DONT_ADD_PROP_NAME, $propYesOptionId);
                 }
             }
         }

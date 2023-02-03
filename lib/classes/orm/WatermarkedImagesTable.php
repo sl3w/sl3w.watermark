@@ -7,9 +7,11 @@ use Bitrix\Main\Entity\IntegerField;
 
 class WatermarkedImagesTable extends DataManager
 {
+    private const TABLE_NAME = 'sl3w_watermarked_images';
+
     public static function getTableName()
     {
-        return 'sl3w_watermarked_images';
+        return self::TABLE_NAME;
     }
 
     public static function getMap()

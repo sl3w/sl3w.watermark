@@ -2,18 +2,20 @@
 
 $MESS['SL3W_WATERMARK_OPTIONS_TAB_NAME'] = 'Настройки';
 
-$MESS['SL3W_WATERMARK_BLOCK_COMMON'] = 'Общие:';
+$MESS['SL3W_WATERMARK_MODULE_INCLUDE_ERROR'] = 'Ошибка при подключении модуля';
+
+$MESS['SL3W_WATERMARK_BLOCK_COMMON'] = 'Общие';
 
 $MESS['SL3W_WATERMARK_OPTION_SWITCH_ON'] = 'Модуль включен:';
 $MESS['SL3W_WATERMARK_OPTION_ADD_WATERMARK_BTN_MASS'] = 'Добавить кнопку массовой обработки в списке элементов:';
 $MESS['SL3W_WATERMARK_OPTION_ADD_WATERMARK_BTN'] = 'Добавить кнопку обработки на панели при редактировании элемента:';
 
-$MESS['SL3W_WATERMARK_BLOCK_EVENTS'] = 'События:';
+$MESS['SL3W_WATERMARK_BLOCK_EVENTS'] = 'События';
 
 $MESS['SL3W_WATERMARK_OPTION_EVENT_ADD_SWITCH_ON'] = 'Добавлять водяной знак при добавлении элемента:';
 $MESS['SL3W_WATERMARK_OPTION_EVENT_UPDATE_SWITCH_ON'] = 'Добавлять водяной знак при изменении элемента:';
 
-$MESS['SL3W_WATERMARK_BLOCK_WM'] = 'Настройки водяного знака:';
+$MESS['SL3W_WATERMARK_BLOCK_WM'] = 'Настройки водяного знака';
 
 $MESS['SL3W_WATERMARK_OPTION_WM_POSITION'] = 'Положение водяного знака:';
 
@@ -36,8 +38,9 @@ $MESS['SL3W_WATERMARK_OPTION_WM_ALPHA_AFTER'] = '% (чем меньше, тем прозрачнее)'
 $MESS['SL3W_WATERMARK_OPTION_WM_ALPHA_NUMBER'] = 'целое число (иначе 50%)';
 
 $MESS['SL3W_WATERMARK_OPTION_WM_IMAGE_PATH'] = 'Путь к изображению водяного знака:';
+$MESS['SL3W_WATERMARK_OPTION_WM_IMAGE'] = 'Выбранное изображение:';
 
-$MESS['SL3W_WATERMARK_BLOCK_IBLOCK'] = 'Инфоблоки, участвующие в обработке:';
+$MESS['SL3W_WATERMARK_BLOCK_IBLOCK'] = 'Инфоблоки, участвующие в обработке';
 $MESS['SL3W_WATERMARK_OPTION_IBLOCK_IDS'] = 'Инфоблоки для обработки:';
 $MESS['SL3W_WATERMARK_OPTION_EMPTY'] = '(не выбрано)';
 
@@ -48,12 +51,12 @@ $MESS['SL3W_WATERMARK_OPTIONS_DETAIL_PICTURE'] = '[DETAIL_PICTURE] Детальная кар
 
 $MESS['SL3W_WATERMARK_FIELDS_AND_PROPS'] = 'Поля и свойства инфоблока';
 
-$MESS['SL3W_WATERMARK_SET_DONT_ADD_IBLOCK'] = 'Устанавливать галочку в свойстве DONT_ADD_WATERMARK_ON_SAVE:';
+$MESS['SL3W_WATERMARK_SET_DONT_ADD_IBLOCK'] = 'Установка галочки в свойстве DONT_ADD_WATERMARK_ON_SAVE';
 $MESS['SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_ADD'] = 'После добавления элемента:';
 $MESS['SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_UPDATE'] = 'После изменения элемента:';
 $MESS['SL3W_WATERMARK_SET_DONT_ADD_NOTE'] = 'При установленной настройке при соответствующем событии у обработанного элемента будет автоматически установлена галочка в свойстве с символьным кодом <b>DONT_ADD_WATERMARK_ON_SAVE</b>, если оно существует в текущем инфоблоке и создано в соответствии с логикой работы модуля (см. <a href="http://marketplace.1c-bitrix.ru/solutions/sl3w.watermark/#tab-install-link" target="_blank">описание модуля в Маркетплейсе</a>). Свойство ограничивает повторное наложении водяного знака в этом же элементе.';
 
-$MESS['SL3W_WATERMARK_BLOCK_EXCLUDE'] = 'Исключения:';
+$MESS['SL3W_WATERMARK_BLOCK_EXCLUDE'] = 'Исключения';
 
 $MESS['SL3W_WATERMARK_OPTION_EXCLUDE_ELEMENTS'] = 'ID элементов, исключенных из обработки (через запятую):';
 

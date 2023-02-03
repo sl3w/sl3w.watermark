@@ -6,44 +6,44 @@ use Bitrix\Main\Config\Option;
 
 class Settings
 {
-    private static $module_id = 'sl3w.watermark';
+    const MODULE_ID = 'sl3w.watermark';
 
-    public static function get($name, $default = '')
+    public static function get($name, $default = ''): string
     {
-        return Option::get(self::$module_id, $name, $default);
+        return Option::get(self::MODULE_ID, $name, $default);
     }
 
     public static function set($name, $value)
     {
-        Option::set(self::$module_id, $name, $value);
+        Option::set(self::MODULE_ID, $name, $value);
     }
 
     public static function deleteAll()
     {
-        Option::delete(self::$module_id);
+        Option::delete(self::MODULE_ID);
     }
 
-    public static function yes($name)
+    public static function yes($name): bool
     {
         return self::get($name) == 'Y';
     }
 
-    public static function getModuleId()
-    {
-        return self::$module_id;
-    }
-
-    public static function getProcessingIBlocks()
+    public static function getProcessingIBlocks(): array
     {
         $iBlockIds = self::get('iblock_ids');
 
-        return $iBlockIds ? explode(',', $iBlockIds) : [];
+        return $iBlockIds ? Helpers::arrayTrimExplode($iBlockIds) : [];
     }
 
-    public static function getExcludedElements()
+    public static function getProcessingFieldsByIBlock($iBlockId): array
+    {
+        return Helpers::arrayTrimExplode(self::get('iblock' . $iBlockId . '_fields', []));
+    }
+
+    public static function getExcludedElements(): array
     {
         $elementsIds = self::get('exclude_elements_ids');
 
-        return $elementsIds ? array_map('trim', explode(',', $elementsIds)) : [];
+        return $elementsIds ? Helpers::arrayTrimExplode($elementsIds) : [];
     }
 }

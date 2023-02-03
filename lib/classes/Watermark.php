@@ -4,11 +4,6 @@ namespace Sl3w\Watermark;
 
 use CFile;
 use CIBlockElement;
-use Sl3w\Watermark\Settings as Settings;
-use Sl3w\Watermark\WatermarkedImages as WatermarkedImages;
-use Sl3w\Watermark\Iblock as Iblock;
-use Sl3w\Watermark\Helpers as Helpers;
-use Sl3w\Watermark\Events as Events;
 
 class Watermark
 {
@@ -78,7 +73,6 @@ class Watermark
         WatermarkedImages::addWatermarkedImage(Iblock::getElementFieldValue($elementId, $fieldName));
     }
 
-
     public static function getWaterMarkArray($imgID)
     {
         $arWaterMark = [
@@ -95,8 +89,6 @@ class Watermark
 
         $img = CFile::GetFileArray($imgID);
 
-        list($width, $height, $type, $attr) = getimagesize($img['SRC']);
-
-        return CFile::ResizeImageGet($img, ['width' => $width, 'height' => $height], BX_RESIZE_IMAGE_PROPORTIONAL, true, $arWaterMark);
+        return CFile::ResizeImageGet($img, ['width' => $img['WIDTH'], 'height' => $img['HEIGHT']], BX_RESIZE_IMAGE_PROPORTIONAL, true, $arWaterMark);
     }
 }
