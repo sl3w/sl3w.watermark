@@ -25,10 +25,36 @@ if (!Loader::includeModule($module_id)) {
 }
 
 if (!Loader::includeModule('iblock')) {
-    ShowMessage(Loc::getMessage('IBLOCK_ERROR'));
+    ShowMessage(Loc::getMessage(LANGS_PREFIX . 'MODULE_IBLOCK_ERROR'));
 
     return false;
 }
+
+if (!Loader::includeModule('fileman')) {
+    ShowMessage(Loc::getMessage(LANGS_PREFIX . 'MODULE_FILEMAN_ERROR'));
+
+    return false;
+}
+
+//заменяем путь файла на ID файла
+$wmImagePath = Settings::get('wm_image_path');
+
+if (!is_numeric($wmImagePath)) {
+    $filePath = $wmImagePath;
+    $absFilePath = $_SERVER['DOCUMENT_ROOT'] . htmlspecialcharsbx($filePath);
+    $filePath = explode('/', $filePath);
+    $arOriginalName = array_pop($filePath);
+
+    if (file_exists($absFilePath)) {
+        $arFile = CFile::MakeFileArray($absFilePath);
+        $arFile['name'] = $arOriginalName;
+
+        if ($fileId = CFile::SaveFile($arFile, str_replace('.', '_', $module_id))) {
+            Settings::set('wm_image_path', $fileId);
+        }
+    }
+}
+//\заменяем путь файла на ID файла
 
 $selectIBlocks = [0 => Loc::getMessage(LANGS_PREFIX . 'OPTION_EMPTY')];
 
@@ -296,14 +322,15 @@ $tabControl = new CAdminTabControl(
     $aTabs
 );
 
+$dontShowInputOptions = ['wm_image_path'];
+
 $tabControl->Begin();
 ?>
 
-<form action="<?= $APPLICATION->GetCurPage() ?>?mid=<?= $module_id ?>&lang=<?= LANG ?>" method="post"
-      name="sl3w_watermark">
+<form enctype="multipart/form-data" method="post" name="sl3w_watermark"
+      action="<?= $APPLICATION->GetCurPage() ?>?mid=<?= $module_id ?>&lang=<?= LANG ?>">
 
     <?php
-
     $tabControl->BeginNextTab();
 
     if ($optionsByBlock) {
@@ -321,10 +348,12 @@ $tabControl->Begin();
             <tr>
                 <td><?= $wm_list_special_option[1] ?></td>
                 <td>
-                    <input type="<?= $wm_list_special_option[3][0] ?: 'text' ?>"
-                           name="<?= $wm_list_special_option[0] ?>"
-                           size="<?= $wm_list_special_option[3][1] ?: 10 ?>"
-                           value="<?= $optionValue ?>"/>
+                    <?php if (!in_array($optionName, $dontShowInputOptions)) : ?>
+                        <input type="<?= $wm_list_special_option[3][0] ?: 'text' ?>"
+                               name="<?= $optionName ?>"
+                               size="<?= $wm_list_special_option[3][1] ?: 10 ?>"
+                               value="<?= $optionValue ?>"/>
+                    <?php endif; ?>
 
                     <?php switch ($optionName) {
                         case 'wm_alpha':
@@ -333,23 +362,29 @@ $tabControl->Begin();
                             break;
 
                         case 'wm_image_path':
-                            ?>
+                            $optionValue = $optionValue ?? 0;
 
-                            <input type="button" value="..." onclick="Sl3wWmOpenFileDialog()">
-
-                            <?php
-                            CAdminFileDialog::ShowScript(
+                            echo CFileInput::Show(
+                                $wm_list_special_option[0],
+                                $optionValue,
                                 [
-                                    'event' => 'Sl3wWmOpenFileDialog',
-                                    'arResultDest' => ['FORM_NAME' => 'sl3w_watermark', 'FORM_ELEMENT_NAME' => 'wm_image_path'],
-                                    'arPath' => ['PATH' => ''],
-                                    'select' => 'F',
-                                    'operation' => 'O',
-                                    'showUploadTab' => true,
-                                    'showAddToMenuTab' => false,
-                                    'fileFilter' => 'image',
-                                    'allowAllFiles' => false,
-                                    'SaveConfig' => true,
+                                    'IMAGE' => '',
+                                    'PATH' => 'Y',
+                                    'FILE_SIZE' => 'Y',
+                                    'DIMENSIONS' => 'Y',
+                                    'IMAGE_POPUP' => 'Y',
+                                    'MAX_SIZE' => [
+                                        'W' => 300,
+                                        'H' => 150,
+                                    ],
+                                ],
+                                [
+                                    'upload' => true,
+                                    'medialib' => true,
+                                    'file_dialog' => true,
+                                    'cloud' => true,
+                                    'del' => true,
+                                    'description' => false,
                                 ]
                             );
 
@@ -357,15 +392,7 @@ $tabControl->Begin();
                     } ?>
                 </td>
             </tr>
-            <?php if ($optionName == 'wm_image_path' && $optionValue): ?>
-                <tr>
-                    <td><?= Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IMAGE') ?></td>
-                    <td>
-                        <img id="sl3w_watermark_selected_image" src="<?= $optionValue ?>"
-                             style="max-width: 200px; height: 100px; display: block; margin-bottom: 20px; border: 1px solid #000;">
-                    </td>
-                </tr>
-            <?php endif;
+            <?php
         }
 
         __AdmSettingsDrawRow($module_id, $optionsByBlock['iblock_block']);
@@ -427,24 +454,74 @@ if ($request->isPost() && check_bitrix_sessid()) {
                     $optionValue = 'N';
                 }
 
-                Settings::set($optionCode, is_array($optionValue) ? implode(',', $optionValue) : $optionValue);
+                switch ($optionCode) {
+                    case 'iblock_ids':
+                        foreach ($optionValue as $value) {
+                            $optionName = 'iblock' . $value . '_fields';
+                            $optionValueFields = $request->getPost($optionName);
 
-                if ($optionCode == 'iblock_ids') {
-                    foreach ($optionValue as $value) {
-                        $optionName = 'iblock' . $value . '_fields';
-                        $optionValueFields = $request->getPost($optionName);
+                            Settings::set($optionName, is_array($optionValueFields) ? implode(',', $optionValueFields) : $optionValueFields);
+                        }
 
-                        Settings::set($optionName, is_array($optionValueFields) ? implode(',', $optionValueFields) : $optionValueFields);
-                    }
+                        break;
+
+                    case 'add_watermark_btn_switch_on':
+                        register_add_watermark_btn_events($optionValue == 'Y' && $request->getPost('switch_on'));
+
+                        break;
+
+                    case 'add_watermark_btn_mass_switch_on':
+                        register_add_watermark_mass_events($optionValue == 'Y' && $request->getPost('switch_on'));
+
+                        break;
+
+                    case 'wm_image_path':
+                        $currentValue = Settings::get($optionCode, 0);
+
+                        $filesByOption = $_FILES[$optionCode];
+
+                        //в $optionValue (в $_REQUEST) будет путь к файлу, если файл залит через медиабиблиотеку или структуру,
+                        //но нам в конечном итоге нужен ID файла
+
+                        //если файл удален или залит новый, удаляем старый файл
+                        if (
+                            $request->getPost($optionCode . '_del') || $optionValue ||
+                            (isset($filesByOption) && strlen($filesByOption['tmp_name']))
+                        ) {
+                            CFile::Delete($currentValue);
+                        }
+
+                        if ((isset($filesByOption) && strlen($filesByOption['tmp_name'])) || $optionValue) {
+                            $optionValue = 0;
+
+                            if (isset($filesByOption)) {
+                                $absFilePath = $filesByOption['tmp_name'];
+                                $arOriginalName = $filesByOption['name'];
+                            } else {
+                                $filePath = $_REQUEST[$optionCode];
+                                $absFilePath = $_SERVER['DOCUMENT_ROOT'] . htmlspecialcharsbx($filePath);
+                                $filePath = explode('/', $filePath);
+                                $arOriginalName = array_pop($filePath);
+                            }
+
+                            if (file_exists($absFilePath)) {
+                                $arFile = CFile::MakeFileArray($absFilePath);
+                                $arFile['name'] = $arOriginalName;
+
+                                if ($fileId = CFile::SaveFile($arFile, str_replace('.', '_', $module_id))) {
+                                    $optionValue = $fileId;
+                                }
+                            }
+                        } else {
+                            $optionValue = $currentValue;
+                        }
+
+                        break;
                 }
 
-                if ($optionCode == 'add_watermark_btn_switch_on') {
-                    register_add_watermark_btn_events($optionValue == 'Y' && $request->getPost('switch_on'));
-                }
+                $optionValue = is_array($optionValue) ? implode(',', $optionValue) : $optionValue;
 
-                if ($optionCode == 'add_watermark_btn_mass_switch_on') {
-                    register_add_watermark_mass_events($optionValue == 'Y' && $request->getPost('switch_on'));
-                }
+                Settings::set($optionCode, $optionValue);
 
             } elseif ($request['default']) {
                 Settings::set($optionCode, $arOption[2]);
@@ -467,14 +544,6 @@ if ($request->isPost() && check_bitrix_sessid()) {
 <script>
     const selectedIbs = <?= CUtil::PhpToJSObject($selectedIbs, false, true) ?>;
     const allIbs = <?= CUtil::PhpToJSObject($allIbIds, false, true) ?>;
-    const input = document.querySelector('input[name="wm_image_path"]');
-
-    function setImgFromSelected() {
-        document.getElementById('sl3w_watermark_selected_image').src = input.value;
-    }
-
-    input.onchange = setImgFromSelected;
-    input.oninput = setImgFromSelected;
 
     function getSelectorById(iBId) {
         return document.querySelector('select[name="iblock' + iBId + '_fields[]"]');

@@ -37,7 +37,7 @@ class Events
 
     public static function OnAfterIBlockElementAddUpdate($arFields, $operation)
     {
-        if (!Settings::yes('switch_on') || !Settings::get('wm_image_path')) {
+        if (!Settings::yes('switch_on') || !Settings::getWatermarkPath()) {
             return;
         }
 

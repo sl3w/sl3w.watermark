@@ -3,6 +3,8 @@
 $MESS['SL3W_WATERMARK_OPTIONS_TAB_NAME'] = 'Настройки';
 
 $MESS['SL3W_WATERMARK_MODULE_INCLUDE_ERROR'] = 'Ошибка при подключении модуля';
+$MESS['SL3W_WATERMARK_MODULE_IBLOCK_ERROR'] = 'Ошибка при подключении модуля "Информационные блоки"';
+$MESS['SL3W_WATERMARK_MODULE_FILEMAN_ERROR'] = 'Ошибка при подключении модуля "Управление структурой"';
 
 $MESS['SL3W_WATERMARK_BLOCK_COMMON'] = 'Общие';
 
@@ -37,8 +39,7 @@ $MESS['SL3W_WATERMARK_OPTION_WM_ALPHA'] = 'Непрозрачность водяного знака:';
 $MESS['SL3W_WATERMARK_OPTION_WM_ALPHA_AFTER'] = '% (чем меньше, тем прозрачнее)';
 $MESS['SL3W_WATERMARK_OPTION_WM_ALPHA_NUMBER'] = 'целое число (иначе 50%)';
 
-$MESS['SL3W_WATERMARK_OPTION_WM_IMAGE_PATH'] = 'Путь к изображению водяного знака:';
-$MESS['SL3W_WATERMARK_OPTION_WM_IMAGE'] = 'Выбранное изображение:';
+$MESS['SL3W_WATERMARK_OPTION_WM_IMAGE_PATH'] = 'Изображение водяного знака:';
 
 $MESS['SL3W_WATERMARK_BLOCK_IBLOCK'] = 'Инфоблоки, участвующие в обработке';
 $MESS['SL3W_WATERMARK_OPTION_IBLOCK_IDS'] = 'Инфоблоки для обработки:';

@@ -81,7 +81,7 @@ class Watermark
                 'position' => Settings::get('wm_position'),
                 'type' => 'image',
                 'size' => 'real',
-                'file' => $_SERVER['DOCUMENT_ROOT'] . Settings::get('wm_image_path'),
+                'file' => $_SERVER['DOCUMENT_ROOT'] . Settings::getWatermarkPath(),
                 'fill' => Settings::yes('wm_is_repeat') ? 'repeat' : 'exact',
                 'alpha_level' => (int)Settings::get('wm_alpha') ?: 50
             ]

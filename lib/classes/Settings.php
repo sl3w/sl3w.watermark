@@ -3,6 +3,7 @@
 namespace Sl3w\Watermark;
 
 use Bitrix\Main\Config\Option;
+use CFile;
 
 class Settings
 {
@@ -45,5 +46,16 @@ class Settings
         $elementsIds = self::get('exclude_elements_ids');
 
         return $elementsIds ? Helpers::arrayTrimExplode($elementsIds) : [];
+    }
+
+    public static function getWatermarkPath(): ?string
+    {
+        $wmPath = self::get('wm_image_path');
+
+        if (is_numeric($wmPath)) {
+            $wmPath = CFile::GetPath($wmPath);
+        }
+
+        return $wmPath;
     }
 }
