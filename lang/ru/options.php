@@ -39,6 +39,10 @@ $MESS['SL3W_WATERMARK_OPTION_WM_ALPHA'] = 'Ќепрозрачность вод€ного знака:';
 $MESS['SL3W_WATERMARK_OPTION_WM_ALPHA_AFTER'] = '% (чем меньше, тем прозрачнее)';
 $MESS['SL3W_WATERMARK_OPTION_WM_ALPHA_NUMBER'] = 'целое число (иначе 50%)';
 
+$MESS['SL3W_WATERMARK_OPTION_WM_MAX_PERCENT'] = 'ћаксимальна€ ширина и высота вод€ного знака:';
+$MESS['SL3W_WATERMARK_OPTION_WM_MAX_PERCENT_AFTER'] = '% (от ширины и высоты обрабатываемого изображени€)';
+$MESS['SL3W_WATERMARK_OPTION_WM_MAX_PERCENT_NUMBER'] = 'целое число (иначе 50%)';
+
 $MESS['SL3W_WATERMARK_OPTION_WM_IMAGE_PATH'] = '»зображение вод€ного знака:';
 
 $MESS['SL3W_WATERMARK_BLOCK_IBLOCK'] = '»нфоблоки, участвующие в обработке';

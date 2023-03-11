@@ -37,13 +37,12 @@ if (!Loader::includeModule('fileman')) {
 }
 
 //заменяем путь файла на ID файла
-$wmImagePath = Settings::get('wm_image_path');
+$wmImagePath = Settings::getWatermark();
 
 if (!is_numeric($wmImagePath)) {
-    $filePath = $wmImagePath;
-    $absFilePath = $_SERVER['DOCUMENT_ROOT'] . htmlspecialcharsbx($filePath);
-    $filePath = explode('/', $filePath);
-    $arOriginalName = array_pop($filePath);
+    $absFilePath = $_SERVER['DOCUMENT_ROOT'] . htmlspecialcharsbx($wmImagePath);
+    $wmImagePath = explode('/', $wmImagePath);
+    $arOriginalName = array_pop($wmImagePath);
 
     if (file_exists($absFilePath)) {
         $arFile = CFile::MakeFileArray($absFilePath);
@@ -131,6 +130,14 @@ $options = [
         ['text', 3],
         '',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA_NUMBER')
+    ],
+    [
+        'wm_max_percent',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
+        '50',
+        ['text', 3],
+        '',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER')
     ],
     [
         'wm_image_path',
@@ -239,6 +246,12 @@ $optionsByBlock = [
         [
             'wm_alpha',
             Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA'),
+            '50',
+            ['text', 3],
+        ],
+        [
+            'wm_max_percent',
+            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
             '50',
             ['text', 3],
         ],
@@ -361,6 +374,11 @@ $tabControl->Begin();
 
                             break;
 
+                        case 'wm_max_percent':
+                            echo Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_AFTER');
+
+                            break;
+
                         case 'wm_image_path':
                             $optionValue = $optionValue ?? 0;
 
@@ -455,6 +473,14 @@ if ($request->isPost() && check_bitrix_sessid()) {
                 }
 
                 switch ($optionCode) {
+                    case 'wm_alpha':
+                    case 'wm_max_percent':
+                        if (!$optionValue) {
+                            $optionValue = $arOption[2];
+                        }
+
+                        break;
+
                     case 'iblock_ids':
                         foreach ($optionValue as $value) {
                             $optionName = 'iblock' . $value . '_fields';

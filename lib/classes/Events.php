@@ -37,7 +37,7 @@ class Events
 
     public static function OnAfterIBlockElementAddUpdate($arFields, $operation)
     {
-        if (!Settings::yes('switch_on') || !Settings::getWatermarkPath()) {
+        if (!Settings::yes('switch_on') || !Settings::getWatermark()) {
             return;
         }
 
@@ -83,12 +83,12 @@ class Events
             if ($isProp) {
                 $propName = substr($field, strlen($propPrefix));
 
-                Watermark::addWaterMarkByPropName($propName, $elementInfo);
+                Watermark::addWatermarkByPropName($propName, $elementInfo);
             } else {
                 if ($elementInfo['FIELDS'][$field]) {
                     Helpers::sessionAddElementId($elementId);
 
-                    Watermark::addWaterMarkByFieldName($field, $elementInfo);
+                    Watermark::addWatermarkByFieldName($field, $elementInfo);
                 }
             }
         }

@@ -185,6 +185,7 @@ class sl3w_watermark extends CModule
         Settings::set('switch_on', 'Y');
         Settings::set('add_watermark_btn_mass_switch_on', 'Y');
         Settings::set('wm_alpha', 50);
+        Settings::set('wm_max_percent', 50);
         Settings::set('event_add_switch_on', 'Y');
         Settings::set('event_update_switch_on', 'Y');
     }

@@ -48,14 +48,39 @@ class Settings
         return $elementsIds ? Helpers::arrayTrimExplode($elementsIds) : [];
     }
 
+    public static function getWatermark()
+    {
+        return self::get('wm_image_path');
+    }
+
     public static function getWatermarkPath(): ?string
     {
-        $wmPath = self::get('wm_image_path');
+        $wmPath = self::getWatermark();
 
         if (is_numeric($wmPath)) {
             $wmPath = CFile::GetPath($wmPath);
         }
 
         return $wmPath;
+    }
+
+    public static function getWmAlpha()
+    {
+        return self::getCheckPercentValue((int)Settings::get('wm_alpha'));
+    }
+
+    public static function getWmMaxPercent()
+    {
+        return self::getCheckPercentValue((int)Settings::get('wm_max_percent'));
+    }
+
+    private static function getCheckPercentValue($val)
+    {
+        if (!$val) return 50;
+
+        if ($val < 0) $val = 0;
+        if ($val > 100) $val = 100;
+
+        return $val;
     }
 }

@@ -18,18 +18,18 @@ class Watermark
         }
     }
 
-    public static function addWaterMarkByPropName($propName, $allElementInfo)
+    public static function addWatermarkByPropName($propName, $allElementInfo)
     {
         Helpers::includeModules('iblock');
 
         $imgIDs = Helpers::arrayWrap($allElementInfo['PROPS'][$propName]['VALUE']);
 
-        foreach ($imgIDs as $imgID) {
-            if (WatermarkedImages::isImageWaterMarked($imgID)) {
+        foreach ($imgIDs as $imgId) {
+            if (WatermarkedImages::isImageWaterMarked($imgId)) {
                 continue;
             }
 
-            $imageWithMark = self::getWaterMarkArray($imgID);
+            $imageWithMark = self::getWatermarkArray($imgId);
 
             $newFile = CFile::MakeFileArray($imageWithMark['src']);
             $newID = CFile::SaveFile($newFile, 'iblock');
@@ -37,13 +37,13 @@ class Watermark
 
             CIBlockElement::SetPropertyValueCode($allElementInfo['FIELDS']['ID'], $propName, $newFileArray);
 
-            CFile::Delete($imgID);
+            CFile::Delete($imgId);
 
             WatermarkedImages::addWatermarkedImage($newID);
         }
     }
 
-    public static function addWaterMarkByFieldName($fieldName, $allElementInfo)
+    public static function addWatermarkByFieldName($fieldName, $allElementInfo)
     {
         Helpers::includeModules('iblock');
 
@@ -58,7 +58,7 @@ class Watermark
             return;
         }
 
-        $imageWithMark = self::getWaterMarkArray($imgID);
+        $imageWithMark = self::getWatermarkArray($imgID);
 
         $newFile = CFile::MakeFileArray($imageWithMark['src']);
 
@@ -73,22 +73,28 @@ class Watermark
         WatermarkedImages::addWatermarkedImage(Iblock::getElementFieldValue($elementId, $fieldName));
     }
 
-    public static function getWaterMarkArray($imgID)
+    public static function getWatermarkArray($imgId)
     {
+        $maxWmSize = Settings::getWmMaxPercent() / 100;
+        $wmImage = CFile::GetFileArray(Settings::getWatermark());
+        $imgToWm = CFile::GetFileArray($imgId);
+
+        if ($wmImage['WIDTH'] / $imgToWm['WIDTH'] > $maxWmSize || $wmImage['HEIGHT'] / $imgToWm['HEIGHT'] > $maxWmSize) {
+            $wmImage = CFile::ResizeImageGet($wmImage, ['width' => $imgToWm['WIDTH'] * $maxWmSize, 'height' => $imgToWm['HEIGHT'] * $maxWmSize]);
+        }
+
         $arWaterMark = [
             [
                 'name' => 'watermark',
                 'position' => Settings::get('wm_position'),
                 'type' => 'image',
                 'size' => 'real',
-                'file' => $_SERVER['DOCUMENT_ROOT'] . Settings::getWatermarkPath(),
+                'file' => $_SERVER['DOCUMENT_ROOT'] . array_change_key_case($wmImage)['src'],
                 'fill' => Settings::yes('wm_is_repeat') ? 'repeat' : 'exact',
-                'alpha_level' => (int)Settings::get('wm_alpha') ?: 50
+                'alpha_level' => Settings::getWmAlpha(),
             ]
         ];
 
-        $img = CFile::GetFileArray($imgID);
-
-        return CFile::ResizeImageGet($img, ['width' => $img['WIDTH'], 'height' => $img['HEIGHT']], BX_RESIZE_IMAGE_PROPORTIONAL, true, $arWaterMark);
+        return CFile::ResizeImageGet($imgToWm, ['width' => $imgToWm['WIDTH'], 'height' => $imgToWm['HEIGHT']], BX_RESIZE_IMAGE_PROPORTIONAL, true, $arWaterMark);
     }
 }
