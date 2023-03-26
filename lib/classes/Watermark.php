@@ -79,7 +79,7 @@ class Watermark
         $wmImage = CFile::GetFileArray(Settings::getWatermark());
         $imgToWm = CFile::GetFileArray($imgId);
 
-        if ($wmImage['WIDTH'] / $imgToWm['WIDTH'] > $maxWmSize || $wmImage['HEIGHT'] / $imgToWm['HEIGHT'] > $maxWmSize) {
+        if (($imgToWm['WIDTH'] > 0 && $wmImage['WIDTH'] / $imgToWm['WIDTH'] > $maxWmSize) || ($imgToWm['HEIGHT'] > 0 && $wmImage['HEIGHT'] / $imgToWm['HEIGHT'] > $maxWmSize)) {
             $wmImage = CFile::ResizeImageGet($wmImage, ['width' => $imgToWm['WIDTH'] * $maxWmSize, 'height' => $imgToWm['HEIGHT'] * $maxWmSize]);
         }
 
