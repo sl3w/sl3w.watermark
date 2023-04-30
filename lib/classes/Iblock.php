@@ -53,4 +53,18 @@ class Iblock
     {
         return self::getIBlockById($iBlockId)['NAME'] ?? false;
     }
+
+    public static function setElementPropertyValue($elementId, $propName, $value)
+    {
+        CIBlockElement::SetPropertyValueCode($elementId, $propName, $value);
+    }
+
+    public static function setElementFieldValue($elementId, $fieldName, $value)
+    {
+        $el = new CIBlockElement;
+
+        $el->Update($elementId, [
+            $fieldName => $value
+        ]);
+    }
 }

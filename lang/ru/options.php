@@ -17,7 +17,11 @@ $MESS['SL3W_WATERMARK_BLOCK_EVENTS'] = 'События';
 $MESS['SL3W_WATERMARK_OPTION_EVENT_ADD_SWITCH_ON'] = 'Добавлять водяной знак при добавлении элемента:';
 $MESS['SL3W_WATERMARK_OPTION_EVENT_UPDATE_SWITCH_ON'] = 'Добавлять водяной знак при изменении элемента:';
 
-$MESS['SL3W_WATERMARK_BLOCK_WM'] = 'Настройки водяного знака';
+$MESS['SL3W_WATERMARK_BLOCK_WM_IMAGE'] = 'Настройки водяного знака (изображение)';
+$MESS['SL3W_WATERMARK_BLOCK_WM_TEXT'] = 'Настройки водяного знака (текст)';
+
+$MESS['SL3W_WATERMARK_OPTION_SWITCH_ON_IMAGE'] = 'Накладывать водяной знак в виде изображения:';
+$MESS['SL3W_WATERMARK_OPTION_SWITCH_ON_TEXT'] = 'Накладывать водяной знак в виде текста:';
 
 $MESS['SL3W_WATERMARK_OPTION_WM_POSITION'] = 'Положение водяного знака:';
 
@@ -44,6 +48,11 @@ $MESS['SL3W_WATERMARK_OPTION_WM_MAX_PERCENT_AFTER'] = '% (от ширины и высоты обр
 $MESS['SL3W_WATERMARK_OPTION_WM_MAX_PERCENT_NUMBER'] = 'целое число (иначе 50%)';
 
 $MESS['SL3W_WATERMARK_OPTION_WM_IMAGE_PATH'] = 'Изображение водяного знака:';
+
+$MESS['SL3W_WATERMARK_OPTION_WM_TEXT'] = 'Текст водяного знака:';
+$MESS['SL3W_WATERMARK_OPTION_WM_TEXT_COLOR'] = 'Цвет текста водяного знака:';
+
+$MESS['SL3W_WATERMARK_OPTION_WM_TEXT_FONT'] = 'Путь к файлу шрифта (в формате .ttf):';
 
 $MESS['SL3W_WATERMARK_BLOCK_IBLOCK'] = 'Инфоблоки, участвующие в обработке';
 $MESS['SL3W_WATERMARK_OPTION_IBLOCK_IDS'] = 'Инфоблоки для обработки:';

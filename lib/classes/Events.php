@@ -37,7 +37,7 @@ class Events
 
     public static function OnAfterIBlockElementAddUpdate($arFields, $operation)
     {
-        if (!Settings::yes('switch_on') || !Settings::getWatermark()) {
+        if (!Settings::yes('switch_on') || (!Settings::yes('switch_on_image') && !Settings::yes('switch_on_text'))) {
             return;
         }
 

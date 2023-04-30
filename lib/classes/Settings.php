@@ -64,14 +64,44 @@ class Settings
         return $wmPath;
     }
 
+    public static function getWmPositionImage()
+    {
+        return self::get('wm_position');
+    }
+
+    public static function getWmPositionText()
+    {
+        return self::get('wm_position_text');
+    }
+
+    public static function getWmText()
+    {
+        return self::get('wm_text');
+    }
+
+    public static function getWmTextColor()
+    {
+        return self::get('wm_text_color');
+    }
+
+    public static function getWmTextFont()
+    {
+        return $_SERVER['DOCUMENT_ROOT'] . self::get('wm_text_font');
+    }
+
     public static function getWmAlpha()
     {
         return self::getCheckPercentValue((int)Settings::get('wm_alpha'));
     }
 
-    public static function getWmMaxPercent()
+    public static function getWmMaxPercentImage()
     {
         return self::getCheckPercentValue((int)Settings::get('wm_max_percent'));
+    }
+
+    public static function getWmMaxPercentText()
+    {
+        return self::getCheckPercentValue((int)Settings::get('wm_max_percent_text'));
     }
 
     private static function getCheckPercentValue($val)

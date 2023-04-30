@@ -110,7 +110,13 @@ $options = [
         'Y',
         ['checkbox']
     ],
-    Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM'),
+    Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_IMAGE'),
+    [
+        'switch_on_image',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_IMAGE'),
+        'Y',
+        ['checkbox']
+    ],
     [
         'wm_position',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
@@ -144,6 +150,45 @@ $options = [
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IMAGE_PATH'),
         '',
         ['text', 30]
+    ],
+    Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_TEXT'),
+    [
+        'switch_on_text',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_TEXT'),
+        'Y',
+        ['checkbox']
+    ],
+    [
+        'wm_position_text',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
+        'br',
+        ['selectbox', $selectPositions]
+    ],
+    [
+        'wm_max_percent_text',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
+        '50',
+        ['text', 3],
+        '',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER')
+    ],
+    [
+        'wm_text_font',
+        Loc::getMessage('SL3W_WATERMARK_OPTION_WM_TEXT_FONT'),
+        '/bitrix/fonts/pt_sans-regular.ttf',
+        ['text', 50]
+    ],
+    [
+        'wm_text',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT'),
+        '',
+        ['text', 50],
+    ],
+    [
+        'wm_text_color',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT_COLOR'),
+        'ffffff',
+        ['text', 10],
     ],
     Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_IBLOCK'),
     [
@@ -210,7 +255,7 @@ $optionsByBlock = [
             Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN'),
             'N',
             ['checkbox']
-        ]
+        ],
     ],
     'events_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_EVENTS'),
     'events_list' => [
@@ -225,10 +270,16 @@ $optionsByBlock = [
             Loc::getMessage(LANGS_PREFIX . 'OPTION_EVENT_UPDATE_SWITCH_ON'),
             'Y',
             ['checkbox']
-        ]
+        ],
     ],
-    'wm_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM'),
-    'wm_list' => [
+    'wm_block_image' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_IMAGE'),
+    'wm_list_image' => [
+        [
+            'switch_on_image',
+            Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_IMAGE'),
+            'Y',
+            ['checkbox']
+        ],
         [
             'wm_position',
             Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
@@ -242,7 +293,7 @@ $optionsByBlock = [
             ['checkbox']
         ],
     ],
-    'wm_list_special' => [
+    'wm_list_special_image' => [
         [
             'wm_alpha',
             Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA'),
@@ -260,7 +311,50 @@ $optionsByBlock = [
             Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IMAGE_PATH'),
             '',
             ['text', 50]
-        ]
+        ],
+    ],
+    'wm_block_text' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_TEXT'),
+    'wm_list_text' => [
+        [
+            'switch_on_text',
+            Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_TEXT'),
+            'Y',
+            ['checkbox']
+        ],
+        [
+            'wm_position_text',
+            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
+            'br',
+            ['selectbox', $selectPositions]
+        ],
+        [
+            'wm_text',
+            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT'),
+            '',
+            ['text', 50],
+        ],
+        [
+            'wm_text_color',
+            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT_COLOR'),
+            'ffffff',
+            ['text', 10],
+        ],
+    ],
+    'wm_list_special_text' => [
+        [
+            'wm_max_percent_text',
+            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
+            '50',
+            ['text', 3],
+            '',
+            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER')
+        ],
+        [
+            'wm_text_font',
+            Loc::getMessage('SL3W_WATERMARK_OPTION_WM_TEXT_FONT'),
+            '/bitrix/fonts/pt_sans-regular.ttf',
+            ['text', 50]
+        ],
     ],
     'dont_add_block' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_IBLOCK'),
     'dont_add_list' => [
@@ -285,7 +379,7 @@ $optionsByBlock = [
             Loc::getMessage(LANGS_PREFIX . 'OPTION_IBLOCK_IDS'),
             '',
             ['multiselectbox', $selectIBlocks]
-        ]
+        ],
     ],
 //    'iblock_note' => ['note' => Loc::getMessage(LANGS_PREFIX . 'SAVE_AFTER_CHANGE_IBLOCK')],
     'iblocks_list' => [],
@@ -351,10 +445,10 @@ $tabControl->Begin();
         __AdmSettingsDrawList($module_id, $optionsByBlock['common_list']);
         __AdmSettingsDrawRow($module_id, $optionsByBlock['events_block']);
         __AdmSettingsDrawList($module_id, $optionsByBlock['events_list']);
-        __AdmSettingsDrawRow($module_id, $optionsByBlock['wm_block']);
-        __AdmSettingsDrawList($module_id, $optionsByBlock['wm_list']);
+        __AdmSettingsDrawRow($module_id, $optionsByBlock['wm_block_image']);
+        __AdmSettingsDrawList($module_id, $optionsByBlock['wm_list_image']);
 
-        foreach ($optionsByBlock['wm_list_special'] as $wm_list_special_option) {
+        foreach ($optionsByBlock['wm_list_special_image'] as $wm_list_special_option) {
             $optionName = $wm_list_special_option[0];
             $optionValue = Settings::get($optionName);
             ?>
@@ -413,6 +507,55 @@ $tabControl->Begin();
             <?php
         }
 
+        __AdmSettingsDrawRow($module_id, $optionsByBlock['wm_block_text']);
+        __AdmSettingsDrawList($module_id, $optionsByBlock['wm_list_text']);
+
+        foreach ($optionsByBlock['wm_list_special_text'] as $wm_list_special_option) {
+            $optionName = $wm_list_special_option[0];
+            $optionValue = Settings::get($optionName);
+            ?>
+            <tr>
+                <td><?= $wm_list_special_option[1] ?></td>
+                <td>
+                    <?php if (!in_array($optionName, $dontShowInputOptions)) : ?>
+                        <input type="<?= $wm_list_special_option[3][0] ?: 'text' ?>"
+                               name="<?= $optionName ?>"
+                               size="<?= $wm_list_special_option[3][1] ?: 10 ?>"
+                               value="<?= $optionValue ?>"/>
+                    <?php endif; ?>
+
+                    <?php switch ($optionName) {
+                        case 'wm_max_percent_text':
+                            echo Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_AFTER');
+
+                            break;
+
+                        case 'wm_text_font':
+                            ?>
+                            <input type="button" value="..." onclick="Sl3wWmOpenFileDialog()">
+                            <?php
+                            CAdminFileDialog::ShowScript(
+                                [
+                                    'event' => "Sl3wWmOpenFileDialog",
+                                    'arResultDest' => ['FORM_NAME' => 'sl3w_watermark', 'FORM_ELEMENT_NAME' => 'wm_text_font'],
+                                    'arPath' => ['PATH' => ''],
+                                    'select' => 'F',
+                                    'operation' => 'O',
+                                    'showUploadTab' => true,
+                                    'showAddToMenuTab' => false,
+                                    'fileFilter' => 'ttf',
+                                    'allowAllFiles' => false,
+                                    'SaveConfig' => true,
+                                ]
+                            );
+
+                            break;
+                    } ?>
+                </td>
+            </tr>
+            <?php
+        }
+
         __AdmSettingsDrawRow($module_id, $optionsByBlock['iblock_block']);
         __AdmSettingsDrawList($module_id, $optionsByBlock['iblock_list']);
 
@@ -432,8 +575,9 @@ $tabControl->Begin();
     $tabControl->BeginNextTab();
     ?>
 
-    <iframe src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=50&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&"
-            width="423" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+    <iframe
+        src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=50&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&"
+        width="423" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
 
     <?php
     __AdmSettingsDrawRow($module_id, $optionsByBlock2['support_note']);
@@ -475,6 +619,10 @@ if ($request->isPost() && check_bitrix_sessid()) {
                 switch ($optionCode) {
                     case 'wm_alpha':
                     case 'wm_max_percent':
+                    case 'wm_max_percent_text':
+                    case 'wm_text':
+                    case 'wm_text_color':
+                    case 'wm_text_font':
                         if (!$optionValue) {
                             $optionValue = $arOption[2];
                         }
