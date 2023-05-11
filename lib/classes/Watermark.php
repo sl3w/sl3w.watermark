@@ -22,22 +22,45 @@ class Watermark
     {
         Helpers::includeModules('iblock');
 
+        $imgIdsValues = Helpers::arrayWrap($allElementInfo['PROPS'][$propName]['PROPERTY_VALUE_ID']);
         $imgIds = Helpers::arrayWrap($allElementInfo['PROPS'][$propName]['VALUE']);
 
-        foreach ($imgIds as $imgId) {
+        $imgsToUpdate = [];
+
+        foreach ($imgIds as $key => $imgId) {
             if (WatermarkedImages::isImageWaterMarked($imgId)) {
                 continue;
             }
 
-            $newFile = CFile::MakeFileArray(self::getAddWatermarkedImageSrc($imgId));
-            $newId = CFile::SaveFile($newFile, 'iblock');
-            $newFileArray = CFile::GetFileArray($newId);
+            if ($src = self::getAddWatermarkedImageSrc($imgId)) {
+                $newFile = CFile::MakeFileArray($src);
 
-            Iblock::setElementPropertyValue($allElementInfo['FIELDS']['ID'], $propName, $newFileArray);
+//            $newId = CFile::SaveFile($newFile, 'iblock');
+//            $newFileArray = CFile::GetFileArray($newId);
 
-            CFile::Delete($imgId);
+                $imgsToUpdate[$key] = ['VALUE' => $newFile];
+            }
 
-            WatermarkedImages::addWatermarkedImage($newId);
+            if ($imgIdsValues[$key]) {
+                $imgsToUpdate[$imgIdsValues[$key]] = [
+                    'VALUE' => [
+                        'del' => 'Y',
+                    ]
+                ];
+            }
+
+//            CFile::Delete($imgId);
+        }
+
+        if (!empty($imgsToUpdate)) {
+            Iblock::setElementPropertyValue($allElementInfo['FIELDS']['ID'], $propName, $imgsToUpdate);
+        }
+
+        $elementInfoAfterUpdate = Iblock::getElementFieldsAndPropsById($allElementInfo['FIELDS']['ID']);
+        $imgIdsAfterWm = Helpers::arrayWrap($elementInfoAfterUpdate['PROPS'][$propName]['VALUE']);
+
+        foreach ($imgIdsAfterWm as $imgId) {
+            WatermarkedImages::addWatermarkedImage($imgId);
         }
     }
 

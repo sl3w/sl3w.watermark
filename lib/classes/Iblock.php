@@ -7,7 +7,7 @@ use CIBlockElement;
 
 class Iblock
 {
-    public static function getElementFieldsAndPropsById($elementID, $skipEmptyValue = false, $propsNeedFields = ['ID', 'NAME', 'VALUE', 'VALUE_XML_ID'])
+    public static function getElementFieldsAndPropsById($elementID, $skipEmptyValue = false, $propsNeedFields = ['ID', 'NAME', 'VALUE', 'VALUE_XML_ID', 'PROPERTY_VALUE_ID'])
     {
         Helpers::includeModules('iblock');
 
@@ -25,7 +25,9 @@ class Iblock
                 }
 
                 foreach ($propsNeedFields as $propNeedNameField) {
-                    $props[$propName][$propNeedNameField] = $propertyFields[$propNeedNameField];
+                    if (key_exists($propNeedNameField, $propertyFields)) {
+                        $props[$propName][$propNeedNameField] = $propertyFields[$propNeedNameField];
+                    }
                 }
             }
 

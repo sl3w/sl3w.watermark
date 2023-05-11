@@ -17,9 +17,11 @@ class WatermarkedImages
 
     public static function addWatermarkedImage($imageId)
     {
-        WatermarkedImagesTable::add(['IMAGE_ID' => $imageId]);
+        if (!self::isImageWaterMarked($imageId)) {
+            WatermarkedImagesTable::add(['IMAGE_ID' => $imageId]);
 
-        self::getWatermarkedImagesIds()[] = $imageId;
+            self::getWatermarkedImagesIds()[] = $imageId;
+        }
     }
 
     private static function getWatermarkedImagesIds()
