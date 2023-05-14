@@ -2,6 +2,7 @@
 
 namespace Sl3w\Watermark;
 
+use CCatalogSku;
 use CIBlock;
 use CIBlockElement;
 
@@ -68,5 +69,27 @@ class Iblock
         $el->Update($elementId, [
             $fieldName => $value
         ]);
+    }
+
+    public static function getSkuIBlockId($iBlockId)
+    {
+        if (!Helpers::includeModule('catalog')) return false;
+
+        $sku = CCatalogSku::GetInfoByProductIBlock($iBlockId);
+
+        return $sku['IBLOCK_ID'] ?? false;
+    }
+
+    public static function getSkuIdsByProductId($productId)
+    {
+        $res = CCatalogSKU::getOffersList($productId);
+
+        $result = [];
+
+        foreach ($res[$productId] as $sku) {
+            $result[] = $sku['ID'];
+        }
+
+        return $result;
     }
 }

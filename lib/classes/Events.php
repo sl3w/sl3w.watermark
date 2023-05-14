@@ -102,6 +102,14 @@ class Events
                 }
             }
         }
+
+        if (Settings::yes('process_sku') && ($skuIBlockId = Iblock::getSkuIBlockId($iblockId))) {
+            $skuIds = Iblock::getSkuIdsByProductId($elementId);
+
+            foreach ($skuIds as $skuId) {
+                self::AddWatermarkByButtonAjax($skuId, $skuIBlockId);
+            }
+        }
     }
 
     //поддержка старой версии модуля

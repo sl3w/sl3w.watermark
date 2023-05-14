@@ -47,8 +47,18 @@ class Helpers
         $modulesName = self::arrayWrap($modulesName);
 
         foreach ($modulesName as $moduleName) {
-            Loader::includeModule($moduleName);
+            self::includeModule($moduleName);
         }
+    }
+
+    public static function includeModule($moduleName)
+    {
+        return Loader::includeModule($moduleName);
+    }
+
+    public static function clearColorHex($hex)
+    {
+        return preg_replace('/[^a-f0-9]/is', '', $hex);
     }
 
     public static function sessionGet($code)

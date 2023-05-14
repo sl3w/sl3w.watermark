@@ -3,7 +3,6 @@
 use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\HttpApplication;
 use Bitrix\Main\Loader;
-use Bitrix\Main\Config\Option;
 use Sl3w\Watermark\Helpers;
 use Sl3w\Watermark\Iblock;
 use Sl3w\Watermark\Settings;
@@ -78,58 +77,64 @@ foreach ($positionsVars as $positionsVar) {
 }
 
 $options = [
-    Loc::getMessage(LANGS_PREFIX . 'BLOCK_COMMON'),
-    [
+    'common_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_COMMON'),
+    'switch_on' => [
         'switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON'),
         'Y',
         ['checkbox']
     ],
-    [
+    'add_watermark_btn_mass_switch_on' => [
         'add_watermark_btn_mass_switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN_MASS'),
         'Y',
         ['checkbox']
     ],
-    [
+    'add_watermark_btn_switch_on' => [
         'add_watermark_btn_switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN'),
         'N',
         ['checkbox']
     ],
-    Loc::getMessage(LANGS_PREFIX . 'BLOCK_EVENTS'),
-    [
+    'events_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_EVENTS'),
+    'event_add_switch_on' => [
         'event_add_switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_EVENT_ADD_SWITCH_ON'),
         'Y',
         ['checkbox']
     ],
-    [
+    'event_update_switch_on' => [
         'event_update_switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_EVENT_UPDATE_SWITCH_ON'),
         'Y',
         ['checkbox']
     ],
-    Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_IMAGE'),
-    [
+    'process_sku' => [
+        'process_sku',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_PROCESS_SKU'),
+        'N',
+        ['checkbox']
+    ],
+    'wm_block_image' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_IMAGE'),
+    'switch_on_image' => [
         'switch_on_image',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_IMAGE'),
         'Y',
         ['checkbox']
     ],
-    [
+    'wm_position' => [
         'wm_position',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
         'br',
         ['selectbox', $selectPositions]
     ],
-    [
+    'wm_is_repeat' => [
         'wm_is_repeat',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IS_REPEAT'),
         'N',
         ['checkbox']
     ],
-    [
+    'wm_alpha' => [
         'wm_alpha',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA'),
         '50',
@@ -137,7 +142,7 @@ $options = [
         '',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA_NUMBER')
     ],
-    [
+    'wm_max_percent' => [
         'wm_max_percent',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
         '50',
@@ -145,26 +150,38 @@ $options = [
         '',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER')
     ],
-    [
+    'wm_image_path' => [
         'wm_image_path',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IMAGE_PATH'),
         '',
         ['text', 30]
     ],
-    Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_TEXT'),
-    [
+    'wm_block_text' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_TEXT'),
+    'switch_on_text' => [
         'switch_on_text',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_TEXT'),
         'Y',
         ['checkbox']
     ],
-    [
+    'wm_position_text' => [
         'wm_position_text',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
         'br',
         ['selectbox', $selectPositions]
     ],
-    [
+    'wm_text' => [
+        'wm_text',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT'),
+        '',
+        ['text', 50],
+    ],
+    'wm_text_color' => [
+        'wm_text_color',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT_COLOR'),
+        'ffffff',
+        ['color'],
+    ],
+    'wm_max_percent_text' => [
         'wm_max_percent_text',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
         '50',
@@ -172,48 +189,36 @@ $options = [
         '',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER')
     ],
-    [
+    'wm_text_font' => [
         'wm_text_font',
         Loc::getMessage('SL3W_WATERMARK_OPTION_WM_TEXT_FONT'),
         '/bitrix/fonts/pt_sans-regular.ttf',
         ['text', 50]
     ],
-    [
-        'wm_text',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT'),
-        '',
-        ['text', 50],
-    ],
-    [
-        'wm_text_color',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT_COLOR'),
-        'ffffff',
-        ['text', 10],
-    ],
-    Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_IBLOCK'),
-    [
+    'dont_add_block' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_IBLOCK'),
+    'set_dont_add_after_add' => [
         'set_dont_add_after_add',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_SET_DONT_ADD_AFTER_ADD'),
         '',
         ['checkbox']
     ],
-    [
+    'set_dont_add_after_update' => [
         'set_dont_add_after_update',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_SET_DONT_ADD_AFTER_UPDATE'),
         '',
         ['checkbox']
     ],
-    ['note' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_NOTE')],
-    Loc::getMessage(LANGS_PREFIX . 'BLOCK_IBLOCK'),
-    [
+    'dont_add_note' => ['note' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_NOTE')],
+    'iblock_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_IBLOCK'),
+    'iblock_ids' => [
         'iblock_ids',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_IBLOCK_IDS'),
         '',
         ['multiselectbox', $selectIBlocks]
     ],
-//    ['note' => Loc::getMessage(LANGS_PREFIX . 'SAVE_AFTER_CHANGE_IBLOCK')],
-    Loc::getMessage(LANGS_PREFIX . 'BLOCK_EXCLUDE'),
-    [
+//    'iblock_note' => ['note' => Loc::getMessage(LANGS_PREFIX . 'SAVE_AFTER_CHANGE_IBLOCK')],
+    'exclude_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_EXCLUDE'),
+    'exclude_elements_ids' => [
         'exclude_elements_ids',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_EXCLUDE_ELEMENTS'),
         '',
@@ -231,166 +236,60 @@ $aTabs = [
     [
         'DIV' => 'support',
         'TAB' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_NAME'),
-        'TITLE' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_TITLE'),
+        'TITLE' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_NAME'),
     ]
 ];
 
 $optionsByBlock = [
-    'common_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_COMMON'),
     'common_list' => [
-        [
-            'switch_on',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON'),
-            'Y',
-            ['checkbox']
-        ],
-        [
-            'add_watermark_btn_mass_switch_on',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN_MASS'),
-            'Y',
-            ['checkbox']
-        ],
-        [
-            'add_watermark_btn_switch_on',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN'),
-            'N',
-            ['checkbox']
-        ],
+        $options['common_block'],
+        $options['switch_on'],
+        $options['add_watermark_btn_mass_switch_on'],
+        $options['add_watermark_btn_switch_on'],
     ],
-    'events_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_EVENTS'),
     'events_list' => [
-        [
-            'event_add_switch_on',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_EVENT_ADD_SWITCH_ON'),
-            'Y',
-            ['checkbox']
-        ],
-        [
-            'event_update_switch_on',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_EVENT_UPDATE_SWITCH_ON'),
-            'Y',
-            ['checkbox']
-        ],
+        $options['events_block'],
+        $options['event_add_switch_on'],
+        $options['event_update_switch_on'],
+        $options['process_sku'],
     ],
-    'wm_block_image' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_IMAGE'),
     'wm_list_image' => [
-        [
-            'switch_on_image',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_IMAGE'),
-            'Y',
-            ['checkbox']
-        ],
-        [
-            'wm_position',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
-            'br',
-            ['selectbox', $selectPositions]
-        ],
-        [
-            'wm_is_repeat',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IS_REPEAT'),
-            'N',
-            ['checkbox']
-        ],
+        $options['wm_block_image'],
+        $options['switch_on_image'],
+        $options['wm_position'],
+        $options['wm_is_repeat'],
     ],
     'wm_list_special_image' => [
-        [
-            'wm_alpha',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA'),
-            '50',
-            ['text', 3],
-        ],
-        [
-            'wm_max_percent',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
-            '50',
-            ['text', 3],
-        ],
-        [
-            'wm_image_path',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IMAGE_PATH'),
-            '',
-            ['text', 50]
-        ],
+        $options['wm_alpha'],
+        $options['wm_max_percent'],
+        $options['wm_image_path'],
     ],
-    'wm_block_text' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_TEXT'),
     'wm_list_text' => [
-        [
-            'switch_on_text',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_TEXT'),
-            'Y',
-            ['checkbox']
-        ],
-        [
-            'wm_position_text',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
-            'br',
-            ['selectbox', $selectPositions]
-        ],
-        [
-            'wm_text',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT'),
-            '',
-            ['text', 50],
-        ],
-        [
-            'wm_text_color',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT_COLOR'),
-            'ffffff',
-            ['text', 10],
-        ],
+        $options['wm_block_text'],
+        $options['switch_on_text'],
+        $options['wm_position_text'],
+        $options['wm_text'],
     ],
     'wm_list_special_text' => [
-        [
-            'wm_max_percent_text',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
-            '50',
-            ['text', 3],
-            '',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER')
-        ],
-        [
-            'wm_text_font',
-            Loc::getMessage('SL3W_WATERMARK_OPTION_WM_TEXT_FONT'),
-            '/bitrix/fonts/pt_sans-regular.ttf',
-            ['text', 50]
-        ],
+        $options['wm_text_color'],
+        $options['wm_max_percent_text'],
+        $options['wm_text_font'],
     ],
-    'dont_add_block' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_IBLOCK'),
     'dont_add_list' => [
-        [
-            'set_dont_add_after_add',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_SET_DONT_ADD_AFTER_ADD'),
-            '',
-            ['checkbox']
-        ],
-        [
-            'set_dont_add_after_update',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_SET_DONT_ADD_AFTER_UPDATE'),
-            '',
-            ['checkbox']
-        ],
+        $options['dont_add_block'],
+        $options['set_dont_add_after_add'],
+        $options['set_dont_add_after_update'],
+        $options['dont_add_note']
     ],
-    'dont_add_note' => ['note' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_NOTE')],
-    'iblock_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_IBLOCK'),
     'iblock_list' => [
-        [
-            'iblock_ids',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_IBLOCK_IDS'),
-            '',
-            ['multiselectbox', $selectIBlocks]
-        ],
+        $options['iblock_block'],
+        $options['iblock_ids'],
     ],
-//    'iblock_note' => ['note' => Loc::getMessage(LANGS_PREFIX . 'SAVE_AFTER_CHANGE_IBLOCK')],
+//    'iblock_note' => $options['iblock_note'],
     'iblocks_list' => [],
     'exclude_list' => [
-        Loc::getMessage(LANGS_PREFIX . 'BLOCK_EXCLUDE'),
-        [
-            'exclude_elements_ids',
-            Loc::getMessage(LANGS_PREFIX . 'OPTION_EXCLUDE_ELEMENTS'),
-            '',
-            ['textarea', 5, 50]
-        ],
+        $options['exclude_block'],
+        $options['exclude_elements_ids'],
     ],
 ];
 
@@ -429,7 +328,7 @@ $tabControl = new CAdminTabControl(
     $aTabs
 );
 
-$dontShowInputOptions = ['wm_image_path'];
+$dontShowInputOptions = ['wm_image_path', 'wm_text_color'];
 
 $tabControl->Begin();
 ?>
@@ -441,11 +340,8 @@ $tabControl->Begin();
     $tabControl->BeginNextTab();
 
     if ($optionsByBlock) {
-        __AdmSettingsDrawRow($module_id, $optionsByBlock['common_block']);
         __AdmSettingsDrawList($module_id, $optionsByBlock['common_list']);
-        __AdmSettingsDrawRow($module_id, $optionsByBlock['events_block']);
         __AdmSettingsDrawList($module_id, $optionsByBlock['events_list']);
-        __AdmSettingsDrawRow($module_id, $optionsByBlock['wm_block_image']);
         __AdmSettingsDrawList($module_id, $optionsByBlock['wm_list_image']);
 
         foreach ($optionsByBlock['wm_list_special_image'] as $wm_list_special_option) {
@@ -507,7 +403,6 @@ $tabControl->Begin();
             <?php
         }
 
-        __AdmSettingsDrawRow($module_id, $optionsByBlock['wm_block_text']);
         __AdmSettingsDrawList($module_id, $optionsByBlock['wm_list_text']);
 
         foreach ($optionsByBlock['wm_list_special_text'] as $wm_list_special_option) {
@@ -525,6 +420,17 @@ $tabControl->Begin();
                     <?php endif; ?>
 
                     <?php switch ($optionName) {
+                        case 'wm_text_color':
+                            $optionValue = Helpers::clearColorHex($optionValue);
+                            ?>
+
+                            <input type="<?= $wm_list_special_option[3][0] ?>"
+                                   name="<?= $optionName ?>"
+                                   value="#<?= $optionValue ?>"/>
+
+                            <?php
+                            break;
+
                         case 'wm_max_percent_text':
                             echo Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_AFTER');
 
@@ -532,11 +438,11 @@ $tabControl->Begin();
 
                         case 'wm_text_font':
                             ?>
-                            <input type="button" value="..." onclick="Sl3wWmOpenFileDialog()">
+                            <input type="button" value="..." onclick="Sl3wWmOpenFileDialogFont()">
                             <?php
                             CAdminFileDialog::ShowScript(
                                 [
-                                    'event' => "Sl3wWmOpenFileDialog",
+                                    'event' => "Sl3wWmOpenFileDialogFont",
                                     'arResultDest' => ['FORM_NAME' => 'sl3w_watermark', 'FORM_ELEMENT_NAME' => 'wm_text_font'],
                                     'arPath' => ['PATH' => ''],
                                     'select' => 'F',
@@ -556,28 +462,36 @@ $tabControl->Begin();
             <?php
         }
 
-        __AdmSettingsDrawRow($module_id, $optionsByBlock['iblock_block']);
         __AdmSettingsDrawList($module_id, $optionsByBlock['iblock_list']);
 
-        if (empty($optionsByBlock['iblocks_list'])) {
+        /*if (empty($optionsByBlock['iblocks_list'])) {
             __AdmSettingsDrawRow($module_id, $optionsByBlock['iblock_note']);
-        }
+        }*/
 
         __AdmSettingsDrawList($module_id, $optionsByBlock['iblocks_list']);
 
         __AdmSettingsDrawList($module_id, $optionsByBlock['exclude_list']);
 
-        __AdmSettingsDrawRow($module_id, $optionsByBlock['dont_add_block']);
         __AdmSettingsDrawList($module_id, $optionsByBlock['dont_add_list']);
         __AdmSettingsDrawRow($module_id, $optionsByBlock['dont_add_note']);
     }
 
     $tabControl->BeginNextTab();
     ?>
+    <p>
+        <?= Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_TEXT') ?>
+    </p>
 
     <iframe
-        src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=50&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&"
+        src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=100&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&"
         width="423" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+
+    <p>
+        <?= Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_TEXT2') ?>
+    </p>
+    <p>
+        <?= Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_TEXT3') ?>
+    </p>
 
     <?php
     __AdmSettingsDrawRow($module_id, $optionsByBlock2['support_note']);
@@ -621,11 +535,13 @@ if ($request->isPost() && check_bitrix_sessid()) {
                     case 'wm_max_percent':
                     case 'wm_max_percent_text':
                     case 'wm_text':
-                    case 'wm_text_color':
                     case 'wm_text_font':
-                        if (!$optionValue) {
-                            $optionValue = $arOption[2];
-                        }
+                        $optionValue = !$optionValue ? $arOption[2] : $optionValue;
+
+                        break;
+
+                    case 'wm_text_color':
+                        $optionValue = Helpers::clearColorHex(!$optionValue ? $arOption[2] : $optionValue);
 
                         break;
 

@@ -16,6 +16,7 @@ $MESS['SL3W_WATERMARK_BLOCK_EVENTS'] = 'События';
 
 $MESS['SL3W_WATERMARK_OPTION_EVENT_ADD_SWITCH_ON'] = 'Добавлять водяной знак при добавлении элемента:';
 $MESS['SL3W_WATERMARK_OPTION_EVENT_UPDATE_SWITCH_ON'] = 'Добавлять водяной знак при изменении элемента:';
+$MESS['SL3W_WATERMARK_OPTION_PROCESS_SKU'] = 'Добавлять водяной знак у ТП при изменении основного товара:';
 
 $MESS['SL3W_WATERMARK_BLOCK_WM_IMAGE'] = 'Настройки водяного знака (изображение)';
 $MESS['SL3W_WATERMARK_BLOCK_WM_TEXT'] = 'Настройки водяного знака (текст)';
@@ -78,5 +79,7 @@ $MESS['SL3W_WATERMARK_BUTTON_APPLY'] = 'Применить';
 $MESS['SL3W_WATERMARK_BUTTON_DEFAULT'] = 'По умолчанию';
 
 $MESS['SL3W_WATERMARK_SUPPORT_TAB_NAME'] = 'Поддержать разработку';
-$MESS['SL3W_WATERMARK_SUPPORT_TAB_TITLE'] = 'Вы можете добровольно поддержать разработку этого и других модулей, переведя любую сумму с помощью формы ниже:';
-$MESS['SL3W_WATERMARK_SUPPORT_NOTE'] = 'Также буду благодарен за Ваши оценки и отзывы, которые вы можете оставить на <a href="http://marketplace.1c-bitrix.ru/solutions/sl3w.watermark/#tab-rating-link" target="_blank">странице модуля в Маркетплейсе</a>.';
+$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT'] = 'Модуль предоставляется бесплатно. Однако при желании вы можете поддержать разработку этого и других моих модулей, переведя любую сумму с помощью формы ниже:';
+$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT2'] = 'или перейдя по <a href="https://yoomoney.ru/to/410014134044507" target="_blank">данной ссылке</a> (сервис ЮMoney).';
+$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT3'] = 'Это будет способствовать дальнейшей поддержке и улучшению функционала модуля. Заранее спасибо!';
+$MESS['SL3W_WATERMARK_SUPPORT_NOTE'] = 'Также буду благодарен за Ваши оценки и отзывы, которые вы можете оставить на <a href="https://marketplace.1c-bitrix.ru/solutions/sl3w.watermark/#tab-rating-link" target="_blank">странице модуля в Маркетплейсе</a>.';
