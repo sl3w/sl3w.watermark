@@ -478,19 +478,34 @@ $tabControl->Begin();
 
     $tabControl->BeginNextTab();
     ?>
+
     <p>
         <?= Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_TEXT') ?>
     </p>
-
-    <iframe
-        src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=100&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&"
-        width="423" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
-
     <p>
         <?= Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_TEXT2') ?>
     </p>
+
+    <iframe
+        src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=500&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&"
+        width="423" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+
     <p>
         <?= Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_TEXT3') ?>
+    </p>
+    <p>
+        <?= Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_TEXT4') ?>
+    </p>
+
+    <iframe width="728" height="200"
+            src="https://widget.qiwi.com/widgets/big-widget-728x200?publicKey=48e7qUxn9T7RyYE1MVZswX1FRSbE6iyCj2gCRwwF3Dnh5XrasNTx3BGPiMsyXQFNKQhvukniQG8RTVhYm3iPstc1jW1Xqr2MRaWGf1QqrwLmYzwpyMrob7toJfNfeZzWQZfXGbDGx5g6BqdbjdyGAYrnkNpyu8b9RHEcDXP6idAksvLs3grZ2TYnyACuD"
+            allowtransparency="true" scrolling="no" frameborder="0"></iframe>
+
+    <p>
+        <?= Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_TEXT5') ?>
+    </p>
+    <p>
+        <?= Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_TEXT6') ?>
     </p>
 
     <?php

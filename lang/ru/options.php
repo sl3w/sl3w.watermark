@@ -79,7 +79,10 @@ $MESS['SL3W_WATERMARK_BUTTON_APPLY'] = 'Применить';
 $MESS['SL3W_WATERMARK_BUTTON_DEFAULT'] = 'По умолчанию';
 
 $MESS['SL3W_WATERMARK_SUPPORT_TAB_NAME'] = 'Поддержать разработку';
-$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT'] = 'Модуль предоставляется бесплатно. Однако при желании вы можете поддержать разработку этого и других моих модулей, переведя любую сумму с помощью формы ниже:';
-$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT2'] = 'или перейдя на <a href="https://yoomoney.ru/to/410014134044507" target="_blank">сервис ЮMoney</a> или <a href="https://qiwi.com/n/ROMANOV141" target="_blank">сервис Qiwi</a>.';
-$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT3'] = 'Это будет способствовать дальнейшей поддержке и улучшению функционала модуля. Заранее спасибо!';
+$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT'] = 'Модуль предоставляется <u>бесплатно</u>. Однако при желании вы можете поддержать разработку этого и других моих модулей, переведя любую сумму с помощью одной из форм ниже.';
+$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT2'] = '<li><b>Перевод через сервис ЮMoney:</b></li>';
+$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT3'] = 'или перейдя по <a href="https://yoomoney.ru/to/410014134044507" target="_blank">ссылке</a>.';
+$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT4'] = '<li><b>Перевод через сервис Qiwi:</b></li>';
+$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT5'] = 'или перейдя по <a href="https://my.qiwi.com/Leonyd-RoGEF-Xkq8" target="_blank">ссылке</a>.';
+$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT6'] = 'Это поспособствует дальнейшей поддержке и улучшению функционала этого и других модулей. Заранее спасибо!';
 $MESS['SL3W_WATERMARK_SUPPORT_NOTE'] = 'Также буду благодарен за Ваши оценки и отзывы, которые вы можете оставить на <a href="https://marketplace.1c-bitrix.ru/solutions/sl3w.watermark/#tab-rating-link" target="_blank">странице модуля в Маркетплейсе</a>.';
