@@ -1,0 +1,3 @@
+<?php
+
+$MESS['SL3W_WATERMARK_SUPPORT_NOTIFY_TEXT'] = 'Вы обновили модуль "Водяной знак для инфоблоков. Защита изображений". Если вы хотите поддержать дальнейшую разработку и поддержку модуля, можете перейти в <a href="/bitrix/admin/settings.php?mid=sl3w.watermark&lang=ru&mid_menu=1">настройки модуля</a> и на вкладке "Поддержать разработку" выбрать удобный Вам способ. Или оставить отзыв с оценкой на <a href="https://marketplace.1c-bitrix.ru/solutions/sl3w.watermark/#tab-rating-link" target="_blank">странице модуля в Маркетплейсе</a>.';

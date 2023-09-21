@@ -79,7 +79,7 @@ $MESS['SL3W_WATERMARK_BUTTON_APPLY'] = 'Применить';
 $MESS['SL3W_WATERMARK_BUTTON_DEFAULT'] = 'По умолчанию';
 
 $MESS['SL3W_WATERMARK_SUPPORT_TAB_NAME'] = 'Поддержать разработку';
-$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT'] = 'Модуль предоставляется <u>бесплатно</u>. Однако при желании вы можете поддержать разработку этого и других моих модулей, переведя любую сумму с помощью одной из форм ниже.';
+$MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT'] = 'Модуль предоставляется <u>бесплатно</u>. Однако при желании вы можете <u>поддержать разработку</u> этого и других моих модулей, переведя любую сумму с помощью одной из форм ниже.';
 $MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT2'] = '<li><b>Перевод через сервис ЮMoney:</b></li>';
 $MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT3'] = 'или перейдя по <a href="https://yoomoney.ru/to/410014134044507" target="_blank">ссылке</a>.';
 $MESS['SL3W_WATERMARK_SUPPORT_TAB_TEXT4'] = '<li><b>Перевод через сервис Qiwi:</b></li>';

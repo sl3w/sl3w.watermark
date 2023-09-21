@@ -138,7 +138,7 @@ $options = [
         'wm_alpha',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA'),
         '50',
-        ['text', 3],
+        ['number', 3, 0, 100],
         '',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA_NUMBER')
     ],
@@ -146,7 +146,7 @@ $options = [
         'wm_max_percent',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
         '50',
-        ['text', 3],
+        ['number', 3, 0, 100],
         '',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER')
     ],
@@ -185,7 +185,7 @@ $options = [
         'wm_max_percent_text',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
         '50',
-        ['text', 3],
+        ['number', 3, 0, 100],
         '',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER')
     ],
@@ -352,9 +352,12 @@ $tabControl->Begin();
                 <td><?= $wm_list_special_option[1] ?></td>
                 <td>
                     <?php if (!in_array($optionName, $dontShowInputOptions)) : ?>
-                        <input type="<?= $wm_list_special_option[3][0] ?: 'text' ?>"
+                        <input class="adm-input"
+                               type="<?= $wm_list_special_option[3][0] ?: 'text' ?>"
                                name="<?= $optionName ?>"
                                size="<?= $wm_list_special_option[3][1] ?: 10 ?>"
+                            <?= isset($wm_list_special_option[3][2]) && $wm_list_special_option[3][0] == 'number' ? sprintf('min="%s"', $wm_list_special_option[3][2]) : '' ?>
+                            <?= isset($wm_list_special_option[3][3]) && $wm_list_special_option[3][0] == 'number' ? sprintf('max="%s"', $wm_list_special_option[3][3]) : '' ?>
                                value="<?= $optionValue ?>"/>
                     <?php endif; ?>
 
@@ -413,9 +416,12 @@ $tabControl->Begin();
                 <td><?= $wm_list_special_option[1] ?></td>
                 <td>
                     <?php if (!in_array($optionName, $dontShowInputOptions)) : ?>
-                        <input type="<?= $wm_list_special_option[3][0] ?: 'text' ?>"
+                        <input class="adm-input"
+                               type="<?= $wm_list_special_option[3][0] ?: 'text' ?>"
                                name="<?= $optionName ?>"
                                size="<?= $wm_list_special_option[3][1] ?: 10 ?>"
+                            <?= isset($wm_list_special_option[3][2]) && $wm_list_special_option[3][0] == 'number' ? sprintf('min="%s"', $wm_list_special_option[3][2]) : '' ?>
+                            <?= isset($wm_list_special_option[3][3]) && $wm_list_special_option[3][0] == 'number' ? sprintf('max="%s"', $wm_list_special_option[3][3]) : '' ?>
                                value="<?= $optionValue ?>"/>
                     <?php endif; ?>
 

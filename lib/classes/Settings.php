@@ -3,6 +3,9 @@
 namespace Sl3w\Watermark;
 
 use Bitrix\Main\Config\Option;
+use Bitrix\Main\Localization\Loc;
+use Bitrix\Main\ModuleManager;
+use CAdminNotify;
 use CFile;
 
 class Settings
@@ -27,6 +30,28 @@ class Settings
     public static function yes($name): bool
     {
         return self::get($name) == 'Y';
+    }
+
+    public static function getModuleVersion()
+    {
+        return ModuleManager::getVersion(self::MODULE_ID);
+    }
+
+    public static function checkModuleVersionUpdated()
+    {
+        $savedVersion = self::get('module_version');
+        $realVersion = self::getModuleVersion();
+
+        if (!$savedVersion || $savedVersion != $realVersion) {
+            CAdminNotify::Add([
+                'MESSAGE' => Loc::getMessage('SL3W_WATERMARK_SUPPORT_NOTIFY_TEXT'),
+                'TAG' => 'sl3w_watermark_support_notify',
+                'MODULE_ID' => Settings::MODULE_ID,
+                'ENABLE_CLOSE' => 'Y',
+            ]);
+
+            self::set('module_version', $realVersion);
+        }
     }
 
     public static function getProcessingIBlocks(): array

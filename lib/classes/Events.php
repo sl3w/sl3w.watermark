@@ -37,6 +37,8 @@ class Events
 
     public static function OnAfterIBlockElementAddUpdate($arFields, $operation)
     {
+        Settings::checkModuleVersionUpdated();
+
         if (!Settings::yes('switch_on') || (!Settings::yes('switch_on_image') && !Settings::yes('switch_on_text'))) {
             return;
         }
