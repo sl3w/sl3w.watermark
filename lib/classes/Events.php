@@ -77,21 +77,14 @@ class Events
         }
 
         foreach ($iblockFieldsAndProps as $field) {
-
-            $propPrefix = 'PROPERTY_';
-
-            $isProp = Helpers::strContains($field, $propPrefix);
-
-            if ($isProp) {
-                $propName = substr($field, strlen($propPrefix));
+            if (Helpers::isProperty($field)) {
+                $propName = substr($field, strlen(Helpers::PROP_PREFIX));
 
                 Watermark::addWatermarkByPropName($propName, $elementInfo);
-            } else {
-                if ($elementInfo['FIELDS'][$field]) {
-                    Helpers::sessionAddElementId($elementId);
+            } elseif ($elementInfo['FIELDS'][$field]) {
+                Helpers::sessionAddElementId($elementId);
 
-                    Watermark::addWatermarkByFieldName($field, $elementInfo);
-                }
+                Watermark::addWatermarkByFieldName($field, $elementInfo);
             }
         }
 
@@ -114,7 +107,7 @@ class Events
         }
     }
 
-    //поддержка старой версии модуля
+    /* поддержка старой версии модуля */
     public static function IBlocksAddWatermarkButtonHandler(&$items)
     {
         AdminEvents::IBlocksAddWatermarkButtonHandler($items);
@@ -124,5 +117,5 @@ class Events
     {
         AdminEvents::AppendScriptsToPage();
     }
-    //\поддержка старой версии модуля
+    /* /поддержка старой версии модуля */
 }

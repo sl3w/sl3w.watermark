@@ -6,11 +6,17 @@ use Bitrix\Main\Loader;
 
 class Helpers
 {
-    private static $sessionWatermarkElements = 'watermark_elements';
+    const SESSION_WATERMARK_ELEMENTS = 'watermark_elements';
+    const PROP_PREFIX = 'PROPERTY_';
 
     public static function strContains($haystack, $needle)
     {
         return stripos($haystack, $needle) !== false;
+    }
+
+    public static function isProperty($name)
+    {
+        return self::strContains($name, self::PROP_PREFIX);
     }
 
     public static function toUpper($string)
@@ -77,7 +83,7 @@ class Helpers
 
     public static function getSessionWatermarkElements()
     {
-        return self::sessionGet(self::$sessionWatermarkElements) ?: [];
+        return self::sessionGet(self::SESSION_WATERMARK_ELEMENTS) ?: [];
     }
 
     public static function sessionAddElementId($elementId)
@@ -90,7 +96,7 @@ class Helpers
 
         $elementIds[$elementId] = $elementId;
 
-        self::sessionSet(self::$sessionWatermarkElements, $elementIds);
+        self::sessionSet(self::SESSION_WATERMARK_ELEMENTS, $elementIds);
     }
 
     public static function sessionDeleteElementId($elementId)
@@ -103,6 +109,6 @@ class Helpers
             unset($elementIds[$elementId]);
         }
 
-        self::sessionSet(self::$sessionWatermarkElements, $elementIds);
+        self::sessionSet(self::SESSION_WATERMARK_ELEMENTS, $elementIds);
     }
 }

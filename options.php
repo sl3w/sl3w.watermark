@@ -15,9 +15,9 @@ const LANGS_PREFIX = 'SL3W_WATERMARK_';
 
 $request = HttpApplication::getInstance()->getContext()->getRequest();
 
-$module_id = htmlspecialcharsbx($request['mid'] != '' ? $request['mid'] : $request['id']);
+$moduleId = htmlspecialcharsbx($request['mid'] != '' ? $request['mid'] : $request['id']);
 
-if (!Loader::includeModule($module_id)) {
+if (!Loader::includeModule($moduleId)) {
     ShowMessage(Loc::getMessage(LANGS_PREFIX . 'MODULE_INCLUDE_ERROR'));
 
     return false;
@@ -47,7 +47,7 @@ if (!is_numeric($wmImagePath)) {
         $arFile = CFile::MakeFileArray($absFilePath);
         $arFile['name'] = $arOriginalName;
 
-        if ($fileId = CFile::SaveFile($arFile, str_replace('.', '_', $module_id))) {
+        if ($fileId = CFile::SaveFile($arFile, str_replace('.', '_', $moduleId))) {
             Settings::set('wm_image_path', $fileId);
         }
     }
@@ -77,7 +77,7 @@ foreach ($positionsVars as $positionsVar) {
 }
 
 $options = [
-    'common_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_COMMON'),
+    'main_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_MAIN'),
     'switch_on' => [
         'switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON'),
@@ -216,7 +216,6 @@ $options = [
         '',
         ['multiselectbox', $selectIBlocks]
     ],
-//    'iblock_note' => ['note' => Loc::getMessage(LANGS_PREFIX . 'SAVE_AFTER_CHANGE_IBLOCK')],
     'exclude_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_EXCLUDE'),
     'exclude_elements_ids' => [
         'exclude_elements_ids',
@@ -241,8 +240,8 @@ $aTabs = [
 ];
 
 $optionsByBlock = [
-    'common_list' => [
-        $options['common_block'],
+    'main_list' => [
+        $options['main_block'],
         $options['switch_on'],
         $options['add_watermark_btn_mass_switch_on'],
         $options['add_watermark_btn_switch_on'],
@@ -285,7 +284,6 @@ $optionsByBlock = [
         $options['iblock_block'],
         $options['iblock_ids'],
     ],
-//    'iblock_note' => $options['iblock_note'],
     'iblocks_list' => [],
     'exclude_list' => [
         $options['exclude_block'],
@@ -334,15 +332,17 @@ $tabControl->Begin();
 ?>
 
 <form enctype="multipart/form-data" method="post" name="sl3w_watermark"
-      action="<?= $APPLICATION->GetCurPage() ?>?mid=<?= $module_id ?>&lang=<?= LANG ?>">
+      action="<?= $APPLICATION->GetCurPage() ?>?mid=<?= $moduleId ?>&lang=<?= LANG ?>">
 
     <?php
     $tabControl->BeginNextTab();
 
     if ($optionsByBlock) {
-        __AdmSettingsDrawList($module_id, $optionsByBlock['common_list']);
-        __AdmSettingsDrawList($module_id, $optionsByBlock['events_list']);
-        __AdmSettingsDrawList($module_id, $optionsByBlock['wm_list_image']);
+        __AdmSettingsDrawList($moduleId, $optionsByBlock['main_list']);
+        
+        __AdmSettingsDrawList($moduleId, $optionsByBlock['events_list']);
+        
+        __AdmSettingsDrawList($moduleId, $optionsByBlock['wm_list_image']);
 
         foreach ($optionsByBlock['wm_list_special_image'] as $wm_list_special_option) {
             $optionName = $wm_list_special_option[0];
@@ -406,7 +406,7 @@ $tabControl->Begin();
             <?php
         }
 
-        __AdmSettingsDrawList($module_id, $optionsByBlock['wm_list_text']);
+        __AdmSettingsDrawList($moduleId, $optionsByBlock['wm_list_text']);
 
         foreach ($optionsByBlock['wm_list_special_text'] as $wm_list_special_option) {
             $optionName = $wm_list_special_option[0];
@@ -468,18 +468,13 @@ $tabControl->Begin();
             <?php
         }
 
-        __AdmSettingsDrawList($module_id, $optionsByBlock['iblock_list']);
+        __AdmSettingsDrawList($moduleId, $optionsByBlock['iblock_list']);
 
-        /*if (empty($optionsByBlock['iblocks_list'])) {
-            __AdmSettingsDrawRow($module_id, $optionsByBlock['iblock_note']);
-        }*/
+        __AdmSettingsDrawList($moduleId, $optionsByBlock['iblocks_list']);
 
-        __AdmSettingsDrawList($module_id, $optionsByBlock['iblocks_list']);
+        __AdmSettingsDrawList($moduleId, $optionsByBlock['exclude_list']);
 
-        __AdmSettingsDrawList($module_id, $optionsByBlock['exclude_list']);
-
-        __AdmSettingsDrawList($module_id, $optionsByBlock['dont_add_list']);
-        __AdmSettingsDrawRow($module_id, $optionsByBlock['dont_add_note']);
+        __AdmSettingsDrawList($moduleId, $optionsByBlock['dont_add_list']);
     }
 
     $tabControl->BeginNextTab();
@@ -515,14 +510,14 @@ $tabControl->Begin();
     </p>
 
     <?php
-    __AdmSettingsDrawRow($module_id, $optionsByBlock2['support_note']);
+    __AdmSettingsDrawRow($moduleId, $optionsByBlock2['support_note']);
 
     $tabControl->Buttons();
     ?>
 
     <input type="submit" name="apply" value="<?= Loc::getMessage(LANGS_PREFIX . 'BUTTON_APPLY') ?>"
-           class="adm-btn-save"/>
-    <input type="submit" name="default" value="<?= Loc::getMessage(LANGS_PREFIX . 'BUTTON_DEFAULT') ?>"/>
+           class="adm-btn-save">
+    <input type="submit" name="default" value="<?= Loc::getMessage(LANGS_PREFIX . 'BUTTON_DEFAULT') ?>" style="float: right">
 
     <?= bitrix_sessid_post() ?>
 
@@ -619,7 +614,7 @@ if ($request->isPost() && check_bitrix_sessid()) {
                                 $arFile = CFile::MakeFileArray($absFilePath);
                                 $arFile['name'] = $arOriginalName;
 
-                                if ($fileId = CFile::SaveFile($arFile, str_replace('.', '_', $module_id))) {
+                                if ($fileId = CFile::SaveFile($arFile, str_replace('.', '_', $moduleId))) {
                                     $optionValue = $fileId;
                                 }
                             }
@@ -648,7 +643,7 @@ if ($request->isPost() && check_bitrix_sessid()) {
         }
     }
 
-    LocalRedirect($APPLICATION->GetCurPage() . '?mid=' . $module_id . '&lang=' . LANG . '&mid_menu=1');
+    LocalRedirect($APPLICATION->GetCurPage() . '?mid=' . $moduleId . '&lang=' . LANG . '&mid_menu=1');
 }
 ?>
 

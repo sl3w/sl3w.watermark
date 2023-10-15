@@ -6,7 +6,7 @@ $MESS['SL3W_WATERMARK_MODULE_INCLUDE_ERROR'] = 'Ошибка при подключении модуля';
 $MESS['SL3W_WATERMARK_MODULE_IBLOCK_ERROR'] = 'Ошибка при подключении модуля "Информационные блоки"';
 $MESS['SL3W_WATERMARK_MODULE_FILEMAN_ERROR'] = 'Ошибка при подключении модуля "Управление структурой"';
 
-$MESS['SL3W_WATERMARK_BLOCK_COMMON'] = 'Общие';
+$MESS['SL3W_WATERMARK_BLOCK_MAIN'] = 'Основное';
 
 $MESS['SL3W_WATERMARK_OPTION_SWITCH_ON'] = 'Модуль включен:';
 $MESS['SL3W_WATERMARK_OPTION_ADD_WATERMARK_BTN_MASS'] = 'Добавить кнопку массовой обработки в списке элементов:';
@@ -59,14 +59,12 @@ $MESS['SL3W_WATERMARK_BLOCK_IBLOCK'] = 'Инфоблоки, участвующие в обработке';
 $MESS['SL3W_WATERMARK_OPTION_IBLOCK_IDS'] = 'Инфоблоки для обработки:';
 $MESS['SL3W_WATERMARK_OPTION_EMPTY'] = '(не выбрано)';
 
-$MESS['SL3W_WATERMARK_SAVE_AFTER_CHANGE_IBLOCK'] = 'Для выбора полей и свойств инфоблоков выберите хотя бы один инфоблок и примените настройки.';
-
 $MESS['SL3W_WATERMARK_OPTIONS_PREVIEW_PICTURE'] = '[PREVIEW_PICTURE] Картинка для анонса';
 $MESS['SL3W_WATERMARK_OPTIONS_DETAIL_PICTURE'] = '[DETAIL_PICTURE] Детальная картинка';
 
 $MESS['SL3W_WATERMARK_FIELDS_AND_PROPS'] = 'Поля и свойства инфоблока';
 
-$MESS['SL3W_WATERMARK_SET_DONT_ADD_IBLOCK'] = 'Установка галочки в свойстве DONT_ADD_WATERMARK_ON_SAVE';
+$MESS['SL3W_WATERMARK_SET_DONT_ADD_IBLOCK'] = 'Установка значения в свойстве <b style="color: black">DONT_ADD_WATERMARK_ON_SAVE</b>';
 $MESS['SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_ADD'] = 'После добавления элемента:';
 $MESS['SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_UPDATE'] = 'После изменения элемента:';
 $MESS['SL3W_WATERMARK_SET_DONT_ADD_NOTE'] = 'При установленной настройке при соответствующем событии у обработанного элемента будет автоматически установлена галочка в свойстве с символьным кодом <b>DONT_ADD_WATERMARK_ON_SAVE</b>, если оно существует в текущем инфоблоке и создано в соответствии с логикой работы модуля (см. <a href="http://marketplace.1c-bitrix.ru/solutions/sl3w.watermark/#tab-install-link" target="_blank">описание модуля в Маркетплейсе</a>). Свойство ограничивает повторное наложении водяного знака в этом же элементе.';
