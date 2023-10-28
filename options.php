@@ -82,57 +82,57 @@ $options = [
         'switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON'),
         'Y',
-        ['checkbox']
+        ['checkbox'],
     ],
     'add_watermark_btn_mass_switch_on' => [
         'add_watermark_btn_mass_switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN_MASS'),
         'Y',
-        ['checkbox']
+        ['checkbox'],
     ],
     'add_watermark_btn_switch_on' => [
         'add_watermark_btn_switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN'),
         'N',
-        ['checkbox']
+        ['checkbox'],
     ],
     'events_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_EVENTS'),
     'event_add_switch_on' => [
         'event_add_switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_EVENT_ADD_SWITCH_ON'),
         'Y',
-        ['checkbox']
+        ['checkbox'],
     ],
     'event_update_switch_on' => [
         'event_update_switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_EVENT_UPDATE_SWITCH_ON'),
         'Y',
-        ['checkbox']
+        ['checkbox'],
     ],
     'process_sku' => [
         'process_sku',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_PROCESS_SKU'),
         'N',
-        ['checkbox']
+        ['checkbox'],
     ],
     'wm_block_image' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_IMAGE'),
     'switch_on_image' => [
         'switch_on_image',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_IMAGE'),
         'Y',
-        ['checkbox']
+        ['checkbox'],
     ],
     'wm_position' => [
         'wm_position',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
         'br',
-        ['selectbox', $selectPositions]
+        ['selectbox', $selectPositions],
     ],
     'wm_is_repeat' => [
         'wm_is_repeat',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IS_REPEAT'),
         'N',
-        ['checkbox']
+        ['checkbox'],
     ],
     'wm_alpha' => [
         'wm_alpha',
@@ -140,7 +140,7 @@ $options = [
         '50',
         ['number', 3, 0, 100],
         '',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA_NUMBER')
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA_NUMBER'),
     ],
     'wm_max_percent' => [
         'wm_max_percent',
@@ -148,26 +148,26 @@ $options = [
         '50',
         ['number', 3, 0, 100],
         '',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER')
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER'),
     ],
     'wm_image_path' => [
         'wm_image_path',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IMAGE_PATH'),
         '',
-        ['text', 30]
+        ['text', 30],
     ],
     'wm_block_text' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_TEXT'),
     'switch_on_text' => [
         'switch_on_text',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_TEXT'),
         'Y',
-        ['checkbox']
+        ['checkbox'],
     ],
     'wm_position_text' => [
         'wm_position_text',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
         'br',
-        ['selectbox', $selectPositions]
+        ['selectbox', $selectPositions],
     ],
     'wm_text' => [
         'wm_text',
@@ -187,26 +187,26 @@ $options = [
         '50',
         ['number', 3, 0, 100],
         '',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER')
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER'),
     ],
     'wm_text_font' => [
         'wm_text_font',
         Loc::getMessage('SL3W_WATERMARK_OPTION_WM_TEXT_FONT'),
         '/bitrix/fonts/pt_sans-regular.ttf',
-        ['text', 50]
+        ['text', 50],
     ],
     'dont_add_block' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_IBLOCK'),
     'set_dont_add_after_add' => [
         'set_dont_add_after_add',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_SET_DONT_ADD_AFTER_ADD'),
         '',
-        ['checkbox']
+        ['checkbox'],
     ],
     'set_dont_add_after_update' => [
         'set_dont_add_after_update',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_SET_DONT_ADD_AFTER_UPDATE'),
         '',
-        ['checkbox']
+        ['checkbox'],
     ],
     'dont_add_note' => ['note' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_NOTE')],
     'iblock_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_IBLOCK'),
@@ -214,14 +214,15 @@ $options = [
         'iblock_ids',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_IBLOCK_IDS'),
         '',
-        ['multiselectbox', $selectIBlocks]
+        ['multiselectbox', $selectIBlocks],
     ],
+    'ctrl_info' => ['note' => Loc::getMessage(LANGS_PREFIX . 'CTRL_INFO')],
     'exclude_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_EXCLUDE'),
     'exclude_elements_ids' => [
         'exclude_elements_ids',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_EXCLUDE_ELEMENTS'),
         '',
-        ['textarea', 5, 50]
+        ['textarea', 5, 50],
     ],
 ];
 
@@ -230,7 +231,7 @@ $aTabs = [
         'DIV' => 'edit',
         'TAB' => Loc::getMessage(LANGS_PREFIX . 'OPTIONS_TAB_NAME'),
         'TITLE' => Loc::getMessage(LANGS_PREFIX . 'OPTIONS_TAB_NAME'),
-        'OPTIONS' => $options
+        'OPTIONS' => $options,
     ],
     [
         'DIV' => 'support',
@@ -284,6 +285,9 @@ $optionsByBlock = [
         $options['iblock_block'],
         $options['iblock_ids'],
     ],
+    'ctrl_info' => [
+        $options['ctrl_info'],
+    ],
     'iblocks_list' => [],
     'exclude_list' => [
         $options['exclude_block'],
@@ -313,7 +317,7 @@ foreach ($iblockIds as $iblockId) {
         'iblock' . $iblockId . '_fields',
         sprintf('%s [%s] "%s":', Loc::getMessage(LANGS_PREFIX . 'FIELDS_AND_PROPS'), $iblockId, Iblock::getIBlockNameById($iblockId)),
         '',
-        ['multiselectbox', $selectFieldsAndProps]
+        ['multiselectbox', $selectFieldsAndProps],
     ];
 }
 
@@ -323,7 +327,7 @@ $optionsByBlock2 = [
 
 $tabControl = new CAdminTabControl(
     'tabControl',
-    $aTabs
+    $aTabs,
 );
 
 $dontShowInputOptions = ['wm_image_path', 'wm_text_color'];
@@ -471,6 +475,8 @@ $tabControl->Begin();
         __AdmSettingsDrawList($moduleId, $optionsByBlock['iblock_list']);
 
         __AdmSettingsDrawList($moduleId, $optionsByBlock['iblocks_list']);
+
+        __AdmSettingsDrawList($moduleId, $optionsByBlock['ctrl_info']);
 
         __AdmSettingsDrawList($moduleId, $optionsByBlock['exclude_list']);
 

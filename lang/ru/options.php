@@ -16,7 +16,7 @@ $MESS['SL3W_WATERMARK_BLOCK_EVENTS'] = 'События';
 
 $MESS['SL3W_WATERMARK_OPTION_EVENT_ADD_SWITCH_ON'] = 'Добавлять водяной знак при добавлении элемента:';
 $MESS['SL3W_WATERMARK_OPTION_EVENT_UPDATE_SWITCH_ON'] = 'Добавлять водяной знак при изменении элемента:';
-$MESS['SL3W_WATERMARK_OPTION_PROCESS_SKU'] = 'Добавлять водяной знак у ТП при изменении основного товара:';
+$MESS['SL3W_WATERMARK_OPTION_PROCESS_SKU'] = 'Добавлять водяной знак у ТП при изменении основного товара <br>(для инфоблоков, являющимися торговыми каталогами):';
 
 $MESS['SL3W_WATERMARK_BLOCK_WM_IMAGE'] = 'Настройки водяного знака (изображение)';
 $MESS['SL3W_WATERMARK_BLOCK_WM_TEXT'] = 'Настройки водяного знака (текст)';
@@ -73,7 +73,9 @@ $MESS['SL3W_WATERMARK_BLOCK_EXCLUDE'] = 'Исключения';
 
 $MESS['SL3W_WATERMARK_OPTION_EXCLUDE_ELEMENTS'] = 'ID элементов, исключенных из обработки (через запятую):';
 
-$MESS['SL3W_WATERMARK_BUTTON_APPLY'] = 'Применить';
+$MESS['SL3W_WATERMARK_CTRL_INFO'] = 'Для выбора нескольких значений используйте клавишу <b>Ctrl</b>';
+
+$MESS['SL3W_WATERMARK_BUTTON_APPLY'] = 'Применить настройки';
 $MESS['SL3W_WATERMARK_BUTTON_DEFAULT'] = 'По умолчанию';
 
 $MESS['SL3W_WATERMARK_SUPPORT_TAB_NAME'] = 'Поддержать разработку';
