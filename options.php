@@ -228,7 +228,7 @@ $options = [
 
 $aTabs = [
     [
-        'DIV' => 'edit',
+        'DIV' => 'settings',
         'TAB' => Loc::getMessage(LANGS_PREFIX . 'OPTIONS_TAB_NAME'),
         'TITLE' => Loc::getMessage(LANGS_PREFIX . 'OPTIONS_TAB_NAME'),
         'OPTIONS' => $options,
@@ -343,25 +343,25 @@ $tabControl->Begin();
 
     if ($optionsByBlock) {
         __AdmSettingsDrawList($moduleId, $optionsByBlock['main_list']);
-        
+
         __AdmSettingsDrawList($moduleId, $optionsByBlock['events_list']);
-        
+
         __AdmSettingsDrawList($moduleId, $optionsByBlock['wm_list_image']);
 
-        foreach ($optionsByBlock['wm_list_special_image'] as $wm_list_special_option) {
-            $optionName = $wm_list_special_option[0];
+        foreach ($optionsByBlock['wm_list_special_image'] as $specialOption) {
+            $optionName = $specialOption[0];
             $optionValue = Settings::get($optionName);
             ?>
             <tr>
-                <td><?= $wm_list_special_option[1] ?></td>
+                <td><?= $specialOption[1] ?></td>
                 <td>
                     <?php if (!in_array($optionName, $dontShowInputOptions)) : ?>
                         <input class="adm-input"
-                               type="<?= $wm_list_special_option[3][0] ?: 'text' ?>"
+                               type="<?= $specialOption[3][0] ?: 'text' ?>"
                                name="<?= $optionName ?>"
-                               size="<?= $wm_list_special_option[3][1] ?: 10 ?>"
-                            <?= isset($wm_list_special_option[3][2]) && $wm_list_special_option[3][0] == 'number' ? sprintf('min="%s"', $wm_list_special_option[3][2]) : '' ?>
-                            <?= isset($wm_list_special_option[3][3]) && $wm_list_special_option[3][0] == 'number' ? sprintf('max="%s"', $wm_list_special_option[3][3]) : '' ?>
+                               size="<?= $specialOption[3][1] ?: 10 ?>"
+                            <?= isset($specialOption[3][2]) && $specialOption[3][0] == 'number' ? sprintf('min="%s"', $specialOption[3][2]) : '' ?>
+                            <?= isset($specialOption[3][3]) && $specialOption[3][0] == 'number' ? sprintf('max="%s"', $specialOption[3][3]) : '' ?>
                                value="<?= $optionValue ?>"/>
                     <?php endif; ?>
 
@@ -380,7 +380,7 @@ $tabControl->Begin();
                             $optionValue = $optionValue ?? 0;
 
                             echo CFileInput::Show(
-                                $wm_list_special_option[0],
+                                $specialOption[0],
                                 $optionValue,
                                 [
                                     'IMAGE' => '',
@@ -412,20 +412,20 @@ $tabControl->Begin();
 
         __AdmSettingsDrawList($moduleId, $optionsByBlock['wm_list_text']);
 
-        foreach ($optionsByBlock['wm_list_special_text'] as $wm_list_special_option) {
-            $optionName = $wm_list_special_option[0];
+        foreach ($optionsByBlock['wm_list_special_text'] as $specialOption) {
+            $optionName = $specialOption[0];
             $optionValue = Settings::get($optionName);
             ?>
             <tr>
-                <td><?= $wm_list_special_option[1] ?></td>
+                <td><?= $specialOption[1] ?></td>
                 <td>
                     <?php if (!in_array($optionName, $dontShowInputOptions)) : ?>
                         <input class="adm-input"
-                               type="<?= $wm_list_special_option[3][0] ?: 'text' ?>"
+                               type="<?= $specialOption[3][0] ?: 'text' ?>"
                                name="<?= $optionName ?>"
-                               size="<?= $wm_list_special_option[3][1] ?: 10 ?>"
-                            <?= isset($wm_list_special_option[3][2]) && $wm_list_special_option[3][0] == 'number' ? sprintf('min="%s"', $wm_list_special_option[3][2]) : '' ?>
-                            <?= isset($wm_list_special_option[3][3]) && $wm_list_special_option[3][0] == 'number' ? sprintf('max="%s"', $wm_list_special_option[3][3]) : '' ?>
+                               size="<?= $specialOption[3][1] ?: 10 ?>"
+                            <?= isset($specialOption[3][2]) && $specialOption[3][0] == 'number' ? sprintf('min="%s"', $specialOption[3][2]) : '' ?>
+                            <?= isset($specialOption[3][3]) && $specialOption[3][0] == 'number' ? sprintf('max="%s"', $specialOption[3][3]) : '' ?>
                                value="<?= $optionValue ?>"/>
                     <?php endif; ?>
 
@@ -434,7 +434,7 @@ $tabControl->Begin();
                             $optionValue = Helpers::clearColorHex($optionValue);
                             ?>
 
-                            <input type="<?= $wm_list_special_option[3][0] ?>"
+                            <input type="<?= $specialOption[3][0] ?>"
                                    name="<?= $optionName ?>"
                                    value="#<?= $optionValue ?>"/>
 
@@ -494,8 +494,8 @@ $tabControl->Begin();
     </p>
 
     <iframe
-        src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=500&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&"
-        width="423" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+            src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=500&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&"
+            width="423" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
 
     <p>
         <?= Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_TEXT3') ?>
@@ -649,7 +649,7 @@ if ($request->isPost() && check_bitrix_sessid()) {
         }
     }
 
-    LocalRedirect($APPLICATION->GetCurPage() . '?mid=' . $moduleId . '&lang=' . LANG . '&mid_menu=1');
+    LocalRedirect($APPLICATION->GetCurPage() . '?mid=' . $moduleId . '&lang=' . urlencode(LANGUAGE_ID) . '&mid_menu=1');
 }
 ?>
 

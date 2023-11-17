@@ -142,6 +142,13 @@ class sl3w_watermark extends CModule
         );
 
         CopyDirFiles(
+            __DIR__ . '/files/assets/css',
+            $_SERVER['DOCUMENT_ROOT'] . '/bitrix/css/' . $this->MODULE_ID . '/',
+            true,
+            true
+        );
+
+        CopyDirFiles(
             __DIR__ . '/files/gadgets',
             $_SERVER['DOCUMENT_ROOT'] . '/bitrix/gadgets/',
             true,
@@ -153,9 +160,11 @@ class sl3w_watermark extends CModule
 
     public function UnInstallFiles()
     {
+        DeleteDirFilesEx('/ajax/' . $this->MODULE_ID);
+
         DeleteDirFilesEx('/bitrix/js/' . $this->MODULE_ID);
 
-        DeleteDirFilesEx('/ajax/' . $this->MODULE_ID);
+        DeleteDirFilesEx('/bitrix/css/' . $this->MODULE_ID);
 
         DeleteDirFilesEx('/bitrix/gadgets/sl3w/button_start_watermarking');
 
@@ -196,6 +205,11 @@ class sl3w_watermark extends CModule
 
         Settings::set('event_add_switch_on', 'Y');
         Settings::set('event_update_switch_on', 'Y');
+
+        Settings::set('global_menu_hide', 'N');
+        Settings::set('global_menu_section', 'global_menu_sl3w');
+        Settings::set('global_menu_section_sort', '500');
+        Settings::set('global_menu_self_section_sort', '2000');
     }
 
     private function ClearOptions()

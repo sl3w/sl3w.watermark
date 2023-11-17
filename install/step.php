@@ -22,6 +22,6 @@ if ($errorException = $APPLICATION->GetException()) {
     <input type='submit' name='' value='<?= Loc::getMessage('SL3W_WATERMARK_STEP_BACK') ?>'>
 <form>
 
-<a href="/bitrix/admin/settings.php?lang=ru&mid=sl3w.watermark">
+<a href="/bitrix/admin/settings.php?mid=sl3w.watermark&lang=<?= urlencode(LANGUAGE_ID) ?>&mid_menu=1">
     <input type='button' name='' value='<?= Loc::getMessage('SL3W_WATERMARK_STEP_GO_TO_SETTINGS') ?>'>
 </a>
