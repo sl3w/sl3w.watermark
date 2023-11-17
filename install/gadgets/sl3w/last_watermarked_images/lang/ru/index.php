@@ -1,3 +1,5 @@
 <?php
+
 $MESS['SL3W_WATERMARK_LAST_WATERMARKED_IMAGES_EMPTY'] = '—писок последних обработанных изображений пуст.';
-?>
+$MESS['SL3W_WATERMARK_LAST_WATERMARKED_IMAGES_COLUMN_PREVIEW'] = 'ѕревью картинки';
+$MESS['SL3W_WATERMARK_LAST_WATERMARKED_IMAGES_COLUMN_ID'] = 'ID картинки';

@@ -13,11 +13,11 @@ if ($_POST['start_watermarking'] == 'Y') {
     LocalRedirect('/bitrix/admin/?SL3W_WATERMARK_GADGET_AFTER=Y');
 }
 
-if ($_GET['SL3W_WATERMARK_GADGET_AFTER'] == 'Y') { ?>
+if ($_GET['SL3W_WATERMARK_GADGET_AFTER'] == 'Y'): ?>
 
     <span><?= Loc::getMessage('SL3W_WATERMARK_BUTTON_START_WATERMARKING_AFTER') ?></span>
 
-<?php } else { ?>
+<?php else: ?>
 
     <form method="POST">
         <input class="adm-btn-save" type="submit" name="" value="<?= Loc::getMessage('SL3W_WATERMARK_BUTTON_START_WATERMARKING') ?>">
@@ -33,4 +33,4 @@ if ($_GET['SL3W_WATERMARK_GADGET_AFTER'] == 'Y') { ?>
 
     <span style="margin: 15px 0; display: block; cursor: default;"><?= Loc::getMessage('SL3W_WATERMARK_BUTTON_START_WATERMARKING_PS') ?></span>
 
-<?php } ?>
+<?php endif; ?>

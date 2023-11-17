@@ -149,7 +149,7 @@ class sl3w_watermark extends CModule
         );
 
         CopyDirFiles(
-            __DIR__ . '/files/gadgets',
+            __DIR__ . '/gadgets',
             $_SERVER['DOCUMENT_ROOT'] . '/bitrix/gadgets/',
             true,
             true
@@ -167,6 +167,8 @@ class sl3w_watermark extends CModule
         DeleteDirFilesEx('/bitrix/css/' . $this->MODULE_ID);
 
         DeleteDirFilesEx('/bitrix/gadgets/sl3w/button_start_watermarking');
+
+        DeleteDirFilesEx('/bitrix/gadgets/sl3w/last_watermarked_images');
 
         return false;
     }

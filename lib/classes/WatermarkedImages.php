@@ -56,15 +56,25 @@ class WatermarkedImages
 
     public static function getLastWatermarkedImages($count = 10)
     {
-        $lastWatermarkedImages = array_slice(self::getWatermarkedImagesIds(), 0, $count);
+        $lastWatermarkedImages = self::getWatermarkedImagesIds();
 
         $lastWatermarkedImagesRes = [];
 
+        $ii = 0;
+
         foreach ($lastWatermarkedImages as $lastWatermarkedImage) {
+            if ($ii >= $count) break;
+
+            $src = CFile::GetFileArray($lastWatermarkedImage)['SRC'];
+
+            if (!$src) continue;
+
             $lastWatermarkedImagesRes[] = [
                 'ID' => $lastWatermarkedImage,
-                'SRC' => CFile::GetFileArray($lastWatermarkedImage)['SRC']
+                'SRC' => $src,
             ];
+
+            $ii++;
         }
 
         return $lastWatermarkedImagesRes;
