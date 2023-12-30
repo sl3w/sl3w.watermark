@@ -6,6 +6,7 @@ use Bitrix\Main\Loader;
 use Sl3w\Watermark\Helpers;
 use Sl3w\Watermark\Iblock;
 use Sl3w\Watermark\Settings;
+use Sl3w\Watermark\EventsRegister;
 
 Loc::loadMessages(__FILE__);
 
@@ -81,18 +82,24 @@ $options = [
     'switch_on' => [
         'switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON'),
-        'Y',
+        'N',
         ['checkbox'],
     ],
     'add_watermark_btn_mass_switch_on' => [
         'add_watermark_btn_mass_switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN_MASS'),
-        'Y',
+        'N',
         ['checkbox'],
     ],
     'add_watermark_btn_switch_on' => [
         'add_watermark_btn_switch_on',
         Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN'),
+        'N',
+        ['checkbox'],
+    ],
+    'add_watermark_btn_section_switch_on' => [
+        'add_watermark_btn_section_switch_on',
+        Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN_SECTION'),
         'N',
         ['checkbox'],
     ],
@@ -246,6 +253,7 @@ $optionsByBlock = [
         $options['switch_on'],
         $options['add_watermark_btn_mass_switch_on'],
         $options['add_watermark_btn_switch_on'],
+        $options['add_watermark_btn_section_switch_on'],
     ],
     'events_list' => [
         $options['events_block'],
@@ -553,6 +561,11 @@ if ($request->isPost() && check_bitrix_sessid()) {
                 }
 
                 switch ($optionCode) {
+                    case 'switch_on':
+                        EventsRegister::elementsUpdate($optionValue == 'Y');
+
+                        break;
+
                     case 'wm_alpha':
                     case 'wm_max_percent':
                     case 'wm_max_percent_text':
@@ -578,12 +591,17 @@ if ($request->isPost() && check_bitrix_sessid()) {
                         break;
 
                     case 'add_watermark_btn_switch_on':
-                        register_add_watermark_btn_events($optionValue == 'Y' && $request->getPost('switch_on'));
+                        EventsRegister::addWatermarkBtnEvents($optionValue == 'Y' && $request->getPost('switch_on'));
+
+                        break;
+
+                    case 'add_watermark_btn_section_switch_on':
+                        EventsRegister::addWatermarkBtnSectionEvents($optionValue == 'Y' && $request->getPost('switch_on'));
 
                         break;
 
                     case 'add_watermark_btn_mass_switch_on':
-                        register_add_watermark_mass_events($optionValue == 'Y' && $request->getPost('switch_on'));
+                        EventsRegister::addWatermarkMassEvents($optionValue == 'Y' && $request->getPost('switch_on'));
 
                         break;
 
@@ -638,12 +656,26 @@ if ($request->isPost() && check_bitrix_sessid()) {
             } elseif ($request['default']) {
                 Settings::set($optionCode, $arOption[2]);
 
-                if ($optionCode == 'add_watermark_btn_switch_on') {
-                    register_add_watermark_btn_events(false);
-                }
+                switch ($optionCode) {
+                    case 'switch_on':
+                        EventsRegister::elementsUpdate(false);
 
-                if ($optionCode == 'add_watermark_btn_mass_switch_on') {
-                    register_add_watermark_mass_events(false);
+                        break;
+
+                    case 'add_watermark_btn_switch_on':
+                        EventsRegister::addWatermarkBtnEvents(false);
+
+                        break;
+
+                    case 'add_watermark_btn_section_switch_on':
+                        EventsRegister::addWatermarkBtnSectionEvents(false);
+
+                        break;
+
+                    case 'add_watermark_btn_mass_switch_on':
+                        EventsRegister::addWatermarkMassEvents(false);
+
+                        break;
                 }
             }
         }

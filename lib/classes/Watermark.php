@@ -4,6 +4,7 @@ namespace Sl3w\Watermark;
 
 use CFile;
 use CIBlockElement;
+use CIBlockSection;
 
 class Watermark
 {
@@ -35,9 +36,6 @@ class Watermark
             if ($src = self::getAddWatermarkedImageSrc($imgId)) {
                 $newFile = CFile::MakeFileArray($src);
 
-//            $newId = CFile::SaveFile($newFile, 'iblock');
-//            $newFileArray = CFile::GetFileArray($newId);
-
                 $imgsToUpdate[$key] = ['VALUE' => $newFile];
             }
 
@@ -48,8 +46,6 @@ class Watermark
                     ]
                 ];
             }
-
-//            CFile::Delete($imgId);
         }
 
         if (!empty($imgsToUpdate)) {
@@ -86,6 +82,27 @@ class Watermark
         CFile::Delete($imgId);
 
         WatermarkedImages::addWatermarkedImage(Iblock::getElementFieldValue($elementId, $fieldName));
+    }
+
+    public static function addWatermarkToSectionPicture($sectionId)
+    {
+        Helpers::includeModules('iblock');
+
+        $section = CIBlockSection::GetByID($sectionId)->Fetch();
+
+        if (!$section) return;
+
+        $imgId = $section['PICTURE'];
+
+        if (!$imgId || WatermarkedImages::isImageWaterMarked($imgId)) return;
+
+        $newFile = CFile::MakeFileArray(self::getAddWatermarkedImageSrc($imgId));
+
+        Iblock::setSectionPicture($sectionId, $newFile);
+
+        CFile::Delete($imgId);
+
+        WatermarkedImages::addWatermarkedImage(Iblock::getSectionPicture($sectionId));
     }
 
     private static function getAddWatermarkedImageSrc($imgId)

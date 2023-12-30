@@ -35,6 +35,21 @@ class Events
         return true;
     }
 
+    public static function AddWatermarkToSectionByButtonAjax($sectionId, $iblockId)
+    {
+        if (!Settings::yes('switch_on') || (!Settings::yes('switch_on_image') && !Settings::yes('switch_on_text'))) {
+            return false;
+        }
+
+        if (!in_array($iblockId, Settings::getProcessingIBlocks())) {
+            return false;
+        }
+
+        Watermark::addWatermarkToSectionPicture($sectionId);
+
+        return true;
+    }
+
     public static function OnAfterIBlockElementAddUpdate($arFields, $operation)
     {
         Settings::checkModuleVersionUpdated();
@@ -57,9 +72,7 @@ class Events
 
         $iblockId = $arFields['IBLOCK_ID'];
 
-        $iblockIds = Settings::getProcessingIBlocks();
-
-        if (!in_array($iblockId, $iblockIds)) {
+        if (!in_array($iblockId, Settings::getProcessingIBlocks())) {
             return;
         }
 

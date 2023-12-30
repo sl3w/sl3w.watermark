@@ -1,10 +1,10 @@
 <?php
 
-use Bitrix\Main\EventManager;
 use Bitrix\Main\Application;
 use Bitrix\Main\Entity\Base;
 use Bitrix\Main\Localization\Loc;
 use Sl3w\Watermark\Settings;
+use Sl3w\Watermark\EventsRegister;
 
 Loc::loadMessages(__FILE__);
 
@@ -81,46 +81,18 @@ class sl3w_watermark extends CModule
 
     public function InstallEvents()
     {
-        EventManager::getInstance()->registerEventHandler(
-            'iblock',
-            'OnAfterIBlockElementAdd',
-            $this->MODULE_ID,
-            'Sl3w\Watermark\Events',
-            'OnAfterIBlockElementAdd'
-        );
-
-        EventManager::getInstance()->registerEventHandler(
-            'iblock',
-            'OnAfterIBlockElementUpdate',
-            $this->MODULE_ID,
-            'Sl3w\Watermark\Events',
-            'OnAfterIBlockElementUpdate'
-        );
+        EventsRegister::elementsUpdate(true);
 
         return true;
     }
 
     public function UnInstallEvents()
     {
-        EventManager::getInstance()->unRegisterEventHandler(
-            'iblock',
-            'OnAfterIBlockElementAdd',
-            $this->MODULE_ID,
-            'Sl3w\Watermark\Events',
-            'OnAfterIBlockElementAdd'
-        );
+        EventsRegister::elementsUpdate(false);
 
-        EventManager::getInstance()->unRegisterEventHandler(
-            'iblock',
-            'OnAfterIBlockElementUpdate',
-            $this->MODULE_ID,
-            'Sl3w\Watermark\Events',
-            'OnAfterIBlockElementUpdate'
-        );
+        EventsRegister::addWatermarkBtnEvents(false);
 
-        register_add_watermark_btn_events(false);
-
-        register_add_watermark_mass_events(false);
+        EventsRegister::addWatermarkMassEvents(false);
 
         return true;
     }
@@ -193,8 +165,11 @@ class sl3w_watermark extends CModule
 
     private function SetOptions()
     {
-        Settings::set('switch_on', 'Y');
-        Settings::set('add_watermark_btn_mass_switch_on', 'Y');
+        Settings::set('switch_on', 'N');
+
+        Settings::set('add_watermark_btn_mass_switch_on', 'N');
+        Settings::set('add_watermark_btn_switch_on', 'N');
+        Settings::set('add_watermark_btn_section_switch_on', 'N');
 
         Settings::set('wm_alpha', 50);
 

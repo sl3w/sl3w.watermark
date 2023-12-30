@@ -19,9 +19,25 @@ class AdminEvents
 
             $items[] = [
                 'TEXT' => Loc::getMessage('SL3W_WATERMARK_ADMIN_BUTTON_TEXT_CAPITAL'),
-                'LINK' => 'javascript:addWatermarkByItemId(' . sl3w_request()->get('ID') . ',' . sl3w_request()->get('IBLOCK_ID') . ')',
+                'LINK' => sprintf('javascript:addWatermarkByItemId(%s, %s)', sl3w_request()->get('ID'), sl3w_request()->get('IBLOCK_ID')),
                 'TITLE' => Loc::getMessage('SL3W_WATERMARK_ADMIN_BUTTON_TEXT_CAPITAL'),
-                'ICON' => 'sl3w-add-watermark-btn'
+                'ICON' => 'sl3w-add-watermark-btn',
+            ];
+        }
+    }
+
+    public static function IBlocksAddWatermarkButtonSectionHandler(&$items)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'GET' &&
+            sl3w_application()->GetCurPage() == '/bitrix/admin/iblock_section_edit.php' &&
+            in_array(sl3w_request()->get('IBLOCK_ID'), Settings::getProcessingIBlocks()) &&
+            sl3w_request()->get('ID') > 0) {
+
+            $items[] = [
+                'TEXT' => Loc::getMessage('SL3W_WATERMARK_ADMIN_BUTTON_TEXT_CAPITAL'),
+                'LINK' => sprintf('javascript:addWatermarkBySectionId(%s, %s)', sl3w_request()->get('ID'), sl3w_request()->get('IBLOCK_ID')),
+                'TITLE' => Loc::getMessage('SL3W_WATERMARK_ADMIN_BUTTON_TEXT_CAPITAL'),
+                'ICON' => 'sl3w-add-watermark-btn',
             ];
         }
     }
@@ -68,6 +84,8 @@ class AdminEvents
 
     public static function OnAfterEpilogProcessWatermarks()
     {
+        if (!sl3w_request()->isAdminSection()) return;
+
         $action = sl3w_request()->getPost('action');
 
         $addWatermarkAction = (is_array($action) && in_array(self::ADMIN_LIST_ITEM_NAME, $action)) || (!is_array($action) && $action == self::ADMIN_LIST_ITEM_NAME);
@@ -76,14 +94,15 @@ class AdminEvents
 
         $isProcessingIblock = in_array($iblockId, Settings::getProcessingIBlocks());
 
-        if (sl3w_request()->isAdminSection() && $isProcessingIblock && $addWatermarkAction) {
-            $arID = sl3w_request()->getPost('ID');
+        if ($isProcessingIblock && $addWatermarkAction) {
+            $arPostIds = sl3w_request()->getPost('ID');
 
-            if (is_array($arID) && !empty($arID)) {
-                foreach ($arID as $strID) {
-                    $str = $strID;
-                    preg_match('/(E|S)(.+)/', $str, $matches);
-                    list($strID, $type, $id) = $matches;
+            if (is_array($arPostIds) && !empty($arPostIds)) {
+                foreach ($arPostIds as $strPostId) {
+                    $strId = $strPostId;
+
+                    preg_match('/(E|S)(.+)/', $strId, $matches);
+                    list($strPostId, $type, $id) = $matches;
 
                     switch ($type) {
                         case 'E':
@@ -92,8 +111,8 @@ class AdminEvents
 
                         case '':
                         case ' ':
-                            if (intval($str)) {
-                                Events::AddWatermarkByButtonAjax($str, $iblockId);
+                            if (intval($strId)) {
+                                Events::AddWatermarkByButtonAjax($strId, $iblockId);
                             }
 
                             break;

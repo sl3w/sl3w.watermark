@@ -11,6 +11,7 @@ $MESS['SL3W_WATERMARK_BLOCK_MAIN'] = 'Основное';
 $MESS['SL3W_WATERMARK_OPTION_SWITCH_ON'] = 'Модуль включен:';
 $MESS['SL3W_WATERMARK_OPTION_ADD_WATERMARK_BTN_MASS'] = 'Добавить кнопку массовой обработки в списке элементов:';
 $MESS['SL3W_WATERMARK_OPTION_ADD_WATERMARK_BTN'] = 'Добавить кнопку обработки на панели при редактировании элемента:';
+$MESS['SL3W_WATERMARK_OPTION_ADD_WATERMARK_BTN_SECTION'] = 'Добавить кнопку обработки на панели при редактировании раздела:';
 
 $MESS['SL3W_WATERMARK_BLOCK_EVENTS'] = 'События';
 

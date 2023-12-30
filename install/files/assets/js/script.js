@@ -210,6 +210,47 @@ function addWatermarkByItemId(element_id, iblock_id) {
     btn.href = 'javascript:void(0)';
 }
 
+function addWatermarkBySectionId(section_id, iblock_id) {
+    console.log('Запрос на наложение водяного знака. ID раздела: ' + section_id);
+
+    let btn = document.getElementById('sl3w-add-watermark-btn');
+
+    btn.textContent = 'В процессе...';
+    setBtnColor(btn, '#e9bd5b');
+    showWait();
+
+    BX.ajax({
+        type: 'GET',
+        url: '/ajax/sl3w.watermark/add_watermark.php?section_id=' + section_id + '&iblock_id=' + iblock_id,
+        async: true,
+        dataType: 'json',
+        onsuccess: function (response) {
+            console.log(response);
+
+            if (response.watermarked) {
+                setBtnColor(btn, '#8fbc8f');
+
+                btn.textContent = 'Водяной знак наложен';
+            } else {
+                setBtnColor(btn, '#e9967a');
+
+                btn.textContent = 'Ошибка при обработке';
+            }
+
+            closeWait();
+        },
+        onfailure: function () {
+            setBtnColor(btn, '#e9967a');
+
+            btn.textContent = 'Ошибка при обработке';
+
+            closeWait();
+        }
+    });
+
+    btn.href = 'javascript:void(0)';
+}
+
 function setBtnColor(btn, color) {
     // btn.style.setProperty('background-image', 'none', 'important');
 
