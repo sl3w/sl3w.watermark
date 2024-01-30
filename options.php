@@ -4,7 +4,7 @@ use Bitrix\Main\Localization\Loc;
 use Bitrix\Main\HttpApplication;
 use Bitrix\Main\Loader;
 use Sl3w\Watermark\Helpers;
-use Sl3w\Watermark\Iblock;
+use Sl3w\Watermark\OptionsDrawer;
 use Sl3w\Watermark\Settings;
 use Sl3w\Watermark\EventsRegister;
 
@@ -36,6 +36,9 @@ if (!Loader::includeModule('fileman')) {
     return false;
 }
 
+sl3w_asset()->addJs('/bitrix/js/' . $moduleId . '/options.min.js');
+$APPLICATION->SetAdditionalCss('/bitrix/css/' . $moduleId . '/options.min.css');
+
 //заменяем путь файла на ID файла
 $wmImagePath = Settings::getWatermark();
 
@@ -57,12 +60,12 @@ if (!is_numeric($wmImagePath)) {
 
 $selectIBlocks = [0 => Loc::getMessage(LANGS_PREFIX . 'OPTION_EMPTY')];
 
-$dbIBlocks = CIBlock::GetList(['SORT' => 'ID'], ['ACTIVE' => 'Y']);
+$dbIBlocks = CIBlock::GetList(['ID' => 'ASC'], ['ACTIVE' => 'Y']);
 
-$allIbIds = [];
+$allIBlocks = [];
 
 while ($arIBlock = $dbIBlocks->GetNext()) {
-    $allIbIds[] = $arIBlock['ID'];
+    $allIBlocks[$arIBlock['ID']] = $arIBlock['NAME'];
     $selectIBlocks[$arIBlock['ID']] = sprintf('[%s] %s', $arIBlock['ID'], $arIBlock['NAME']);
 }
 
@@ -77,270 +80,290 @@ foreach ($positionsVars as $positionsVar) {
     $selectPositions[$positionsVar] = Loc::getMessage(sprintf('%sOPTION_WM_POSITION_%s', LANGS_PREFIX, Helpers::toUpper($positionsVar)));
 }
 
-$options = [
-    'main_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_MAIN'),
+$settingsTabOptions = [
+    'main_block' => [
+        'type' => 'block_title',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_MAIN'),
+    ],
     'switch_on' => [
-        'switch_on',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON'),
-        'N',
-        ['checkbox'],
+        'code' => 'switch_on',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON'),
+        'type' => 'checkbox',
+        'default' => 'N',
     ],
     'add_watermark_btn_mass_switch_on' => [
-        'add_watermark_btn_mass_switch_on',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN_MASS'),
-        'N',
-        ['checkbox'],
+        'code' => 'add_watermark_btn_mass_switch_on',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN_MASS'),
+        'type' => 'checkbox',
+        'default' => 'N',
     ],
     'add_watermark_btn_switch_on' => [
-        'add_watermark_btn_switch_on',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN'),
-        'N',
-        ['checkbox'],
+        'code' => 'add_watermark_btn_switch_on',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN'),
+        'type' => 'checkbox',
+        'default' => 'N',
     ],
     'add_watermark_btn_section_switch_on' => [
-        'add_watermark_btn_section_switch_on',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN_SECTION'),
-        'N',
-        ['checkbox'],
+        'code' => 'add_watermark_btn_section_switch_on',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_ADD_WATERMARK_BTN_SECTION'),
+        'type' => 'checkbox',
+        'default' => 'N',
     ],
-    'events_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_EVENTS'),
+    'events_block' => [
+        'type' => 'block_title',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_EVENTS'),
+    ],
     'event_add_switch_on' => [
-        'event_add_switch_on',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_EVENT_ADD_SWITCH_ON'),
-        'Y',
-        ['checkbox'],
+        'code' => 'event_add_switch_on',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_EVENT_ADD_SWITCH_ON'),
+        'type' => 'checkbox',
+        'default' => 'Y',
     ],
     'event_update_switch_on' => [
-        'event_update_switch_on',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_EVENT_UPDATE_SWITCH_ON'),
-        'Y',
-        ['checkbox'],
+        'code' => 'event_update_switch_on',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_EVENT_UPDATE_SWITCH_ON'),
+        'type' => 'checkbox',
+        'default' => 'Y',
     ],
     'process_sku' => [
-        'process_sku',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_PROCESS_SKU'),
-        'N',
-        ['checkbox'],
+        'code' => 'process_sku',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_PROCESS_SKU'),
+        'type' => 'checkbox',
+        'default' => 'N',
+        'hint_after' => Loc::getMessage(LANGS_PREFIX . 'OPTION_PROCESS_SKU_HINT_AFTER'),
     ],
-    'wm_block_image' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_IMAGE'),
+    'wm_block_image' => [
+        'type' => 'block_title',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_IMAGE'),
+    ],
     'switch_on_image' => [
-        'switch_on_image',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_IMAGE'),
-        'Y',
-        ['checkbox'],
+        'code' => 'switch_on_image',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_IMAGE'),
+        'type' => 'checkbox',
+        'default' => 'Y',
     ],
     'wm_position' => [
-        'wm_position',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
-        'br',
-        ['selectbox', $selectPositions],
+        'code' => 'wm_position',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
+        'type' => 'select',
+        'options' => $selectPositions,
+        'default' => 'br',
     ],
     'wm_is_repeat' => [
-        'wm_is_repeat',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IS_REPEAT'),
-        'N',
-        ['checkbox'],
+        'code' => 'wm_is_repeat',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IS_REPEAT'),
+        'type' => 'checkbox',
+        'default' => 'N',
     ],
     'wm_alpha' => [
-        'wm_alpha',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA'),
-        '50',
-        ['number', 3, 0, 100],
-        '',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA_NUMBER'),
+        'code' => 'wm_alpha',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA'),
+        'type' => 'number',
+        'default' => 50,
+        'size' => 3,
+        'min_value' => 0,
+        'max_value' => 100,
+        'text_after' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA_AFTER'),
+        'hint_after' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA_HINT_AFTER'),
     ],
     'wm_max_percent' => [
-        'wm_max_percent',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
-        '50',
-        ['number', 3, 0, 100],
-        '',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER'),
+        'code' => 'wm_max_percent',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
+        'type' => 'number',
+        'default' => 50,
+        'size' => 3,
+        'min_value' => 0,
+        'max_value' => 100,
+        'text_after' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_AFTER'),
+        'hint_after' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_HINT_AFTER'),
     ],
     'wm_image_path' => [
-        'wm_image_path',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IMAGE_PATH'),
-        '',
-        ['text', 30],
+        'code' => 'wm_image_path',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_IMAGE_PATH'),
+        'type' => 'image',
     ],
-    'wm_block_text' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_TEXT'),
+    'wm_block_text' => [
+        'type' => 'block_title',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_WM_TEXT'),
+    ],
     'switch_on_text' => [
-        'switch_on_text',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_TEXT'),
-        'Y',
-        ['checkbox'],
+        'code' => 'switch_on_text',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_SWITCH_ON_TEXT'),
+        'type' => 'checkbox',
+        'default' => 'Y',
     ],
     'wm_position_text' => [
-        'wm_position_text',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
-        'br',
-        ['selectbox', $selectPositions],
+        'code' => 'wm_position_text',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_POSITION'),
+        'type' => 'select',
+        'options' => $selectPositions,
+        'default' => 'br',
     ],
     'wm_text' => [
-        'wm_text',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT'),
-        '',
-        ['text', 50],
+        'code' => 'wm_text',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT'),
+        'type' => 'text',
+        'default' => '',
+        'size' => 50,
+        'max_length' => 255,
     ],
     'wm_text_color' => [
-        'wm_text_color',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT_COLOR'),
-        'ffffff',
-        ['color'],
+        'code' => 'wm_text_color',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_TEXT_COLOR'),
+        'type' => 'color',
+        'default' => 'ffffff',
     ],
     'wm_max_percent_text' => [
-        'wm_max_percent_text',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
-        '50',
-        ['number', 3, 0, 100],
-        '',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_NUMBER'),
+        'code' => 'wm_max_percent_text',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT'),
+        'type' => 'number',
+        'default' => 50,
+        'size' => 3,
+        'min_value' => 0,
+        'max_value' => 100,
+        'text_after' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_AFTER'),
+        'hint_after' => Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_HINT_AFTER'),
     ],
     'wm_text_font' => [
-        'wm_text_font',
-        Loc::getMessage('SL3W_WATERMARK_OPTION_WM_TEXT_FONT'),
-        '/bitrix/fonts/pt_sans-regular.ttf',
-        ['text', 50],
+        'code' => 'wm_text_font',
+        'name' => Loc::getMessage('SL3W_WATERMARK_OPTION_WM_TEXT_FONT'),
+        'type' => 'file',
+        'size' => 50,
+        'default' => '/bitrix/fonts/pt_sans-regular.ttf',
+        'file_filter' => 'ttf',
     ],
-    'dont_add_block' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_IBLOCK'),
-    'set_dont_add_after_add' => [
-        'set_dont_add_after_add',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_SET_DONT_ADD_AFTER_ADD'),
-        '',
-        ['checkbox'],
+    'iblock_block' => [
+        'type' => 'block_title',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_IBLOCK'),
     ],
-    'set_dont_add_after_update' => [
-        'set_dont_add_after_update',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_SET_DONT_ADD_AFTER_UPDATE'),
-        '',
-        ['checkbox'],
-    ],
-    'dont_add_note' => ['note' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_NOTE')],
-    'iblock_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_IBLOCK'),
     'iblock_ids' => [
-        'iblock_ids',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_IBLOCK_IDS'),
-        '',
-        ['multiselectbox', $selectIBlocks],
-    ],
-    'ctrl_info' => ['note' => Loc::getMessage(LANGS_PREFIX . 'CTRL_INFO')],
-    'exclude_block' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_EXCLUDE'),
-    'exclude_elements_ids' => [
-        'exclude_elements_ids',
-        Loc::getMessage(LANGS_PREFIX . 'OPTION_EXCLUDE_ELEMENTS'),
-        '',
-        ['textarea', 5, 50],
-    ],
-];
-
-$aTabs = [
-    [
-        'DIV' => 'settings',
-        'TAB' => Loc::getMessage(LANGS_PREFIX . 'OPTIONS_TAB_NAME'),
-        'TITLE' => Loc::getMessage(LANGS_PREFIX . 'OPTIONS_TAB_NAME'),
-        'OPTIONS' => $options,
-    ],
-    [
-        'DIV' => 'support',
-        'TAB' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_NAME'),
-        'TITLE' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_NAME'),
-    ]
-];
-
-$optionsByBlock = [
-    'main_list' => [
-        $options['main_block'],
-        $options['switch_on'],
-        $options['add_watermark_btn_mass_switch_on'],
-        $options['add_watermark_btn_switch_on'],
-        $options['add_watermark_btn_section_switch_on'],
-    ],
-    'events_list' => [
-        $options['events_block'],
-        $options['event_add_switch_on'],
-        $options['event_update_switch_on'],
-        $options['process_sku'],
-    ],
-    'wm_list_image' => [
-        $options['wm_block_image'],
-        $options['switch_on_image'],
-        $options['wm_position'],
-        $options['wm_is_repeat'],
-    ],
-    'wm_list_special_image' => [
-        $options['wm_alpha'],
-        $options['wm_max_percent'],
-        $options['wm_image_path'],
-    ],
-    'wm_list_text' => [
-        $options['wm_block_text'],
-        $options['switch_on_text'],
-        $options['wm_position_text'],
-        $options['wm_text'],
-    ],
-    'wm_list_special_text' => [
-        $options['wm_text_color'],
-        $options['wm_max_percent_text'],
-        $options['wm_text_font'],
-    ],
-    'dont_add_list' => [
-        $options['dont_add_block'],
-        $options['set_dont_add_after_add'],
-        $options['set_dont_add_after_update'],
-        $options['dont_add_note']
-    ],
-    'iblock_list' => [
-        $options['iblock_block'],
-        $options['iblock_ids'],
-    ],
-    'ctrl_info' => [
-        $options['ctrl_info'],
-    ],
-    'iblocks_list' => [],
-    'exclude_list' => [
-        $options['exclude_block'],
-        $options['exclude_elements_ids'],
+        'code' => 'iblock_ids',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_IBLOCK_IDS'),
+        'type' => 'select',
+        'multi' => 'Y',
+        'options' => $selectIBlocks,
+        'default' => '',
     ],
 ];
 
 $selectedIbs = Settings::getProcessingIBlocks();
-$iblockIds = $allIbIds;
+$iBlockIds = array_keys($allIBlocks);
+$propCodeToSaveOriginals = Settings::getPropCodeToSaveOriginals();
 
-foreach ($iblockIds as $iblockId) {
-    if (!intval($iblockId)) {
+foreach ($allIBlocks as $iBlockId => $iBlockName) {
+    if (!intval($iBlockId)) {
         continue;
     }
 
     $selectFieldsAndProps = $selectFields;
 
-    $propsRes = CIBlock::GetProperties($iblockId);
+    $propsRes = CIBlock::GetProperties($iBlockId);
 
     while ($prop = $propsRes->Fetch()) {
-        if ($prop['PROPERTY_TYPE'] == 'F') {
+        if ($prop['PROPERTY_TYPE'] == 'F' && $prop['CODE'] != $propCodeToSaveOriginals) {
             $selectFieldsAndProps['PROPERTY_' . $prop['CODE']] = sprintf('[PROPERTY_%s] %s', $prop['CODE'], $prop['NAME']);
         }
     }
 
-    $optionsByBlock['iblocks_list'][] = [
-        'iblock' . $iblockId . '_fields',
-        sprintf('%s [%s] "%s":', Loc::getMessage(LANGS_PREFIX . 'FIELDS_AND_PROPS'), $iblockId, Iblock::getIBlockNameById($iblockId)),
-        '',
-        ['multiselectbox', $selectFieldsAndProps],
+    $settingsTabOptions['iblock' . $iBlockId . '_fields'] = [
+        'code' => 'iblock' . $iBlockId . '_fields',
+        'name' => sprintf('%s [%s] "%s":', Loc::getMessage(LANGS_PREFIX . 'FIELDS_AND_PROPS'), $iBlockId, $iBlockName),
+        'type' => 'select',
+        'multi' => 'Y',
+        'options' => $selectFieldsAndProps,
+        'default' => '',
     ];
 }
 
-$optionsByBlock2 = [
-    'support_note' => ['note' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_NOTE')],
+$settingsTabOptions = array_merge($settingsTabOptions, [
+    'ctrl_info' => [
+        'type' => 'note',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'CTRL_INFO'),
+    ],
+    'save_originals_block' => [
+        'type' => 'block_title',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_SAVE_ORIGINALS'),
+    ],
+    'save_originals' => [
+        'code' => 'save_originals',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_SAVE_ORIGINALS'),
+        'type' => 'checkbox',
+        'default' => 'N',
+    ],
+    'save_originals_prop_code' => [
+        'code' => 'save_originals_prop_code',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_SAVE_ORIGINALS_PROP_CODE'),
+        'type' => 'text',
+        'default' => 'WM_ORIGINAL_IMAGES',
+        'size' => 30,
+        'max_length' => 255,
+    ],
+    'save_originals_note' => [
+        'type' => 'note',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'SAVE_ORIGINALS_NOTE'),
+    ],
+    'exclude_block' => [
+        'type' => 'block_title',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_EXCLUDE'),
+    ],
+    'exclude_elements_ids' => [
+        'code' => 'exclude_elements_ids',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_EXCLUDE_ELEMENTS'),
+        'type' => 'textarea',
+        'default' => '',
+        'rows' => 5,
+        'cols' => 50,
+    ],
+    'dont_add_block' => [
+        'type' => 'block_title',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_IBLOCK'),
+    ],
+    'set_dont_add_after_add' => [
+        'code' => 'set_dont_add_after_add',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_SET_DONT_ADD_AFTER_ADD'),
+        'type' => 'checkbox',
+        'default' => 'N',
+    ],
+    'set_dont_add_after_update' => [
+        'code' => 'set_dont_add_after_update',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_SET_DONT_ADD_AFTER_UPDATE'),
+        'type' => 'checkbox',
+        'default' => 'N',
+    ],
+    'dont_add_note' => [
+        'type' => 'note',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_NOTE'),
+    ],
+]);
+
+$supportTabOptions = [
+    'support_note' => [
+        'type' => 'note',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_NOTE'),
+    ],
 ];
+
+$allTabsOptions = array_merge($settingsTabOptions, $supportTabOptions);
 
 $tabControl = new CAdminTabControl(
     'tabControl',
-    $aTabs,
+    [
+        [
+            'DIV' => 'settings',
+            'TAB' => Loc::getMessage(LANGS_PREFIX . 'OPTIONS_TAB_NAME'),
+            'TITLE' => Loc::getMessage(LANGS_PREFIX . 'OPTIONS_TAB_NAME'),
+        ],
+        [
+            'DIV' => 'support',
+            'TAB' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_NAME'),
+            'TITLE' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_NAME'),
+        ]
+    ],
 );
 
-$dontShowInputOptions = ['wm_image_path', 'wm_text_color'];
-
 $tabControl->Begin();
+
+$optionsDrawer = new OptionsDrawer('.sl3w_watermark');
 ?>
 
 <form enctype="multipart/form-data" method="post" name="sl3w_watermark"
@@ -349,147 +372,7 @@ $tabControl->Begin();
     <?php
     $tabControl->BeginNextTab();
 
-    if ($optionsByBlock) {
-        __AdmSettingsDrawList($moduleId, $optionsByBlock['main_list']);
-
-        __AdmSettingsDrawList($moduleId, $optionsByBlock['events_list']);
-
-        __AdmSettingsDrawList($moduleId, $optionsByBlock['wm_list_image']);
-
-        foreach ($optionsByBlock['wm_list_special_image'] as $specialOption) {
-            $optionName = $specialOption[0];
-            $optionValue = Settings::get($optionName);
-            ?>
-            <tr>
-                <td><?= $specialOption[1] ?></td>
-                <td>
-                    <?php if (!in_array($optionName, $dontShowInputOptions)) : ?>
-                        <input class="adm-input"
-                               type="<?= $specialOption[3][0] ?: 'text' ?>"
-                               name="<?= $optionName ?>"
-                               size="<?= $specialOption[3][1] ?: 10 ?>"
-                            <?= isset($specialOption[3][2]) && $specialOption[3][0] == 'number' ? sprintf('min="%s"', $specialOption[3][2]) : '' ?>
-                            <?= isset($specialOption[3][3]) && $specialOption[3][0] == 'number' ? sprintf('max="%s"', $specialOption[3][3]) : '' ?>
-                               value="<?= $optionValue ?>"/>
-                    <?php endif; ?>
-
-                    <?php switch ($optionName) {
-                        case 'wm_alpha':
-                            echo Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_ALPHA_AFTER');
-
-                            break;
-
-                        case 'wm_max_percent':
-                            echo Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_AFTER');
-
-                            break;
-
-                        case 'wm_image_path':
-                            $optionValue = $optionValue ?? 0;
-
-                            echo CFileInput::Show(
-                                $specialOption[0],
-                                $optionValue,
-                                [
-                                    'IMAGE' => '',
-                                    'PATH' => 'Y',
-                                    'FILE_SIZE' => 'Y',
-                                    'DIMENSIONS' => 'Y',
-                                    'IMAGE_POPUP' => 'Y',
-                                    'MAX_SIZE' => [
-                                        'W' => 300,
-                                        'H' => 150,
-                                    ],
-                                ],
-                                [
-                                    'upload' => true,
-                                    'medialib' => true,
-                                    'file_dialog' => true,
-                                    'cloud' => true,
-                                    'del' => true,
-                                    'description' => false,
-                                ]
-                            );
-
-                            break;
-                    } ?>
-                </td>
-            </tr>
-            <?php
-        }
-
-        __AdmSettingsDrawList($moduleId, $optionsByBlock['wm_list_text']);
-
-        foreach ($optionsByBlock['wm_list_special_text'] as $specialOption) {
-            $optionName = $specialOption[0];
-            $optionValue = Settings::get($optionName);
-            ?>
-            <tr>
-                <td><?= $specialOption[1] ?></td>
-                <td>
-                    <?php if (!in_array($optionName, $dontShowInputOptions)) : ?>
-                        <input class="adm-input"
-                               type="<?= $specialOption[3][0] ?: 'text' ?>"
-                               name="<?= $optionName ?>"
-                               size="<?= $specialOption[3][1] ?: 10 ?>"
-                            <?= isset($specialOption[3][2]) && $specialOption[3][0] == 'number' ? sprintf('min="%s"', $specialOption[3][2]) : '' ?>
-                            <?= isset($specialOption[3][3]) && $specialOption[3][0] == 'number' ? sprintf('max="%s"', $specialOption[3][3]) : '' ?>
-                               value="<?= $optionValue ?>"/>
-                    <?php endif; ?>
-
-                    <?php switch ($optionName) {
-                        case 'wm_text_color':
-                            $optionValue = Helpers::clearColorHex($optionValue);
-                            ?>
-
-                            <input type="<?= $specialOption[3][0] ?>"
-                                   name="<?= $optionName ?>"
-                                   value="#<?= $optionValue ?>"/>
-
-                            <?php
-                            break;
-
-                        case 'wm_max_percent_text':
-                            echo Loc::getMessage(LANGS_PREFIX . 'OPTION_WM_MAX_PERCENT_AFTER');
-
-                            break;
-
-                        case 'wm_text_font':
-                            ?>
-                            <input type="button" value="..." onclick="Sl3wWmOpenFileDialogFont()">
-                            <?php
-                            CAdminFileDialog::ShowScript(
-                                [
-                                    'event' => "Sl3wWmOpenFileDialogFont",
-                                    'arResultDest' => ['FORM_NAME' => 'sl3w_watermark', 'FORM_ELEMENT_NAME' => 'wm_text_font'],
-                                    'arPath' => ['PATH' => ''],
-                                    'select' => 'F',
-                                    'operation' => 'O',
-                                    'showUploadTab' => true,
-                                    'showAddToMenuTab' => false,
-                                    'fileFilter' => 'ttf',
-                                    'allowAllFiles' => false,
-                                    'SaveConfig' => true,
-                                ]
-                            );
-
-                            break;
-                    } ?>
-                </td>
-            </tr>
-            <?php
-        }
-
-        __AdmSettingsDrawList($moduleId, $optionsByBlock['iblock_list']);
-
-        __AdmSettingsDrawList($moduleId, $optionsByBlock['iblocks_list']);
-
-        __AdmSettingsDrawList($moduleId, $optionsByBlock['ctrl_info']);
-
-        __AdmSettingsDrawList($moduleId, $optionsByBlock['exclude_list']);
-
-        __AdmSettingsDrawList($moduleId, $optionsByBlock['dont_add_list']);
-    }
+    $optionsDrawer->drawOptions($settingsTabOptions);
 
     $tabControl->BeginNextTab();
     ?>
@@ -524,7 +407,7 @@ $tabControl->Begin();
     </p>
 
     <?php
-    __AdmSettingsDrawRow($moduleId, $optionsByBlock2['support_note']);
+    $optionsDrawer->drawOptions($supportTabOptions);
 
     $tabControl->Buttons();
     ?>
@@ -542,152 +425,148 @@ $tabControl->End();
 
 if ($request->isPost() && check_bitrix_sessid()) {
 
-    foreach ($aTabs as $aTab) {
+    foreach ($allTabsOptions as $option) {
+        $type = $option['type'];
+        $code = $option['code'];
 
-        foreach ($aTab['OPTIONS'] as $arOption) {
+        if (in_array($type, ['note', 'block_title'])) {
+            continue;
+        }
 
-            if (!is_array($arOption) || $arOption['note']) {
-                continue;
+        if ($request['apply']) {
+            $value = $request->getPost($code);
+            $value = $type == 'checkbox' && $value == '' ? 'N' : $value;
+
+            switch ($code) {
+                case 'switch_on':
+                    EventsRegister::elementsUpdate($value == 'Y');
+
+                    break;
+
+                case 'wm_alpha':
+                case 'wm_max_percent':
+                case 'wm_max_percent_text':
+                case 'wm_text':
+                case 'wm_text_font':
+                    $value = !$value ? $option['default'] : $value;
+
+                    break;
+
+                case 'wm_text_color':
+                    $value = Helpers::clearColorHex(!$value ? $option['default'] : $value);
+
+                    break;
+
+                case 'iblock_ids':
+                    foreach ($value as $ibId) {
+                        $optionName = 'iblock' . $ibId . '_fields';
+                        $optionValueFields = $request->getPost($optionName);
+
+                        Settings::set($optionName, is_array($optionValueFields) ? implode(',', $optionValueFields) : $optionValueFields);
+                    }
+
+                    break;
+
+                case 'add_watermark_btn_switch_on':
+                    EventsRegister::addWatermarkBtnEvents($value == 'Y' && $request->getPost('switch_on'));
+
+                    break;
+
+                case 'add_watermark_btn_section_switch_on':
+                    EventsRegister::addWatermarkBtnSectionEvents($value == 'Y' && $request->getPost('switch_on'));
+
+                    break;
+
+                case 'add_watermark_btn_mass_switch_on':
+                    EventsRegister::addWatermarkMassEvents($value == 'Y' && $request->getPost('switch_on'));
+
+                    break;
+
+                case 'wm_image_path':
+                    $currentValue = Settings::get($code, 0);
+
+                    $filesByOption = $_FILES[$code];
+
+                    //в $value (в $_REQUEST) будет путь к файлу, если файл залит через медиабиблиотеку или структуру,
+                    //но нам в конечном итоге нужен ID файла
+
+                    //если файл удален или залит новый, удаляем старый файл
+                    if (
+                        $request->getPost($code . '_del') || $value ||
+                        (isset($filesByOption) && strlen($filesByOption['tmp_name']))
+                    ) {
+                        CFile::Delete($currentValue);
+                    }
+
+                    if ((isset($filesByOption) && strlen($filesByOption['tmp_name'])) || $value) {
+                        $value = 0;
+
+                        if (isset($filesByOption)) {
+                            $absFilePath = $filesByOption['tmp_name'];
+                            $arOriginalName = $filesByOption['name'];
+                        } else {
+                            $filePath = $_REQUEST[$code];
+                            $absFilePath = $_SERVER['DOCUMENT_ROOT'] . htmlspecialcharsbx($filePath);
+                            $filePath = explode('/', $filePath);
+                            $arOriginalName = array_pop($filePath);
+                        }
+
+                        if (file_exists($absFilePath)) {
+                            $arFile = CFile::MakeFileArray($absFilePath);
+                            $arFile['name'] = $arOriginalName;
+
+                            if ($fileId = CFile::SaveFile($arFile, str_replace('.', '_', $moduleId))) {
+                                $value = $fileId;
+                            }
+                        }
+                    } elseif ($request->getPost($code . '_del')) {
+                        $value = '';
+                    } else {
+                        $value = $currentValue;
+                    }
+
+                    break;
             }
 
-            $optionCode = $arOption[0];
+            $value = is_array($value) ? implode(',', $value) : $value;
 
-            if ($request['apply']) {
+            Settings::set($code, $value);
+        } elseif ($request['default']) {
+            Settings::set($code, $option['default']);
 
-                $optionValue = $request->getPost($optionCode);
+            switch ($code) {
+                case 'switch_on':
+                    EventsRegister::elementsUpdate(false);
 
-                if ($arOption[3][0] == 'checkbox' && $optionValue == '') {
-                    $optionValue = 'N';
-                }
+                    break;
 
-                switch ($optionCode) {
-                    case 'switch_on':
-                        EventsRegister::elementsUpdate($optionValue == 'Y');
+                case 'add_watermark_btn_switch_on':
+                    EventsRegister::addWatermarkBtnEvents(false);
 
-                        break;
+                    break;
 
-                    case 'wm_alpha':
-                    case 'wm_max_percent':
-                    case 'wm_max_percent_text':
-                    case 'wm_text':
-                    case 'wm_text_font':
-                        $optionValue = !$optionValue ? $arOption[2] : $optionValue;
+                case 'add_watermark_btn_section_switch_on':
+                    EventsRegister::addWatermarkBtnSectionEvents(false);
 
-                        break;
+                    break;
 
-                    case 'wm_text_color':
-                        $optionValue = Helpers::clearColorHex(!$optionValue ? $arOption[2] : $optionValue);
+                case 'add_watermark_btn_mass_switch_on':
+                    EventsRegister::addWatermarkMassEvents(false);
 
-                        break;
-
-                    case 'iblock_ids':
-                        foreach ($optionValue as $value) {
-                            $optionName = 'iblock' . $value . '_fields';
-                            $optionValueFields = $request->getPost($optionName);
-
-                            Settings::set($optionName, is_array($optionValueFields) ? implode(',', $optionValueFields) : $optionValueFields);
-                        }
-
-                        break;
-
-                    case 'add_watermark_btn_switch_on':
-                        EventsRegister::addWatermarkBtnEvents($optionValue == 'Y' && $request->getPost('switch_on'));
-
-                        break;
-
-                    case 'add_watermark_btn_section_switch_on':
-                        EventsRegister::addWatermarkBtnSectionEvents($optionValue == 'Y' && $request->getPost('switch_on'));
-
-                        break;
-
-                    case 'add_watermark_btn_mass_switch_on':
-                        EventsRegister::addWatermarkMassEvents($optionValue == 'Y' && $request->getPost('switch_on'));
-
-                        break;
-
-                    case 'wm_image_path':
-                        $currentValue = Settings::get($optionCode, 0);
-
-                        $filesByOption = $_FILES[$optionCode];
-
-                        //в $optionValue (в $_REQUEST) будет путь к файлу, если файл залит через медиабиблиотеку или структуру,
-                        //но нам в конечном итоге нужен ID файла
-
-                        //если файл удален или залит новый, удаляем старый файл
-                        if (
-                            $request->getPost($optionCode . '_del') || $optionValue ||
-                            (isset($filesByOption) && strlen($filesByOption['tmp_name']))
-                        ) {
-                            CFile::Delete($currentValue);
-                        }
-
-                        if ((isset($filesByOption) && strlen($filesByOption['tmp_name'])) || $optionValue) {
-                            $optionValue = 0;
-
-                            if (isset($filesByOption)) {
-                                $absFilePath = $filesByOption['tmp_name'];
-                                $arOriginalName = $filesByOption['name'];
-                            } else {
-                                $filePath = $_REQUEST[$optionCode];
-                                $absFilePath = $_SERVER['DOCUMENT_ROOT'] . htmlspecialcharsbx($filePath);
-                                $filePath = explode('/', $filePath);
-                                $arOriginalName = array_pop($filePath);
-                            }
-
-                            if (file_exists($absFilePath)) {
-                                $arFile = CFile::MakeFileArray($absFilePath);
-                                $arFile['name'] = $arOriginalName;
-
-                                if ($fileId = CFile::SaveFile($arFile, str_replace('.', '_', $moduleId))) {
-                                    $optionValue = $fileId;
-                                }
-                            }
-                        } else {
-                            $optionValue = $currentValue;
-                        }
-
-                        break;
-                }
-
-                $optionValue = is_array($optionValue) ? implode(',', $optionValue) : $optionValue;
-
-                Settings::set($optionCode, $optionValue);
-
-            } elseif ($request['default']) {
-                Settings::set($optionCode, $arOption[2]);
-
-                switch ($optionCode) {
-                    case 'switch_on':
-                        EventsRegister::elementsUpdate(false);
-
-                        break;
-
-                    case 'add_watermark_btn_switch_on':
-                        EventsRegister::addWatermarkBtnEvents(false);
-
-                        break;
-
-                    case 'add_watermark_btn_section_switch_on':
-                        EventsRegister::addWatermarkBtnSectionEvents(false);
-
-                        break;
-
-                    case 'add_watermark_btn_mass_switch_on':
-                        EventsRegister::addWatermarkMassEvents(false);
-
-                        break;
-                }
+                    break;
             }
         }
     }
 
     LocalRedirect($APPLICATION->GetCurPage() . '?mid=' . $moduleId . '&lang=' . urlencode(LANGUAGE_ID) . '&mid_menu=1');
 }
+
+$optionsDrawer->drawExtensions();
 ?>
 
 <script>
     const selectedIbs = <?= CUtil::PhpToJSObject($selectedIbs, false, true) ?>;
-    const allIbs = <?= CUtil::PhpToJSObject($allIbIds, false, true) ?>;
+    const allIbs = <?= CUtil::PhpToJSObject($iBlockIds, false, true) ?>;
 
     function getSelectorById(iBId) {
         return document.querySelector('select[name="iblock' + iBId + '_fields[]"]');

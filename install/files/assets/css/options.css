@@ -1,0 +1,224 @@
+.sl3w-option-setting-field {
+    display: inline-block;
+}
+
+.sl3w-option-setting-field._text input[type=text],
+.sl3w-option-setting-field._number input[type=number] {
+    box-shadow: none;
+    border: 1px solid #c2c2c2;
+    border-radius: 3px;
+    height: 28px;
+    padding-left: 8px;
+    padding-right: 8px;
+    background: #ffffff;
+}
+
+.sl3w-option-setting-field._text input[type=text]:hover,
+.sl3w-option-setting-field._number input[type=number]:hover {
+    border-color: #929292;
+}
+
+.sl3w-option-setting-field._text input[type=text]:focus,
+.sl3w-option-setting-field._number input[type=number]:focus {
+    border-color: #b6aefb;
+}
+
+.sl3w-option-setting-field._textarea textarea {
+    box-shadow: none;
+    border: 1px solid #c2c2c2;
+    border-radius: 3px;
+    padding-left: 8px;
+    padding-right: 8px;
+    background: #ffffff;
+}
+
+.sl3w-option-setting-field._textarea textarea:hover {
+    border-color: #929292;
+}
+
+.sl3w-option-setting-field._textarea textarea:focus {
+    border-color: #b6aefb;
+}
+
+.sl3w-option-setting-field._file input[type=text] {
+    box-shadow: none;
+    border: 1px solid #c2c2c2;
+    border-radius: 3px;
+    height: 28px;
+    padding-left: 8px;
+    padding-right: 8px;
+    background: #ffffff;
+}
+
+.sl3w-option-setting-field._file input[type=text]:hover {
+    border-color: #929292;
+}
+
+.sl3w-option-setting-field._file input[type=text]:focus {
+    border-color: #b6aefb;
+}
+
+.sl3w-option-setting-field._file input[type=button] {
+    box-shadow: none;
+    border-radius: 2px;
+    background-color: #32cd32 !important;
+    background-image: none !important;
+    color: #fff;
+    font-weight: 400;
+}
+
+.sl3w-option-setting-field._file input[type=button]:hover {
+    background-color: #1ec21e !important;
+    background-image: none !important;
+}
+
+.sl3w-option-setting-field._checkbox {
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    position: relative;
+    vertical-align: middle;
+    font-size: 14px;
+    user-select: none;
+}
+
+.sl3w-option-setting-field._checkbox label {
+    position: relative;
+    display: inline-block;
+    box-sizing: border-box;
+    width: 35px !important;
+    height: 20px !important;
+    border: 1px solid #00000019;
+    border-radius: 25%/50%;
+    vertical-align: middle !important;
+    background: #eeeeee !important;
+    transition: .2s;
+    cursor: pointer !important;
+}
+
+.sl3w-option-setting-field._checkbox label:hover {
+    background: #cccccc !important;
+}
+
+.sl3w-option-setting-field._checkbox label:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #ffffff !important;
+    transition: .15s;
+}
+
+.sl3w-option-setting-field._checkbox input[type=checkbox] {
+    display: block;
+    width: 0;
+    height: 0;
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+
+.sl3w-option-setting-field._checkbox input[type=checkbox]:checked + label {
+    background: #32cd32 !important;
+    border-color: #38af67 !important;
+}
+
+.sl3w-option-setting-field._checkbox input[type=checkbox]:checked + label:hover {
+    background: #1ec21e !important;
+}
+
+.sl3w-option-setting-field._checkbox input[type=checkbox]:checked + label:before {
+    transform: translateX(15px);
+}
+
+.sl3w-option-setting-field._select select {
+    box-shadow: none;
+    border: 1px solid #c2c2c2;
+    border-radius: 3px;
+    padding-left: 5px;
+    padding-right: 5px;
+    background: #fff;
+}
+
+.sl3w-option-setting-field._select:not(._select-multi) {
+    position: relative;
+}
+
+.sl3w-option-setting-field._select:not(._select-multi) select {
+    height: 32px;
+    appearance: none;
+    padding-right: 25px;
+}
+
+.sl3w-option-setting-field._select:not(._select-multi) ._angle {
+    display: block;
+    position: absolute;
+    right: 2px;
+    top: 4px;
+    height: 25px;
+    width: 25px;
+    pointer-events: none;
+    transition: .1s;
+    background-image: url("data:image/svg+xml,%3Csvg%20width='26'%20height='26'%20xmlns='http://www.w3.org/2000/svg'%3E%3Cg%20fill='%23828B95'%3E%3Cpath%20d='M7.071%2010.858l1.414-1.414%205.657%205.656-1.414%201.414z'/%3E%3Cpath%20d='M16.97%209.444l1.415%201.414-5.657%205.657-1.414-1.415z'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.sl3w-option-setting-field._select._select-multi select {
+    padding-right: 0;
+}
+
+.sl3w-option-setting-field._select._select-multi select::-webkit-scrollbar {
+    width: 5px;
+}
+
+.sl3w-option-setting-field._select._select-multi select::-webkit-scrollbar-track {
+    background-color: #eee;
+}
+
+.sl3w-option-setting-field._select._select-multi select::-webkit-scrollbar-thumb {
+    background-color: #929292bb;
+    border-radius: 3px;
+}
+
+.sl3w-option-setting-field._select._select-multi select::-webkit-scrollbar-thumb:hover {
+    background-color: #929292;
+}
+
+.sl3w-option-setting-field._select select:hover {
+    border-color: #929292;
+}
+
+.sl3w-option-setting-field._select select:focus {
+    border-color: #b6aefb;
+}
+
+.sl3w-option-setting-field._select select.active + ._angle {
+    transform: rotate(180deg);
+    top: 5px;
+}
+
+.sl3w-option-setting-field._color input {
+    box-shadow: none;
+    border: 1px solid #c2c2c2;
+    border-radius: 3px;
+    background: #fff;
+}
+
+.sl3w-option-setting-field._color input:hover {
+    border-color: #929292;
+}
+
+.sl3w-option-setting-field._color input:focus {
+    border-color: #b6aefb;
+}
+
+.sl3w-option-setting-field + .ui-hint {
+    height: 24px;
+}
+
+.sl3w-option-setting-field + .ui-hint .ui-hint-icon {
+    margin-top: 0;
+}

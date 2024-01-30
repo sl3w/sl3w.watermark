@@ -4,6 +4,7 @@
     'sl3w.watermark',
     [
         'Sl3w\Watermark\Helpers' => 'lib/classes/Helpers.php',
+        'Sl3w\Watermark\OptionsDrawer' => 'lib/classes/OptionsDrawer.php',
         'Sl3w\Watermark\Settings' => 'lib/classes/Settings.php',
         'Sl3w\Watermark\Events' => 'lib/classes/Events.php',
         'Sl3w\Watermark\AdminEvents' => 'lib/classes/AdminEvents.php',

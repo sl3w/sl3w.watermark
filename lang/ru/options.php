@@ -17,7 +17,8 @@ $MESS['SL3W_WATERMARK_BLOCK_EVENTS'] = 'События';
 
 $MESS['SL3W_WATERMARK_OPTION_EVENT_ADD_SWITCH_ON'] = 'Добавлять водяной знак при добавлении элемента:';
 $MESS['SL3W_WATERMARK_OPTION_EVENT_UPDATE_SWITCH_ON'] = 'Добавлять водяной знак при изменении элемента:';
-$MESS['SL3W_WATERMARK_OPTION_PROCESS_SKU'] = 'Добавлять водяной знак у ТП при изменении основного товара <br>(для инфоблоков, являющимися торговыми каталогами):';
+$MESS['SL3W_WATERMARK_OPTION_PROCESS_SKU'] = 'Добавлять водяной знак у ТП при изменении основного товара:';
+$MESS['SL3W_WATERMARK_OPTION_PROCESS_SKU_HINT_AFTER'] = 'Для инфоблоков, являющимися торговыми каталогами';
 
 $MESS['SL3W_WATERMARK_BLOCK_WM_IMAGE'] = 'Настройки водяного знака (изображение)';
 $MESS['SL3W_WATERMARK_BLOCK_WM_TEXT'] = 'Настройки водяного знака (текст)';
@@ -42,12 +43,12 @@ $MESS['SL3W_WATERMARK_OPTION_WM_SIZE'] = 'Размер водяного знака:';
 $MESS['SL3W_WATERMARK_OPTION_WM_IS_REPEAT'] = 'Повторять водяной знак по всей площади изображения:';
 
 $MESS['SL3W_WATERMARK_OPTION_WM_ALPHA'] = 'Непрозрачность водяного знака:';
-$MESS['SL3W_WATERMARK_OPTION_WM_ALPHA_AFTER'] = '% (чем меньше, тем прозрачнее)';
-$MESS['SL3W_WATERMARK_OPTION_WM_ALPHA_NUMBER'] = 'целое число (иначе 50%)';
+$MESS['SL3W_WATERMARK_OPTION_WM_ALPHA_AFTER'] = '%';
+$MESS['SL3W_WATERMARK_OPTION_WM_ALPHA_HINT_AFTER'] = 'Чем меньше, тем прозрачнее';
 
 $MESS['SL3W_WATERMARK_OPTION_WM_MAX_PERCENT'] = 'Максимальная ширина и высота водяного знака:';
-$MESS['SL3W_WATERMARK_OPTION_WM_MAX_PERCENT_AFTER'] = '% (от ширины и высоты обрабатываемого изображения)';
-$MESS['SL3W_WATERMARK_OPTION_WM_MAX_PERCENT_NUMBER'] = 'целое число (иначе 50%)';
+$MESS['SL3W_WATERMARK_OPTION_WM_MAX_PERCENT_AFTER'] = '%';
+$MESS['SL3W_WATERMARK_OPTION_WM_MAX_PERCENT_HINT_AFTER'] = 'Максимальный процент от ширины и высоты<br>обрабатываемого изображения';
 
 $MESS['SL3W_WATERMARK_OPTION_WM_IMAGE_PATH'] = 'Изображение водяного знака:';
 
@@ -65,14 +66,18 @@ $MESS['SL3W_WATERMARK_OPTIONS_DETAIL_PICTURE'] = '[DETAIL_PICTURE] Детальная кар
 
 $MESS['SL3W_WATERMARK_FIELDS_AND_PROPS'] = 'Поля и свойства инфоблока';
 
+$MESS['SL3W_WATERMARK_BLOCK_SAVE_ORIGINALS'] = 'Сохранение оригиналов изображений';
+$MESS['SL3W_WATERMARK_OPTION_SAVE_ORIGINALS'] = 'Сохранять оригиналы:';
+$MESS['SL3W_WATERMARK_OPTION_SAVE_ORIGINALS_PROP_CODE'] = 'Код свойства для сохранения оригиналов:';
+$MESS['SL3W_WATERMARK_SAVE_ORIGINALS_NOTE'] = 'Указывается символьный код свойства инфоблока, в которое будут сохраняться оригинальные изображения до наложения водяного знака.<br>Для этого необходимо создать свойство с типом <b>"Файл" (множественное)</b> с указанным символьным кодом в настройках инфоблоков.<br>Если свойство будет не найдено, то сохранение оригиналов обрабатываемых изображений в текущем инфоблоке производиться не будет.';
+
+$MESS['SL3W_WATERMARK_BLOCK_EXCLUDE'] = 'Исключения';
+$MESS['SL3W_WATERMARK_OPTION_EXCLUDE_ELEMENTS'] = 'ID элементов, исключенных из обработки (через запятую):';
+
 $MESS['SL3W_WATERMARK_SET_DONT_ADD_IBLOCK'] = 'Установка значения в свойстве <b style="color: black">DONT_ADD_WATERMARK_ON_SAVE</b>';
 $MESS['SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_ADD'] = 'После добавления элемента:';
 $MESS['SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_UPDATE'] = 'После изменения элемента:';
 $MESS['SL3W_WATERMARK_SET_DONT_ADD_NOTE'] = 'При установленной настройке при соответствующем событии у обработанного элемента будет автоматически установлена галочка в свойстве с символьным кодом <b>DONT_ADD_WATERMARK_ON_SAVE</b>, если оно существует в текущем инфоблоке и создано в соответствии с логикой работы модуля (см. <a href="http://marketplace.1c-bitrix.ru/solutions/sl3w.watermark/#tab-install-link" target="_blank">описание модуля в Маркетплейсе</a>). Свойство ограничивает повторное наложении водяного знака в этом же элементе.';
-
-$MESS['SL3W_WATERMARK_BLOCK_EXCLUDE'] = 'Исключения';
-
-$MESS['SL3W_WATERMARK_OPTION_EXCLUDE_ELEMENTS'] = 'ID элементов, исключенных из обработки (через запятую):';
 
 $MESS['SL3W_WATERMARK_CTRL_INFO'] = 'Для выбора нескольких значений используйте клавишу <b>Ctrl</b>';
 

@@ -114,6 +114,16 @@ class Settings
         return $_SERVER['DOCUMENT_ROOT'] . self::get('wm_text_font');
     }
 
+    public static function isSaveOriginals()
+    {
+        return self::yes('save_originals');
+    }
+
+    public static function getPropCodeToSaveOriginals()
+    {
+        return self::get('save_originals_prop_code');
+    }
+
     public static function getWmAlpha()
     {
         return self::getCheckPercentValue((int)Settings::get('wm_alpha'));

@@ -19,14 +19,37 @@ class Watermark
         }
     }
 
+    /**
+     * @param $itemProps
+     * @return false|string Property code or false
+     */
+    private static function isSaveOriginals($itemProps)
+    {
+        $isSaveOriginalSwitchOn = Settings::isSaveOriginals();
+        $propCodeToSaveOriginals = Settings::getPropCodeToSaveOriginals();
+
+        if ($isSaveOriginalSwitchOn && $propCodeToSaveOriginals) {
+            if (key_exists($propCodeToSaveOriginals, $itemProps)) {
+                return $propCodeToSaveOriginals;
+            }
+        }
+
+        return false;
+    }
+
     public static function addWatermarkByPropName($propName, $allElementInfo)
     {
         Helpers::includeModules('iblock');
+
+        $saveOriginal = self::isSaveOriginals($allElementInfo['PROPS']);
+
+        if ($propName == $saveOriginal) return;
 
         $imgIdsValues = Helpers::arrayWrap($allElementInfo['PROPS'][$propName]['PROPERTY_VALUE_ID']);
         $imgIds = Helpers::arrayWrap($allElementInfo['PROPS'][$propName]['VALUE']);
 
         $imgsToUpdate = [];
+        $imgsToOriginal = [];
 
         foreach ($imgIds as $key => $imgId) {
             if (WatermarkedImages::isImageWaterMarked($imgId)) {
@@ -37,6 +60,10 @@ class Watermark
                 $newFile = CFile::MakeFileArray($src);
 
                 $imgsToUpdate[$key] = ['VALUE' => $newFile];
+
+                if ($saveOriginal) {
+                    $imgsToOriginal[] = ['VALUE' => CFile::MakeFileArray($imgId)];
+                }
             }
 
             if ($imgIdsValues[$key]) {
@@ -46,6 +73,10 @@ class Watermark
                     ]
                 ];
             }
+        }
+
+        if ($saveOriginal && !empty($imgsToOriginal)) {
+            Iblock::setElementPropertyValue($allElementInfo['FIELDS']['ID'], $saveOriginal, $imgsToOriginal);
         }
 
         if (!empty($imgsToUpdate)) {
@@ -76,6 +107,12 @@ class Watermark
         }
 
         $newFile = CFile::MakeFileArray(self::getAddWatermarkedImageSrc($imgId));
+
+        if ($saveOriginal = self::isSaveOriginals($allElementInfo['PROPS'])) {
+            $imgToOriginal[] = ['VALUE' => CFile::MakeFileArray($imgId)];
+
+            Iblock::setElementPropertyValue($elementId, $saveOriginal, $imgToOriginal);
+        }
 
         Iblock::setElementFieldValue($elementId, $fieldName, $newFile);
 
