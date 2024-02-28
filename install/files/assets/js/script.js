@@ -165,12 +165,12 @@ function showWait() {
     document.body.appendChild(style);
 }
 
-function closeWait() {
+function hideWait() {
     document.querySelectorAll('body .sl3w_watermark_loader')[0].remove();
 }
 
 function addWatermarkByItemId(element_id, iblock_id) {
-    console.log('Запрос на наложение водяного знака. ID элемента: ' + element_id);
+    console.log('Запрос на нанесение водяного знака. ID элемента: ' + element_id);
 
     let btn = document.getElementById('sl3w-add-watermark-btn');
 
@@ -189,21 +189,25 @@ function addWatermarkByItemId(element_id, iblock_id) {
             if (response.watermarked) {
                 setBtnColor(btn, '#8fbc8f');
 
-                btn.textContent = 'Водяной знак наложен';
+                btn.textContent = 'Водяной знак нанесен';
+
+                setTimeout(function () {
+                    window.location.reload();
+                }, 100);
             } else {
                 setBtnColor(btn, '#e9967a');
 
                 btn.textContent = 'Ошибка при обработке';
             }
 
-            closeWait();
+            hideWait();
         },
         onfailure: function () {
             setBtnColor(btn, '#e9967a');
 
             btn.textContent = 'Ошибка при обработке';
 
-            closeWait();
+            hideWait();
         }
     });
 
@@ -211,7 +215,7 @@ function addWatermarkByItemId(element_id, iblock_id) {
 }
 
 function addWatermarkBySectionId(section_id, iblock_id) {
-    console.log('Запрос на наложение водяного знака. ID раздела: ' + section_id);
+    console.log('Запрос на нанесение водяного знака. ID раздела: ' + section_id);
 
     let btn = document.getElementById('sl3w-add-watermark-btn');
 
@@ -230,21 +234,25 @@ function addWatermarkBySectionId(section_id, iblock_id) {
             if (response.watermarked) {
                 setBtnColor(btn, '#8fbc8f');
 
-                btn.textContent = 'Водяной знак наложен';
+                btn.textContent = 'Водяной знак нанесен';
+
+                setTimeout(function () {
+                    window.location.reload();
+                }, 100);
             } else {
                 setBtnColor(btn, '#e9967a');
 
                 btn.textContent = 'Ошибка при обработке';
             }
 
-            closeWait();
+            hideWait();
         },
         onfailure: function () {
             setBtnColor(btn, '#e9967a');
 
             btn.textContent = 'Ошибка при обработке';
 
-            closeWait();
+            hideWait();
         }
     });
 
