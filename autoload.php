@@ -7,6 +7,7 @@
         'Sl3w\Watermark\OptionsDrawer' => 'lib/classes/OptionsDrawer.php',
         'Sl3w\Watermark\Settings' => 'lib/classes/Settings.php',
         'Sl3w\Watermark\Events' => 'lib/classes/Events.php',
+        'Sl3w\Watermark\Agents' => 'lib/classes/Agents.php',
         'Sl3w\Watermark\AdminEvents' => 'lib/classes/AdminEvents.php',
         'Sl3w\Watermark\EventsRegister' => 'lib/classes/EventsRegister.php',
         'Sl3w\Watermark\Iblock' => 'lib/classes/Iblock.php',

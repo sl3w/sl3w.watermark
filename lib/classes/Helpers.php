@@ -9,6 +9,17 @@ class Helpers
     const SESSION_WATERMARK_ELEMENTS = 'watermark_elements';
     const PROP_PREFIX = 'PROPERTY_';
 
+    public static function getUser()
+    {
+        global $USER;
+        return $USER;
+    }
+
+    public static function getUserId()
+    {
+        return self::getUser()->GetID();
+    }
+
     public static function strContains($haystack, $needle)
     {
         return stripos($haystack, $needle) !== false;

@@ -76,6 +76,27 @@ class Events
             return;
         }
 
+        $isPending = false;
+
+        //check for pending process via 1c exchange user
+        if (Settings::yes('switch_on_1c_pending_exec')) {
+            $currentUserId = Helpers::getUserId();
+            $userIdFor1cExchange = Settings::get('exchange_1c_user_id');
+
+            if ($currentUserId && $userIdFor1cExchange && $currentUserId == $userIdFor1cExchange) {
+                $isPending = true;
+            }
+        }
+
+        if ($isPending) {
+            Agents::createAgentForPendingProcess($elementId, $iblockId, $operation);
+        } else {
+            self::mainProcessToAddWatermark($elementId, $iblockId, $operation);
+        }
+    }
+
+    public static function mainProcessToAddWatermark($elementId, $iblockId, $operation)
+    {
         $iblockFieldsAndProps = Settings::getProcessingFieldsByIBlock($iblockId);
 
         $elementInfo = Iblock::getElementFieldsAndPropsById($elementId);
@@ -120,7 +141,7 @@ class Events
         }
     }
 
-    /* поддержка старой версии модуля */
+    /* legacy module's old version */
     public static function IBlocksAddWatermarkButtonHandler(&$items)
     {
         AdminEvents::IBlocksAddWatermarkButtonHandler($items);
@@ -130,5 +151,5 @@ class Events
     {
         AdminEvents::AppendScriptsToPage();
     }
-    /* /поддержка старой версии модуля */
+    /* /legacy module's old version */
 }

@@ -39,7 +39,7 @@ if (!Loader::includeModule('fileman')) {
 sl3w_asset()->addJs('/bitrix/js/' . $moduleId . '/options.min.js');
 $APPLICATION->SetAdditionalCss('/bitrix/css/' . $moduleId . '/options.min.css');
 
-//заменяем путь файла на ID файла
+//version 1.2.1 - change file path to file id
 $wmImagePath = Settings::getWatermark();
 
 if (!is_numeric($wmImagePath)) {
@@ -56,7 +56,7 @@ if (!is_numeric($wmImagePath)) {
         }
     }
 }
-//\заменяем путь файла на ID файла
+//\version 1.2.1 - change file path to file id
 
 $selectIBlocks = [0 => Loc::getMessage(LANGS_PREFIX . 'OPTION_EMPTY')];
 
@@ -267,7 +267,7 @@ foreach ($allIBlocks as $iBlockId => $iBlockName) {
 
     $settingsTabOptions['iblock' . $iBlockId . '_fields'] = [
         'code' => 'iblock' . $iBlockId . '_fields',
-        'name' => sprintf('%s [%s] "%s":', Loc::getMessage(LANGS_PREFIX . 'FIELDS_AND_PROPS'), $iBlockId, $iBlockName),
+        'name' => Loc::getMessage(LANGS_PREFIX . 'FIELDS_AND_PROPS', ['#ID#' => $iBlockId, '#NAME#' => $iBlockName]),
         'type' => 'select',
         'multi' => 'Y',
         'options' => $selectFieldsAndProps,
@@ -316,7 +316,7 @@ $settingsTabOptions = array_merge($settingsTabOptions, [
     ],
     'dont_add_block' => [
         'type' => 'block_title',
-        'name' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_IBLOCK'),
+        'name' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_SET_DONT_ADD'),
     ],
     'set_dont_add_after_add' => [
         'code' => 'set_dont_add_after_add',
@@ -333,6 +333,31 @@ $settingsTabOptions = array_merge($settingsTabOptions, [
     'dont_add_note' => [
         'type' => 'note',
         'name' => Loc::getMessage(LANGS_PREFIX . 'SET_DONT_ADD_NOTE'),
+    ],
+    '1c_exchange_block' => [
+        'type' => 'block_title',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_1C_EXCHANGE'),
+    ],
+    'switch_on_1c_pending_exec' => [
+        'code' => 'switch_on_1c_pending_exec',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_1C_PENDING_EXEC'),
+        'type' => 'checkbox',
+        'default' => 'N',
+    ],
+    'switch_on_1c_pending_exec_note' => [
+        'type' => 'note',
+        'name' => Loc::getMessage(LANGS_PREFIX . '1C_PENDING_EXEC_NOTE'),
+    ],
+    'exchange_1c_user_id' => [
+        'code' => 'exchange_1c_user_id',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_1C_EXCHANGE_USER_ID'),
+        'type' => 'number',
+        'default' => 1,
+        'min_value' => 1,
+    ],
+    'exchange_1c_user_id_note' => [
+        'type' => 'note',
+        'name' => Loc::getMessage(LANGS_PREFIX . '1C_EXCHANGE_USER_ID_NOTE'),
     ],
 ]);
 
@@ -357,7 +382,7 @@ $tabControl = new CAdminTabControl(
             'DIV' => 'support',
             'TAB' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_NAME'),
             'TITLE' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_NAME'),
-        ]
+        ],
     ],
 );
 
@@ -394,7 +419,7 @@ $optionsDrawer = new OptionsDrawer('.sl3w_watermark');
     </p>
 
     <iframe
-            src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=500&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&"
+            src="https://yoomoney.ru/quickpay/shop-widget?writer=seller&default-sum=1000&button-text=12&payment-type-choice=on&successURL=&quickpay=shop&account=410014134044507&targets=%D0%9F%D0%B5%D1%80%D0%B5%D0%B2%D0%BE%D0%B4%20%D0%BF%D0%BE%20%D0%BA%D0%BD%D0%BE%D0%BF%D0%BA%D0%B5&"
             width="423" height="222" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
 
     <p>

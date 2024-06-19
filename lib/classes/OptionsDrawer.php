@@ -236,7 +236,7 @@ class OptionsDrawer
                         'cloud' => true,
                         'del' => true,
                         'description' => false,
-                    ]
+                    ],
                 );
 
                 break;
@@ -256,20 +256,18 @@ class OptionsDrawer
                 $formName = 'sl3w_watermark';
                 $fileFilter = $parameters['file_filter'] ?? '';
 
-                CAdminFileDialog::ShowScript(
-                    [
-                        'event' => 'Sl3wOpenFileDialog_' . $code,
-                        'arResultDest' => ['FORM_NAME' => $formName, 'FORM_ELEMENT_NAME' => $code],
-                        'arPath' => ['PATH' => ''],
-                        'select' => 'F',
-                        'operation' => 'O',
-                        'showUploadTab' => true,
-                        'showAddToMenuTab' => false,
-                        'fileFilter' => $fileFilter,
-                        'allowAllFiles' => false,
-                        'SaveConfig' => true,
-                    ]
-                );
+                CAdminFileDialog::ShowScript([
+                    'event' => 'Sl3wOpenFileDialog_' . $code,
+                    'arResultDest' => ['FORM_NAME' => $formName, 'FORM_ELEMENT_NAME' => $code],
+                    'arPath' => ['PATH' => ''],
+                    'select' => 'F',
+                    'operation' => 'O',
+                    'showUploadTab' => true,
+                    'showAddToMenuTab' => false,
+                    'fileFilter' => $fileFilter,
+                    'allowAllFiles' => false,
+                    'SaveConfig' => true,
+                ]);
 
                 break;
 
