@@ -73,6 +73,13 @@ class Settings
         return $elementsIds ? Helpers::arrayTrimExplode($elementsIds) : [];
     }
 
+    public static function getIncludedFileTypes(): array
+    {
+        $fileTypes = self::get('include_file_types');
+
+        return $fileTypes ? Helpers::arrayTrimExplode($fileTypes) : [];
+    }
+
     public static function getWatermark()
     {
         return self::get('wm_image_path');
@@ -89,37 +96,37 @@ class Settings
         return $wmPath;
     }
 
-    public static function getWmPositionImage()
+    public static function getWmPositionImage(): string
     {
         return self::get('wm_position');
     }
 
-    public static function getWmPositionText()
+    public static function getWmPositionText(): string
     {
         return self::get('wm_position_text');
     }
 
-    public static function getWmText()
+    public static function getWmText(): string
     {
         return self::get('wm_text');
     }
 
-    public static function getWmTextColor()
+    public static function getWmTextColor(): string
     {
         return self::get('wm_text_color');
     }
 
-    public static function getWmTextFont()
+    public static function getWmTextFont(): string
     {
         return $_SERVER['DOCUMENT_ROOT'] . self::get('wm_text_font');
     }
 
-    public static function isSaveOriginals()
+    public static function isSaveOriginals(): bool
     {
         return self::yes('save_originals');
     }
 
-    public static function getPropCodeToSaveOriginals()
+    public static function getPropCodeToSaveOriginals(): string
     {
         return self::get('save_originals_prop_code');
     }

@@ -74,7 +74,7 @@ class Iblock
         Helpers::includeModules('iblock');
 
         (new CIBlockElement)->Update($elementId, [
-            $fieldName => $value
+            $fieldName => $value,
         ]);
     }
 

@@ -62,7 +62,7 @@ class AdminEvents
             if ($list->table_id == 'tbl_iblock_list_' . md5($iblockType . '.' . $iblockId)) {
 
                 $list->arActions = array_merge($list->arActions, [
-                    self::ADMIN_LIST_ITEM_NAME => Loc::getMessage('SL3W_WATERMARK_ADMIN_BUTTON_TEXT')
+                    self::ADMIN_LIST_ITEM_NAME => Loc::getMessage('SL3W_WATERMARK_ADMIN_BUTTON_TEXT'),
                 ]);
             }
         }
@@ -76,7 +76,7 @@ class AdminEvents
             if ($list->table_id == 'tbl_iblock_element_' . md5($iblockType . '.' . $iblockId)) {
 
                 $list->arActions = array_merge($list->arActions, [
-                    self::ADMIN_LIST_ITEM_NAME => Loc::getMessage('SL3W_WATERMARK_ADMIN_BUTTON_TEXT')
+                    self::ADMIN_LIST_ITEM_NAME => Loc::getMessage('SL3W_WATERMARK_ADMIN_BUTTON_TEXT'),
                 ]);
             }
         }
@@ -104,15 +104,14 @@ class AdminEvents
                     preg_match('/(E|S)(.+)/', $strId, $matches);
                     list($strPostId, $type, $id) = $matches;
 
-                    switch ($type) {
+                    switch (trim($type)) {
                         case 'E':
-                            Events::AddWatermarkByButtonAjax($id, $iblockId);
+                            Watermark::startCheckProcessing($id, $iblockId, 'update');
                             break;
 
                         case '':
-                        case ' ':
                             if (intval($strId)) {
-                                Events::AddWatermarkByButtonAjax($strId, $iblockId);
+                                Watermark::startCheckProcessing($strId, $iblockId, 'update');
                             }
 
                             break;

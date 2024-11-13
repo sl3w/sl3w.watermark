@@ -21,7 +21,7 @@ class Agents
 
     public static function pendingWatermarkProcess($elementId, $iblockId, $operation)
     {
-        Events::mainProcessToAddWatermark($elementId, $iblockId, $operation);
+        Watermark::mainProcessToAddWatermark($elementId, $iblockId, $operation);
 
         return false;
     }

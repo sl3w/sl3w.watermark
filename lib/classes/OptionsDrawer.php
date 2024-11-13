@@ -100,7 +100,6 @@ class OptionsDrawer
 
                 <tr>
                     <td width="50%">
-
                         <?php if ($hintBefore = $parameters['hint_before']) {
                             $this->addExtension('ui.hint'); ?>
 
@@ -175,7 +174,7 @@ class OptionsDrawer
             case 'textarea': ?>
 
                 <div class="sl3w-option-setting-field _textarea">
-                    <textarea rows="<?= $parameters['rows'] ?? 5 ?>" cols="<?= $parameters['cols'] ?? 50 ?>" name="<?= $code ?>"></textarea>
+                    <textarea rows="<?= $parameters['rows'] ?? 5 ?>" cols="<?= $parameters['cols'] ?? 50 ?>" name="<?= $code ?>"><?= $value ?></textarea>
                 </div>
 
                 <?php break;

@@ -1,20 +1,22 @@
 <?php require($_SERVER['DOCUMENT_ROOT'] . '/bitrix/modules/main/include/prolog_before.php');
 
 use Bitrix\Main\Loader;
-use Sl3w\Watermark\Events;
+use Sl3w\Watermark\Watermark;
 
 Loader::includeModule('sl3w.watermark');
 
 $iblockId = (int)sl3w_request()->get('iblock_id');
 
-$result = ['watermarked' => false];
+$watermarked = false;
 
 if ($elementId = (int)sl3w_request()->get('element_id')) {
-    $result = ['watermarked' => Events::AddWatermarkByButtonAjax($elementId, $iblockId)];
+    Watermark::startCheckProcessing($elementId, $iblockId, 'update');
+    $watermarked = true;
 }
 
 if ($sectionId = (int)sl3w_request()->get('section_id')) {
-    $result = ['watermarked' => Events::AddWatermarkToSectionByButtonAjax($sectionId, $iblockId)];
+    Watermark::startCheckProcessingSection($sectionId, $iblockId);
+    $watermarked = true;
 }
 
-echo json_encode($result);
+echo json_encode(['watermarked' => $watermarked]);

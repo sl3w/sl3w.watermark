@@ -314,6 +314,15 @@ $settingsTabOptions = array_merge($settingsTabOptions, [
         'rows' => 5,
         'cols' => 50,
     ],
+    'include_file_types' => [
+        'code' => 'include_file_types',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'OPTION_INCLUDE_FILE_TYPES'),
+        'type' => 'textarea',
+        'default' => '',
+        'rows' => 5,
+        'cols' => 50,
+        'hint_after' => Loc::getMessage(LANGS_PREFIX . 'OPTION_INCLUDE_FILE_TYPES_HINT_AFTER'),
+    ],
     'dont_add_block' => [
         'type' => 'block_title',
         'name' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_SET_DONT_ADD'),

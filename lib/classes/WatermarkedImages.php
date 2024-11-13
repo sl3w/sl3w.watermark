@@ -50,7 +50,7 @@ class WatermarkedImages
     private static function setWatermarkedImagesStorage()
     {
         self::$watermarkedImagesStorage = WatermarkedImagesTable::getList([
-            'order' => ['ID' => 'DESC']
+            'order' => ['ID' => 'DESC'],
         ])->fetchAll();
     }
 

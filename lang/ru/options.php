@@ -73,6 +73,8 @@ $MESS['SL3W_WATERMARK_SAVE_ORIGINALS_NOTE'] = 'Указывается символьный код свойст
 
 $MESS['SL3W_WATERMARK_BLOCK_EXCLUDE'] = 'Исключения';
 $MESS['SL3W_WATERMARK_OPTION_EXCLUDE_ELEMENTS'] = 'ID элементов, исключенных из обработки (через запятую):';
+$MESS['SL3W_WATERMARK_OPTION_INCLUDE_FILE_TYPES'] = 'Типы файлов (mime-type), участвующие в обработке (через запятую):';
+$MESS['SL3W_WATERMARK_OPTION_INCLUDE_FILE_TYPES_HINT_AFTER'] = 'Пустое значение – все типы. Поддерживаются только MIME-типы с префиксом `image`';
 
 $MESS['SL3W_WATERMARK_BLOCK_SET_DONT_ADD'] = 'Установка значения в свойстве <b style="color: black">DONT_ADD_WATERMARK_ON_SAVE</b>';
 $MESS['SL3W_WATERMARK_OPTION_SET_DONT_ADD_AFTER_ADD'] = 'После добавления элемента:';
