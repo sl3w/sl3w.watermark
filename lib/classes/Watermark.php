@@ -14,6 +14,13 @@ class Watermark
 {
     public static function startCheckProcessing($elementId, $iblockId, $operation)
     {
+        $elementId = (int)$elementId;
+        $iblockId = (int)$iblockId;
+
+        if (!$elementId || !$iblockId) {
+            return;
+        }
+
         Settings::checkModuleVersionUpdated();
 
         if (!Settings::yes('switch_on') || (!Settings::yes('switch_on_image') && !Settings::yes('switch_on_text'))) {
