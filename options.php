@@ -36,6 +36,9 @@ if (!Loader::includeModule('fileman')) {
     return false;
 }
 
+//check module version updated
+Settings::checkModuleVersionUpdated();
+
 sl3w_asset()->addJs('/bitrix/js/' . $moduleId . '/options.min.js');
 $APPLICATION->SetAdditionalCss('/bitrix/css/' . $moduleId . '/options.min.css');
 
@@ -81,6 +84,10 @@ foreach ($positionsVars as $positionsVar) {
 }
 
 $settingsTabOptions = [
+    'instruction_note' => [
+        'type' => 'note',
+        'name' => Loc::getMessage(LANGS_PREFIX . 'INSTRUCTION_NOTE'),
+    ],
     'main_block' => [
         'type' => 'block_title',
         'name' => Loc::getMessage(LANGS_PREFIX . 'BLOCK_MAIN'),
