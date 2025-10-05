@@ -13,6 +13,7 @@
         'Sl3w\Watermark\Iblock' => 'lib/classes/Iblock.php',
         'Sl3w\Watermark\Watermark' => 'lib/classes/Watermark.php',
         'Sl3w\Watermark\WatermarkedImages' => 'lib/classes/WatermarkedImages.php',
+        'Sl3w\Watermark\OtherModules' => 'lib/classes/OtherModules.php',
         'Sl3w\Watermark\Orm\WatermarkedImagesTable' => 'lib/classes/orm/WatermarkedImagesTable.php',
     ]
 );

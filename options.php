@@ -5,6 +5,7 @@ use Bitrix\Main\HttpApplication;
 use Bitrix\Main\Loader;
 use Sl3w\Watermark\Helpers;
 use Sl3w\Watermark\OptionsDrawer;
+use Sl3w\Watermark\OtherModules;
 use Sl3w\Watermark\Settings;
 use Sl3w\Watermark\EventsRegister;
 
@@ -377,14 +378,14 @@ $settingsTabOptions = array_merge($settingsTabOptions, [
     ],
 ]);
 
-$supportTabOptions = [
+$modulesTabOptions = $supportTabOptions = [
     'support_note' => [
         'type' => 'note',
         'name' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_NOTE'),
     ],
 ];
 
-$allTabsOptions = array_merge($settingsTabOptions, $supportTabOptions);
+$allTabsOptions = array_merge($settingsTabOptions, $modulesTabOptions, $supportTabOptions);
 
 $tabControl = new CAdminTabControl(
     'tabControl',
@@ -392,12 +393,17 @@ $tabControl = new CAdminTabControl(
         [
             'DIV' => 'settings',
             'TAB' => Loc::getMessage(LANGS_PREFIX . 'OPTIONS_TAB_NAME'),
-            'TITLE' => Loc::getMessage(LANGS_PREFIX . 'OPTIONS_TAB_NAME'),
+            'TITLE' => Loc::getMessage(LANGS_PREFIX . 'OPTIONS_TAB_TITLE'),
+        ],
+        [
+            'DIV' => 'modules',
+            'TAB' => Loc::getMessage(LANGS_PREFIX . 'MODULES_TAB_NAME'),
+            'TITLE' => Loc::getMessage(LANGS_PREFIX . 'MODULES_TAB_TITLE'),
         ],
         [
             'DIV' => 'support',
             'TAB' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_NAME'),
-            'TITLE' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_NAME'),
+            'TITLE' => Loc::getMessage(LANGS_PREFIX . 'SUPPORT_TAB_TITLE'),
         ],
     ],
 );
@@ -414,6 +420,12 @@ $optionsDrawer = new OptionsDrawer('.sl3w_watermark');
     $tabControl->BeginNextTab();
 
     $optionsDrawer->drawOptions($settingsTabOptions);
+
+    $tabControl->BeginNextTab();
+
+    echo OtherModules::getOtherModulesHtml();
+
+    $optionsDrawer->drawOptions($modulesTabOptions);
 
     $tabControl->BeginNextTab();
     ?>

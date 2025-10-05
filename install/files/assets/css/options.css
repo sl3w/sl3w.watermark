@@ -222,3 +222,75 @@
 .sl3w-option-setting-field + .ui-hint .ui-hint-icon {
     margin-top: 0;
 }
+
+.sl3w-option-modules-row {
+    display: flex;
+}
+
+.sl3w-option-modules-row:not(:last-child) {
+    padding-bottom: 10px;
+}
+
+.sl3w-option-modules-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none !important;
+    border: 2px solid transparent;
+    padding: 10px;
+}
+
+.sl3w-option-modules-item:hover {
+    border-color: #5466e7;
+}
+
+.sl3w-option-modules-item img {
+    max-width: 135px;
+}
+
+.sl3w-option-modules-item__info {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 10px;
+}
+
+.sl3w-option-modules-item__info p, .sl3w-option-modules-item__info span {
+    margin: 0;
+}
+
+.sl3w-option-modules-item__info p {
+    font-size: 20px;
+}
+
+.sl3w-option-modules-item__info span {
+    color: black;
+}
+
+.sl3w-option-modules-item__links {
+    display: flex;
+    gap: 15px;
+}
+
+.sl3w-option-modules-item__links a {
+    color: black;
+    border-bottom: 1px dashed #5466e7;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.sl3w-option-modules-item__links svg {
+    margin-top: -3px;
+}
+
+.sl3w-option-modules-item__links a:hover {
+    color: black;
+    border-bottom: 1px solid #5466e7;
+    text-decoration: none;
+}
+
+.sl3w-option-modules-item__links a:hover svg {
+    fill: #5466e7;
+}

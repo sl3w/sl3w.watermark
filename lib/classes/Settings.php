@@ -44,7 +44,7 @@ class Settings
 
         if (!$savedVersion || $savedVersion != $realVersion) {
             CAdminNotify::Add([
-                'MESSAGE' => Loc::getMessage('SL3W_WATERMARK_SUPPORT_NOTIFY_TEXT'),
+                'MESSAGE' => Loc::getMessage(!$savedVersion ? 'SL3W_WATERMARK_SUPPORT_INSTALL_NOTIFY_TEXT' : 'SL3W_WATERMARK_SUPPORT_NOTIFY_TEXT'),
                 'TAG' => 'sl3w_watermark_support_notify',
                 'MODULE_ID' => Settings::MODULE_ID,
                 'ENABLE_CLOSE' => 'Y',
